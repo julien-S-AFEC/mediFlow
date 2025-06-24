@@ -1,0 +1,39 @@
+CREATE TABLE std_app.users(id int NOT NULL AUTO_INCREMENT, username VARCHAR(100) NOT NULL, email VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL, created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIME, active BOOLEAN NOT NULL DEFAULT 1, role_id INT NOT NULL);
+
+Créer la table roles[id, name]
+
+Créer la foreign key:
+ALTER TABLE `std_app.users` ADD FOREIGN KEY(role_id) REFERENCES `roles(id)` ON DELETE CASCADE ON UPDATE CASCADE
+
+insérer un user 
+INSERT INTO `std_app`.`users` (`username`, `email`, `password`, `active`, `role_id`) VALUES ('administrateur', 'admin@gmail.com', '1234', 1, 1)
+
+
+
+--------------------------------
+Medi Flow:
+
+patient:
+CREATE TABLE `medi_flow`.`patient`(`id` INT NOT NULL AUTO_INCREMENT, `patient_firstname` VARCHAR(30), `patient_secondname` VARCHAR(30), `gender` VARCHAR(6), `age` TINYINT NULL, `address` VARCHAR(30) NULL, `email` VARCHAR(50) NULL, `insurance_number` VARCHAR(15) NULL, `deleted_at` TIMESTAMP NULL, PRIMARY KEY(`id`))
+
+doctor:
+CREATE TABLE `medi_flow`.`doctor`(`doctor_id` INT NOT NULL AUTO_INCREMENT, `doctor_firstname` VARCHAR(30) NOT NULL, `doctor_secondname` VARCHAR(30) NOT NULL, `doctor_institute` VARCHAR(100) NULL, `doctor_adress` VARCHAR(100) NULL, `doctor_email` VARCHAR(100) NULL, `doctor_phone_number` VARCHAR(15), PRIMARY KEY(`doctor_id`))
+
+doctor_relation:
+CREATE TABLE `medi_flow`.`doctor_relation`(`doctor_id` INT NOT NULL, `patient_id` INT NOT NULL, `start_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_date` TIMESTAMP, NOT NULL DEFAULT CURRENT_TIMESTAMP)
+
+prescription:
+CREATE TABLE `medi_flow`.`prescription`(`id` INT NOT NULL AUTO_INCREMENT, `file_path` VARCHAR(300), `start_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `end_date` TIMESTAMP NULL, `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, `deleted_at` TIMESTAMP NULL, `commentary_id` INT NOT NULL, `doctor_id` INT NULL, `patient_id` INT NOT NULL, PRIMARY KEY(`id`))
+
+users:
+CREATE TABLE `medi_flow`.`user`(`user_id` INT NOT NULL AUTO_INCREMENT, `username` VARCHAR(30) NOT NULL, `email` VARCHAR(50) NOT NULL, `uer_password` VARCHAR(200) NOT NULL, `user_status` BOOLEAN NOT NULL DEFAULT 1, `role_id` INT NOT NULL, PRIMARY KEY(`user_id`))
+
+roles:
+CREATE TABLE `medi_flow`.`roles`(`id` INT NOT NULL AUTO_INCREMENT, `role_name` VARCHAR(30) NOT NULL, PRIMARY KEY(`id`))
+
+institutes:
+CREATE TABLE `medi_flow`.`institute`(`id` INT NOT NULL AUTO_INCREMENT, `name` VARCHAR(30) NOT NULL, adress VARCHAR(100) NOT NULL, `phone_number`VARCHAR(15) NULL, PRIMARY KEY(`id`))
+
+prescription_commentary
+CREATE TABLE `medi_flow`.`prescription_commentary`(`commentary_id` INT NOT NULL AUTO_INCREMENT, `content` VARCHAR(1000), `created_at` TIMESTAMP NOT NULL, `edited_at` TIMESTAMP NOT NULL, PRIMARY KEY(`commentary_id`))
+
