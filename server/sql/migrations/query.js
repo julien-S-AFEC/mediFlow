@@ -1,6 +1,5 @@
 import { createConnection } from 'mysql'
 
-const QUERY = `INSERT INTO roles(role_name) VALUES ('admin')`
 
 const dbConfig = {
     host: 'localhost',
@@ -9,11 +8,12 @@ const dbConfig = {
     database: "medi_flow"
 }
 
-const runQuery = (query) => {
+const runQuery = (query, data) => {
     return new Promise((resolve, reject) => {
         const con = createConnection(dbConfig)
         con.connect((err) => {
-            con.query(query, (err, result) => {
+            console.log(err)
+            con.query(query, data, (err, result) => {
                 con.end()
                 resolve(result)
             })
@@ -21,4 +21,4 @@ const runQuery = (query) => {
     })
 }
 
-runQuery(QUERY)
+export default runQuery

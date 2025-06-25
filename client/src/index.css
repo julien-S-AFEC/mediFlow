@@ -6,3 +6,7 @@ body {
 .bg-blue-color {
   background-color: rgb(255, 255, 255);
 }
+
+.main-font {
+  font-family: Roboto;
+}
