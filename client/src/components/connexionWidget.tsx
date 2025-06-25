@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ConnexionWidget = () => {
   return (
-    <div className="d-flex flex-column justify-self-center align-self-center w-75">
+    <div className="d-flex flex-column w-75 w-sm-100">
       <div
         className="d-flex flex-column border align-items-center p-2 rounded-3 shadow"
         style={{ marginTop: "5rem", backdropFilter: "blur(10px)", backgroundColor: "rgba(200, 200, 200, .4)" }}
