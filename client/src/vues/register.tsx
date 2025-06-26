@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ConnexionWidget from "../components/connexionWidget";
+import RegisterWidget from "../components/registerWidget";
 
 const Connexion: React.FC = () => {
   const [scaled, setIsScalled] = useState<string>("translateY(-50%) scale(100%)");
@@ -28,9 +28,8 @@ const Connexion: React.FC = () => {
           MediFlow, <span className="main-font fs-3 fw-light">simplify patient care, streamline prescription</span>
         </div>
       </div>
-      <ConnexionWidget />
+      <RegisterWidget />
     </div>
   );
 };
-
 export default Connexion;

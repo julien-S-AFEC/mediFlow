@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Connexion from "./vues/connexion";
-import CreateAcount from "./vues/createAcount";
+import Register from "./vues/register";
+import Dashboard from "./vues/dashboard";
+import Error404 from "./vues/error404";
 
 const App = () => {
   return (
@@ -8,7 +10,10 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Connexion />}></Route>
-          <Route path="/createAcount" element={<CreateAcount />}></Route>
+          <Route path="/connexion" element={<Connexion />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/dashboard" element={<Dashboard />}></Route>
+          <Route path="/*" element={<Error404 />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

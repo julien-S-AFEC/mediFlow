@@ -8,7 +8,7 @@ const dbConfig = {
     database: "medi_flow"
 }
 
-const runQuery = (query, data) => {
+const runSQLQuery = (query, data) => {
     return new Promise((resolve, reject) => {
         const con = createConnection(dbConfig)
         con.connect((err) => {
@@ -21,4 +21,4 @@ const runQuery = (query, data) => {
     })
 }
 
-export default runQuery
+export default runSQLQuery
