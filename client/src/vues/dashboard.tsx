@@ -1,6 +1,13 @@
+import DashboardTable from "../components/dashboardTable"
+import Header from "../components/header"
+
 const Dashboard = () => {
-    return (
-        <div>DASHBOARD</div>
+    return (<>
+        <Header />
+        <div className="container mt-5">
+            <DashboardTable />
+        </div>
+    </>
     )
 }
 

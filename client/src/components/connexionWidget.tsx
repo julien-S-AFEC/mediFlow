@@ -7,6 +7,8 @@ const ConnexionWidget = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [errorOpacity, setErrorOpacity] = useState<string>('0')
+  const [errorText, setErrorText] = useState<string>()
+
   const navigate = useNavigate()
 
   const changeEmailTxt = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,25 +20,28 @@ const ConnexionWidget = () => {
   }, [])
 
   const tryToLog = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('lol')
     e.preventDefault()
     fetch('http://localhost:3000/api/users/connectUser', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ "email": email, "password": password })
     })
       .then(res => {
-        if (res.ok) {
+        if (!res.ok) {
           return res.json()
+            .then(err => {
+              setErrorText(err.message)
+              setErrorOpacity('100')
+            })
         }
-      })
-      .then(data => {
-        if (JSON.parse(data).length) {
+        else {
           navigate('/dashboard')
         }
-
-        else {
-          setErrorOpacity('100')
-        }
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
 
@@ -53,7 +58,7 @@ const ConnexionWidget = () => {
           {errorOpacity
             &&
             <div className={`d-flex p-2 gap-3 opacity-${errorOpacity}`}>
-              <div>Invalid email or password.</div>
+              <div>{errorText}</div>
               <button type="button" className="btn-close" aria-label="Close" onClick={() => setErrorOpacity('0')}></button>
             </div>}
           <form action="#" name="connexion-form" className="d-flex flex-column justify-content-center align-items-center gap-2 w-100">

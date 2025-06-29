@@ -4,6 +4,9 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import usersRouter from './users/usersController.js'
+import patientsRouter from './patients/patientsController.js'
+import authRouter from './auth/auth.js'
+import session from 'express-session';
 
 const PORT = 3000
 
@@ -12,14 +15,29 @@ const __dirname = dirname(__filename)
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true               
+})); 
+
 app.use(express.json())
+app.use(session({
+    secret: 'ma-cle-secrete',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false,
+        maxAge: 1000 * 60 * 60
+    }
+}));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/index.html'))
 })
 
 app.use('/api/users', usersRouter)
+app.use('/api/patients', patientsRouter)
+app.use('/api/auth', authRouter)
 
 app.listen(PORT, () => {
     console.log(`App running on port: ${PORT}`)

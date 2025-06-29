@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NeedLogginRoute from "./vues/needLoggedRoute";
 import Connexion from "./vues/connexion";
 import Register from "./vues/register";
 import Dashboard from "./vues/dashboard";
@@ -12,7 +13,13 @@ const App = () => {
           <Route path="/" element={<Connexion />}></Route>
           <Route path="/connexion" element={<Connexion />}></Route>
           <Route path="/register" element={<Register />}></Route>
-          <Route path="/dashboard" element={<Dashboard />}></Route>
+
+          <Route path="/dashboard" element={
+            <NeedLogginRoute>
+              <Dashboard />
+            </NeedLogginRoute>}>
+          </Route>
+
           <Route path="/*" element={<Error404 />}></Route>
         </Routes>
       </BrowserRouter>

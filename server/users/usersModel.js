@@ -1,44 +1,36 @@
 import { createConnection } from 'mysql'
+import { dbConfig } from '../sql/dbConfig.js'
+import bcrypt from 'bcrypt'
 
-const db_config = {
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "medi_flow"
-}
+const SALT_ROUNDS = 5
 
 class UserModel {
-    getAll() {
-        return new Promise((resolve, reject) => {
-            const con = createConnection(db_config)
-            con.connect((err) => {
-                if (err) {
-                    con.end()
-                    throw err
-                }
-                con.query("SELECT * FROM users", (err, result) => {
-                    resolve(result)
-                })
-            })
-            con.end()
-        })
-    }
-
     connectUser(email, password) {
         return new Promise((resolve, reject) => {
 
-            const con = createConnection(db_config)
+            const con = createConnection(dbConfig)
             con.connect((err) => {
                 if (err) {
                     con.end()
                     throw err
                 }
-                con.query(`SELECT username, user_email FROM users WHERE user_email = ? and user_password = ?`, [email, password], (err, result) => {
+                con.query(`SELECT username, user_email, user_password, role_id FROM users WHERE user_email = ?`, [email], (err, result) => {
                     con.end()
                     if (err) {
+                        reject("Cannot access to the database")
                         throw err
                     }
-                    resolve(JSON.stringify(result))
+                    else if (!result.length) {
+                        reject("User not found")
+                    }
+                    else {
+                        if (bcrypt.compareSync(password, result[0].user_password)) {
+                            resolve(JSON.stringify(result))
+                        }
+                        else {
+                            reject("Invalid password")
+                        }
+                    }
                 })
             })
         })
@@ -47,7 +39,7 @@ class UserModel {
     registerUser(name, email, password) {
         return new Promise((resolve, reject) => {
 
-            const con = createConnection(db_config)
+            const con = createConnection(dbConfig)
             con.connect((err) => {
                 if (err) {
                     con.end()
@@ -60,7 +52,7 @@ class UserModel {
                     }
                     if (!result.length) {
                         con.query("INSERT INTO users (`username`, `user_email`, `user_password`, `role_id`) VALUES (?, ?, ?, ?)",
-                            [name, email, password, 1], (err, result) => {
+                            [name, email, bcrypt.hashSync(password, SALT_ROUNDS), 1], (err, result) => {
                                 if (err) {
                                     con.end()
                                     throw err

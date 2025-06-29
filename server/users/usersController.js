@@ -5,33 +5,30 @@ const usersRouter = Router()
 const userModel = new UserModel()
 
 class UsersController {
-    getAll(req, res) {
-        try {
-            userModel.getAll()
-                .then(data => {
-                    console.log(data)
-                    res.status(200).json(data)
-                })
-        }
-        catch (error) {
-            res.status(500).json({ "message": "Cannot fetch" })
-            console.log(error)
-        }
-    }
     connectUser(req, res) {
         userModel.connectUser(req.body.email, req.body.password)
             .then(data => {
+                const credentials = JSON.parse(data)[0]
+                req.session.user = {
+                    username: credentials.username,
+                    role_id: credentials.role_id
+                }
                 res.status(200).json(data)
             })
 
             .catch(error => {
-                res.status(500).json({ "message": "Cannot fetch" })
+                res.status(409).json({ "message": error })
                 console.log(error)
             })
     }
     registerUser(req, res) {
         userModel.registerUser(req.body.name, req.body.email, req.body.password)
             .then(data => {
+                const credentials = JSON.parse(data)[0]
+                req.session.user = {
+                    username: credentials.username,
+                    role_id: credentials.role_id
+                }
                 res.status(200).json(data)
             })
 
@@ -39,12 +36,10 @@ class UsersController {
                 res.status(409).json({ "message": error })
             })
     }
-
 }
 
 const userController = new UsersController()
 
-usersRouter.get('/getAll', userController.getAll)
 usersRouter.post('/connectUser', userController.connectUser)
 usersRouter.post('/registerUser', userController.registerUser)
 
