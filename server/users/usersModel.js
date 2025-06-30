@@ -12,13 +12,12 @@ class UserModel {
             con.connect((err) => {
                 if (err) {
                     con.end()
-                    throw err
+                    reject(err)
                 }
                 con.query(`SELECT username, user_email, user_password, role_id FROM users WHERE user_email = ?`, [email], (err, result) => {
                     con.end()
                     if (err) {
-                        reject("Cannot access to the database")
-                        throw err
+                        reject(err)
                     }
                     else if (!result.length) {
                         reject("User not found")
@@ -58,12 +57,39 @@ class UserModel {
                                     throw err
                                 }
                                 con.end()
-                                resolve(JSON.stringify(result))
+                                resolve(JSON.stringify(JSON.parse(result.insertId)))
                             }
                         )
                     }
                     else {
                         reject("Name or email already used")
+                    }
+                })
+            })
+        })
+    }
+
+    getUserById(id) {
+        return new Promise((resolve, reject) => {
+
+            const con = createConnection(dbConfig)
+            con.connect((err) => {
+                if (err) {
+                    con.end()
+                    throw err
+                }
+                con.query("SELECT * FROM USERS WHERE user_id = ?", [id], (err, result) => {
+                    if (err) {
+                        con.end()
+                        throw err
+                    }
+                    else if (!result) {
+                        con.end()
+                        reject("Can't get the user")
+                    }
+                    else {
+                        con.end()
+                        resolve(JSON.stringify(result[0]))
                     }
                 })
             })

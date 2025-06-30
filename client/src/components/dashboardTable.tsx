@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { Patient } from '../types.ts';
-import { CiTrash } from "react-icons/ci";
 import { CiEdit } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const DashboardTable = () => {
 
     const [patients, setPatients] = useState<Patient[]>([])
     const [isAdmin, setIsAdmin] = useState<boolean>(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch('http://localhost:3000/api/patients/getAll', { method: 'GET', credentials: 'include', headers: { 'Content-type': 'application/json' } })
@@ -16,7 +16,8 @@ const DashboardTable = () => {
                     return res.json()
                 }
             })
-            .then(data => { setPatients(data) })
+            .then(data => { setPatients(data); console.log(data) })
+
         fetch('http://localhost:3000/api/auth/isAdmin', { method: 'GET', credentials: 'include', headers: { 'Content-type': 'application/json' } })
             .then(res => {
                 if (res.ok) {
@@ -27,7 +28,7 @@ const DashboardTable = () => {
     }, [])
 
     return (
-        <table className="table">
+        <table className="table table-hover table-responsive">
             <thead>
                 <tr>
                     <th className="main-font fw-light" scope="col">id</th>
@@ -43,26 +44,24 @@ const DashboardTable = () => {
             </thead>
             <tbody>
                 {patients ? patients.map(patient => (
+                        <tr key={patient.patient_id} onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{cursor: 'pointer'}}>
 
-                    <tr key={patient.id}>
+                            <th scope="row">{patient.patient_id}</th>
 
-                        <th scope="row">{patient.id}</th>
-
-                        <td>{patient.patient_firstname}</td>
-                        <td>{patient.patient_secondname}</td>
-                        <td>{patient.gender}</td>
-                        <td>{patient.age}</td>
-                        <td>{patient.adress}</td>
-                        <td>{patient.email}</td>
-                        <td>{patient.insurance_number}</td>
-                        <td>{patient.institute}</td>
-                        {isAdmin && <td>
-                            <button className="btn p-1">
-                                <CiEdit color="blue" className="pe-auto" />
-                            </button>
-                        </td>}
-                    </tr>
-
+                            <td>{patient.patient_firstname}</td>
+                            <td>{patient.patient_secondname}</td>
+                            <td>{patient.gender}</td>
+                            <td>{patient.age}</td>
+                            <td>{patient.adress}</td>
+                            <td>{patient.email}</td>
+                            <td>{patient.insurance_number}</td>
+                            <td>{patient.institute}</td>
+                            {isAdmin && <td>
+                                <button className="btn p-1">
+                                    <CiEdit color="blue" className="pe-auto" />
+                                </button>
+                            </td>}
+                        </tr>
                 ))
                     : <div>Loading</div>
                 }

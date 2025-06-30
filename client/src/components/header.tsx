@@ -12,7 +12,9 @@ const Header = () => {
         <nav className="navbar navbar-expand-lg bg-blue-color px-5 py-2 rounded-bottom-4 w-100">
             <div className="container-fluid">
                 <div className="navbar-brand p-0">
-                    <img src="src/assets/logos/logo_shaded.png" alt="mediflow-logo" className="p-0" style={{ width: '5rem', height: '5rem' }} />
+                    <Link to="/">
+                    <img src="/logos/logo_shaded.png" alt="mediflow-logo" className="p-0" style={{ width: '5rem', height: '5rem' }} />
+                    </Link>
                 </div>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>

@@ -17,10 +17,17 @@ class PatientsController {
             console.log(error)
         }
     }
+
+    getPatientFromId(req, res) {
+        patientModel.getPatientFromId(req.body.patientId)
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error))
+    }
 }
 
 const patientsController = new PatientsController()
 
 patientsRouter.get('/getAll', patientsController.getAll)
+patientsRouter.post('/getPatientFromId', patientsController.getPatientFromId)
 
 export default patientsRouter

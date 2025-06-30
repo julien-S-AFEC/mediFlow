@@ -23,19 +23,24 @@ class UsersController {
     }
     registerUser(req, res) {
         userModel.registerUser(req.body.name, req.body.email, req.body.password)
-            .then(data => {
-                const credentials = JSON.parse(data)[0]
-                req.session.user = {
-                    username: credentials.username,
-                    role_id: credentials.role_id
+            .then(userId => {
+                return userModel.getUserById(userId);
+            })
+            .then(userCredentials => {
+                if (userCredentials) {
+                    req.session.user = {
+                        username: userCredentials.username,
+                        role_id: userCredentials.role_id
+                    };
                 }
-                res.status(200).json(data)
-            })
+                res.status(200).json(userCredentials);
 
-            .catch(error => {
-                res.status(409).json({ "message": error })
             })
+            .catch(error => {
+                res.status(409).json({ message: error.message || error });
+            });
     }
+
 }
 
 const userController = new UsersController()
