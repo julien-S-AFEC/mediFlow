@@ -50,16 +50,26 @@ class UserModel {
                         throw err
                     }
                     if (!result.length) {
-                        con.query("INSERT INTO users (`username`, `user_email`, `user_password`, `role_id`) VALUES (?, ?, ?, ?)",
-                            [name, email, bcrypt.hashSync(password, SALT_ROUNDS), 1], (err, result) => {
-                                if (err) {
-                                    con.end()
-                                    throw err
-                                }
+                        con.query("INSERT INTO permissions () VALUES ();", (err, result => {
+                            if (err) {
                                 con.end()
-                                resolve(JSON.stringify(JSON.parse(result.insertId)))
+                                reject(err)
                             }
-                        )
+                            con.end()
+                            console.log("perm", result)
+                        }))
+                        // con.query("INSERT INTO users (`username`, `user_email`, `user_password`, `role_id`) VALUES (?, ?, ?, ?)",
+                        //     [name, email, bcrypt.hashSync(password, SALT_ROUNDS), 1], (err, result) => {
+                        //         if (err) {
+                        //             con.end()
+                        //             reject(err)
+                        //         }
+                        //         con.end()
+                        //         console.log("user", result)
+
+                        //         resolve(JSON.stringify(JSON.parse(result.insertId)))
+                        //     }
+                        // )
                     }
                     else {
                         reject("Name or email already used")
