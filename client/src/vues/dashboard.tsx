@@ -3,7 +3,7 @@ import { Permissions } from '../types.ts';
 import DashboardTable from "../components/dashboardTable"
 import Header from "../components/header"
 import OptionsWidget from "../components/optionsWidget"
-import UserCreationWidget from "../components/userCreationWidget"
+import CreatePatient from "../vues/createPatient"
 
 const Dashboard = () => {
 
@@ -27,7 +27,7 @@ const Dashboard = () => {
                 <OptionsWidget permissions={permissions} setDashboardVisibleHandler={setDashboardVisible} />
                 {dashboardVisible 
                 ? <DashboardTable permissions={permissions} />
-                : <UserCreationWidget />}
+                : <CreatePatient />}
             </div>
         </div>
     </>

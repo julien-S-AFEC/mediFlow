@@ -21,7 +21,7 @@ const OptionsWidget: React.FC<Iprops> = ({ permissions, setDashboardVisibleHandl
             <div style={{ minHeight: "120px" }}>
                 <div className="collapse collapse-horizontal" id="collapseWidthExample">
                     <div className="card card-body  border border-0" >
-                        {permissions?.create_patient
+                        {Boolean(permissions?.create_patient)
                             &&
                             <div className="btn btn-primary text-nowrap" onClick={() => {
                                 setDashboardVisibleHandler(oldValue => !oldValue)

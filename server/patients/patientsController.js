@@ -23,11 +23,28 @@ class PatientsController {
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))
     }
+
+    createPatient(req, res) {
+        patientModel.createPatient(
+            req.body.firstNameText,
+            req.body.secondNameText,
+            req.body.genderText,
+            req.body.ageText,
+            req.body.addressText,
+            req.body.emailText,
+            req.body.insuranceText,
+            req.body.instituteText,
+            req.body.doctorText
+        )
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error))
+    }
 }
 
 const patientsController = new PatientsController()
 
 patientsRouter.get('/getAll', patientsController.getAll)
 patientsRouter.post('/getPatientFromId', patientsController.getPatientFromId)
+patientsRouter.post('/createPatient', patientsController.createPatient)
 
 export default patientsRouter
