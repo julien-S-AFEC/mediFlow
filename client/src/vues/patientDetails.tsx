@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Patient } from '../types';
-import {snakeCaseToPretty} from '../utils.js'
+import { Patient, Permissions } from '../types';
+import { snakeCaseToPretty } from '../utils.js'
 import { Link, useParams } from 'react-router-dom';
 import { CiEdit } from "react-icons/ci";
 
@@ -9,6 +9,7 @@ import Header from '../components/header';
 const PatientDetails: React.FC = () => {
     const params = useParams()
     const [patient, setPatient] = useState<Patient>()
+    const [permissions, setPermissions] = useState<Permissions>()
 
     useEffect(() => {
         fetch("http://localhost:3000/api/patients/getPatientFromId", {
@@ -22,10 +23,18 @@ const PatientDetails: React.FC = () => {
                     return res.json()
                 }
             })
-            .then((patient => { setPatient(patient); 
-                 Object.entries(patient).map(([prop, attr]) => {console.log(prop, attr)})
-             }))
-             .catch(error => {throw error})
+            .then((patient => {
+                setPatient(patient);
+            }))
+            .catch(error => { throw error })
+
+        fetch('http://localhost:3000/api/users/getCurrentUserPermissions', { method: 'GET', credentials: 'include', headers: { 'Content-type': 'application/json' } })
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                }
+            })
+            .then(data => setPermissions(data))
     }, [])
 
     return (
@@ -39,11 +48,13 @@ const PatientDetails: React.FC = () => {
                                 <div className="row mt-2" key={prop}>
                                     <div className="col-5 fs-light">{snakeCaseToPretty(prop)}</div>
                                     <div className='col-5'>{attr || "Non renseigné"}</div>
-                                    <CiEdit color="blue" className="col-2" />
+                                    {permissions?.update_patient ?
+                                     <CiEdit color="blue" className="col-2" />
+                                    : <div></div>
+                                    }
                                 </div>
                             )
                         })}
-
 
                         <Link to="/dashboard" className="btn btn-primary">Back</Link>
                     </div>

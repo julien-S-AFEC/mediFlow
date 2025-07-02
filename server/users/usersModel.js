@@ -14,7 +14,7 @@ class UserModel {
                     con.end()
                     reject(err)
                 }
-                con.query(`SELECT username, user_email, user_password, role_id FROM users WHERE user_email = ?`, [email], (err, result) => {
+                con.query(`SELECT username, user_email, user_password, role_id, user_id FROM users WHERE user_email = ?`, [email], (err, result) => {
                     con.end()
                     if (err) {
                         reject(err)
@@ -42,34 +42,34 @@ class UserModel {
             con.connect((err) => {
                 if (err) {
                     con.end()
-                    throw err
+                    reject(err)
+                    return
                 }
-                con.query("SELECT * FROM USERS WHERE username = ? OR user_email = ?", [name, email], (err, result) => {
+                con.query("SELECT * FROM USERS WHERE username = ? OR user_email = ?", [name, email], (err, userResult) => {
                     if (err) {
                         con.end()
-                        throw err
+                        reject(err)
+                        return
                     }
-                    if (!result.length) {
-                        con.query("INSERT INTO permissions () VALUES ();", (err, result => {
+                    if (!userResult.length) {
+                        con.query("INSERT INTO `permissions`() VALUES ();", ((err, permissionResult) => {
                             if (err) {
                                 con.end()
                                 reject(err)
+                                return
                             }
-                            con.end()
-                            console.log("perm", result)
+                            const permissionId = permissionResult.insertId
+                            con.query("INSERT INTO users (`username`, `user_email`, `user_password`, `role_id`, `permissions`) VALUES (?, ?, ?, ?, ?)",
+                                [name, email, bcrypt.hashSync(password, SALT_ROUNDS), 1, permissionId], (err, result) => {
+                                    if (err) {
+                                        con.end()
+                                        reject(err)
+                                    }
+                                    con.end()
+                                    resolve(JSON.stringify(JSON.parse(result.insertId)))
+                                }
+                            )
                         }))
-                        // con.query("INSERT INTO users (`username`, `user_email`, `user_password`, `role_id`) VALUES (?, ?, ?, ?)",
-                        //     [name, email, bcrypt.hashSync(password, SALT_ROUNDS), 1], (err, result) => {
-                        //         if (err) {
-                        //             con.end()
-                        //             reject(err)
-                        //         }
-                        //         con.end()
-                        //         console.log("user", result)
-
-                        //         resolve(JSON.stringify(JSON.parse(result.insertId)))
-                        //     }
-                        // )
                     }
                     else {
                         reject("Name or email already used")
@@ -91,7 +91,7 @@ class UserModel {
                 con.query("SELECT * FROM USERS WHERE user_id = ?", [id], (err, result) => {
                     if (err) {
                         con.end()
-                        throw err
+                        reject(err)
                     }
                     else if (!result) {
                         con.end()
@@ -99,10 +99,30 @@ class UserModel {
                     }
                     else {
                         con.end()
-                        resolve(JSON.stringify(result[0]))
+                        resolve(JSON.stringify(result))
                     }
                 })
             })
+        })
+    }
+
+    getCurrentUserPermissions(userId) {
+        return new Promise((resolve, reject) => {
+            this.getUserById(userId)
+                .then(data => {
+                    const permissionId = JSON.parse(data)[0].permissions
+                    const con = createConnection(dbConfig)
+                    con.query("SELECT * FROM permissions WHERE permission_id = ?", [permissionId], (err, result) => {
+                        if (err) {
+                            reject(err)
+                            con.end()
+                            return
+                        }
+                        resolve(result[0])
+                        con.end()
+                    })
+                })
+                .catch(error => reject(error))
         })
     }
 }

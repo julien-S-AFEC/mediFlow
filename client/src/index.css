@@ -6,3 +6,7 @@ body {
 .main-font {
   font-family: Roboto;
 }
+
+.bg-primary-color {
+  background-color: #00808031;
+}

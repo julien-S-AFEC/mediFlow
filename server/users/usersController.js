@@ -11,7 +11,8 @@ class UsersController {
                 const credentials = JSON.parse(data)[0]
                 req.session.user = {
                     username: credentials.username,
-                    role_id: credentials.role_id
+                    role_id: credentials.role_id,
+                    user_id: credentials.user_id
                 }
                 res.status(200).json(data)
             })
@@ -30,7 +31,8 @@ class UsersController {
                 if (userCredentials) {
                     req.session.user = {
                         username: userCredentials.username,
-                        role_id: userCredentials.role_id
+                        role_id: userCredentials.role_id,
+                        user_id: userCredentials.user_id
                     };
                 }
                 res.status(200).json(userCredentials);
@@ -41,11 +43,30 @@ class UsersController {
             });
     }
 
+    getUserById(req, res) {
+        userModel.getUserById(req.body.userId)
+            .then(data => { res.status(200).json(data) })
+
+            .catch(error => {
+                res.status(409).json({ message: error.message || error });
+            });
+    }
+
+    getCurrentUserPermissions(req, res) {
+            userModel.getCurrentUserPermissions(req.session.user.user_id)
+                .then(data => { res.status(200).json(data) })
+
+                .catch(error => {
+                    res.status(409).json({ message: error.message || error });
+                });
+    }
 }
 
 const userController = new UsersController()
 
 usersRouter.post('/connectUser', userController.connectUser)
 usersRouter.post('/registerUser', userController.registerUser)
+usersRouter.post('/getUserById', userController.getUserById)
+usersRouter.get('/getCurrentUserPermissions', userController.getCurrentUserPermissions)
 
 export default usersRouter

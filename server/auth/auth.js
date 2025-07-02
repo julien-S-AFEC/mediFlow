@@ -1,6 +1,4 @@
-import session from 'express-session'
 import { Router } from 'express'
-
 const authRouter = Router()
 
 const isConnected = (req, res) => {

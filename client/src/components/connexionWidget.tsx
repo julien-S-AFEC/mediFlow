@@ -20,7 +20,6 @@ const ConnexionWidget = () => {
   }, [])
 
   const tryToLog = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('lol')
     e.preventDefault()
     fetch('http://localhost:3000/api/users/connectUser', {
       method: 'POST',

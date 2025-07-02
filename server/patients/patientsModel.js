@@ -10,7 +10,7 @@ class PatientModel {
                     con.end()
                     reject(err)
                 }
-                con.query("SELECT * FROM patients WHERE 1", (err, result) => {
+                con.query("SELECT * FROM patients LEFT JOIN institutes ON patients.institute_id = institutes.inst_id WHERE 1", (err, result) => {
                     if (err) {
                         con.end
                         reject(err)

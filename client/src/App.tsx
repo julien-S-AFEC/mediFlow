@@ -18,22 +18,22 @@ const App = () => {
 
           <Route path="/dashboard" element={
             // <NeedLogginRoute>
-              <Dashboard />
+            <Dashboard />
             // </NeedLogginRoute>
           }>
           </Route>
 
           <Route path="/patientDetails/:patientId" element={
             // <NeedLogginRoute>
-              <PatientDetails />
+            <PatientDetails />
             // </NeedLogginRoute>
-            }>
+          }>
           </Route>
 
           <Route path="/*" element={<Error404 />}></Route>
         </Routes>
       </BrowserRouter>
-    </div>
+    </div >
   );
 };
 
