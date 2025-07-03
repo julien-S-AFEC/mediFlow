@@ -29,7 +29,7 @@ class PatientsController {
             req.body.firstNameText || null,
             req.body.secondNameText || null,
             req.body.genderText || null,
-            req.body.ageText || null,
+            req.body.birthDateText || null,
             req.body.addressText || null,
             req.body.emailText || null,
             req.body.insuranceText || null,

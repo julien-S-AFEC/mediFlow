@@ -3,8 +3,8 @@ export type Patient = {
   patient_firstname: string;
   patient_secondname: string;
   gender: string;
-  birth_date: Date;
-  created_at: Date;
+  birth_date: string;
+  created_at: string;
   address: string;
   email: string;
   insurance_number: string;
@@ -32,4 +32,14 @@ export type Institute = {
   institute_name: string;
   institute_phone_number: string;
   inst_id: number;
+};
+
+export type Doctor= {
+  doctor_id: number;
+  doctor_firstname: string;
+  doctor_secondname: string;
+  doctor_adress: string;
+  doctor_email: string;
+  doctor_phone_number: string;
+  doctor_institute: string;
 };

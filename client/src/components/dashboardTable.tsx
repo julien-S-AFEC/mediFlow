@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Patient, Permissions } from '../types.ts';
 import Loader from './loader'
 import { CiEdit } from "react-icons/ci";
@@ -8,7 +8,7 @@ type Iprops = {
     permissions?: Permissions
 }
 
-const DashboardTable = ({ permissions }: Iprops) => {
+const DashboardTable: React.FC<Iprops> = ({ permissions }) => {
 
     const [patients, setPatients] = useState<Patient[]>([])
     const navigate = useNavigate()
@@ -51,7 +51,7 @@ const DashboardTable = ({ permissions }: Iprops) => {
                         <td>{patient.address}</td>
                         <td>{patient.email}</td>
                         <td>{patient.insurance_number}</td>
-                        <td>{patient.institute_name || "Non renseigné"}</td>
+                        <td>{patient.institute_name || "Not provided"}</td>
                         {Boolean(permissions?.update_patient)
                             && <td>
                                 <button className="btn p-1">

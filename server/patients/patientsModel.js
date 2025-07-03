@@ -45,11 +45,21 @@ class PatientModel {
                     created_at, 
                     institute_name, 
                     institute_address, 
-                    institute_phone_number  
+                    institute_phone_number,
+                    doctor_firstname,
+                    doctor_secondname,
+                    doctor_institute,
+                    doctor_address,
+                    doctor_phone_number
                     FROM 
                     patients 
-                    LEFT JOIN institutes ON patients.institute_id = institutes.inst_id 
-                    WHERE patient_id=?`, [id], (err, result) => {
+                    LEFT JOIN 
+                    institutes ON patients.institute_id = institutes.inst_id 
+                    LEFT JOIN
+                    doctor_relation ON patients.patient_id=?
+                    LEFT JOIN
+                    doctors ON doctor_relation.doctor_id = doctors.doctor_id
+                    WHERE patients.patient_id=?`, [id, id], (err, result) => {
                     if (err) {
                         con.end
                         reject(err)
@@ -109,10 +119,36 @@ class PatientModel {
                     reject("Cannot get the patient")
                 }
                 else {
+                    if (doctor) {
+                        con.end()
+                        this.createRelationTable(doctor, result.insertId)
+                            .then(() => {
+                                resolve(result[0])
+                            })
+                        return
+                    }
                     con.end()
                     resolve(result[0])
                 }
             })
+        })
+    }
+    createRelationTable(doctoId, patientId) {
+        return new Promise((resolve, reject) => {
+
+            const con = createConnection(dbConfig)
+            con.query(`INSERT INTO doctor_relation 
+                    (doctor_id, patient_id) VALUES (?, ?)`, [doctoId, patientId], (err, result) => {
+                if (err) {
+                    con.end
+                    reject(err)
+                }
+                else {
+                    con.end()
+                    resolve()
+                }
+            }
+            )
         })
     }
 }
