@@ -26,15 +26,15 @@ class PatientsController {
 
     createPatient(req, res) {
         patientModel.createPatient(
-            req.body.firstNameText,
-            req.body.secondNameText,
-            req.body.genderText,
-            req.body.ageText,
-            req.body.addressText,
-            req.body.emailText,
-            req.body.insuranceText,
-            req.body.instituteText,
-            req.body.doctorText
+            req.body.firstNameText || null,
+            req.body.secondNameText || null,
+            req.body.genderText || null,
+            req.body.ageText || null,
+            req.body.addressText || null,
+            req.body.emailText || null,
+            req.body.insuranceText || null,
+            req.body.instituteText || null,
+            req.body.doctorText || null
         )
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))

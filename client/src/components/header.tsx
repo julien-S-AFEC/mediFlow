@@ -13,7 +13,7 @@ const Header = () => {
             <div className="container-fluid">
                 <div className="navbar-brand p-0">
                     <Link to="/">
-                    <img src="/logos/logo_shaded.png" alt="mediflow-logo" className="p-0" style={{ width: '5rem', height: '5rem' }} />
+                        <img src="/logos/logo_shaded.png" alt="mediflow-logo" className="p-0" style={{ width: '5rem', height: '5rem' }} />
                     </Link>
                 </div>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,10 @@ const Header = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="#">Home</a>
+                            <Link className="nav-link" to='/' onClick={logOut}>Home</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to='/dashboard' onClick={logOut}>Dashboard</Link>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#">About</a>

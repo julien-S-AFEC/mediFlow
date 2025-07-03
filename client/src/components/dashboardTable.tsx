@@ -31,7 +31,7 @@ const DashboardTable = ({ permissions }: Iprops) => {
                     <th className="main-font fw-light" scope="col">Firstname</th>
                     <th className="main-font fw-light" scope="col">Lastname</th>
                     <th className="main-font fw-light" scope="col">Gender</th>
-                    <th className="main-font fw-light" scope="col">Age</th>
+                    <th className="main-font fw-light" scope="col">Birth date</th>
                     <th className="main-font fw-light" scope="col">Adress</th>
                     <th className="main-font fw-light" scope="col">Email</th>
                     <th className="main-font fw-light" scope="col">Insurrance number</th>
@@ -47,8 +47,8 @@ const DashboardTable = ({ permissions }: Iprops) => {
                         <td>{patient.patient_firstname}</td>
                         <td>{patient.patient_secondname}</td>
                         <td>{patient.gender}</td>
-                        <td>{patient.age}</td>
-                        <td>{patient.adress}</td>
+                        <td>{new Date(patient.birth_date).toLocaleDateString()}</td>
+                        <td>{patient.address}</td>
                         <td>{patient.email}</td>
                         <td>{patient.insurance_number}</td>
                         <td>{patient.institute_name || "Non renseigné"}</td>

@@ -3,8 +3,9 @@ export type Patient = {
   patient_firstname: string;
   patient_secondname: string;
   gender: string;
-  age: number;
-  adress: string;
+  birth_date: Date;
+  created_at: Date;
+  address: string;
   email: string;
   insurance_number: string;
   institute_name: string;
@@ -24,4 +25,11 @@ export type Permissions = {
   update_prescription_commentary: boolean;
   delete_prescription_commentar: boolean;
   permission_id: number;
+};
+
+export type Institute = {
+  institute_adress: string;
+  institute_name: string;
+  institute_phone_number: string;
+  inst_id: number;
 };

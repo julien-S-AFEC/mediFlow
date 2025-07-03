@@ -3,7 +3,7 @@ import { Permissions } from "../types"
 import { SlOptions } from "react-icons/sl";
 
 type Iprops = {
-    permissions: Permissions,
+    permissions?: Permissions,
     setDashboardVisibleHandler: Dispatch<SetStateAction<boolean>>
 }
 

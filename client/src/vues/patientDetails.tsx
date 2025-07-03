@@ -47,10 +47,14 @@ const PatientDetails: React.FC = () => {
                             return (
                                 <div className="row mt-2" key={prop}>
                                     <div className="col-5 fs-light">{snakeCaseToPretty(prop)}</div>
-                                    <div className='col-5'>{attr || "Non renseigné"}</div>
+                                    <div className='col-5'>  {prop === 'birth_date' || prop === 'created_at'
+                                        ? new Date(attr).toLocaleDateString()
+                                        : attr instanceof Date
+                                            ? attr.toLocaleDateString()
+                                            : attr || "Non renseigné"}</div>
                                     {permissions?.update_patient ?
-                                     <CiEdit color="blue" className="col-2" />
-                                    : <div></div>
+                                        <CiEdit color="blue" className="col-2" />
+                                        : <div></div>
                                     }
                                 </div>
                             )
