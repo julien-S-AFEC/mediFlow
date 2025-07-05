@@ -25,6 +25,42 @@ class InstituteModel {
             })
         })
     }
+
+    getInstituteFromPatientId(id) {
+        return new Promise((resolve, reject) => {
+            const con = createConnection(dbConfig)
+            con.connect((err) => {
+                if (err) {
+                    con.end()
+                    reject(err)
+                }
+                con.query(`SELECT 
+                    institute_address,
+                    institute_name,
+                    institute_phone_number
+                    FROM 
+                    patients
+                    LEFT JOIN
+                    institutes
+                    ON
+                    patients.institute_id=institutes.inst_id 
+                    WHERE patient_id=?`, [id], (err, result) => {
+                    if (err) {
+                        con.end
+                        reject(err)
+                    }
+                    else if (!result) {
+                        con.end()
+                        reject("Cannot get the doctor")
+                    }
+                    else {
+                        con.end()
+                        resolve(JSON.stringify(result[0]))
+                    }
+                })
+            })
+        })
+    }
 }
 
 export default InstituteModel

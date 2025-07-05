@@ -39,6 +39,23 @@ class PatientsController {
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))
     }
+
+    updatePatient(req, res) {
+        patientModel.updatePatient(
+            req.body.patientId,
+            req.body.firstName,
+            req.body.secondName,
+            req.body.gender,
+            req.body.birthDate,
+            req.body.address,
+            req.body.email,
+            req.body.insurance)
+            .then(data => { res.status(200).json(data) })
+
+            .catch(error => {
+                res.status(500).json({ message: error.message || error });
+            });
+    }
 }
 
 const patientsController = new PatientsController()
@@ -46,5 +63,6 @@ const patientsController = new PatientsController()
 patientsRouter.get('/getAll', patientsController.getAll)
 patientsRouter.post('/getPatientFromId', patientsController.getPatientFromId)
 patientsRouter.post('/createPatient', patientsController.createPatient)
+patientsRouter.put('/updatePatient', patientsController.updatePatient)
 
 export default patientsRouter

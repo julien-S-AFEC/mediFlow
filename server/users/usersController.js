@@ -29,14 +29,14 @@ class UsersController {
             })
             .then(userCredentials => {
                 if (userCredentials) {
+                    const credentials = JSON.parse(userCredentials)[0]
                     req.session.user = {
-                        username: userCredentials.username,
-                        role_id: userCredentials.role_id,
-                        user_id: userCredentials.user_id
+                        username: credentials.username,
+                        role_id: credentials.role_id,
+                        user_id: credentials.user_id
                     };
                 }
                 res.status(200).json(userCredentials);
-
             })
             .catch(error => {
                 res.status(409).json({ message: error.message || error });
@@ -53,12 +53,12 @@ class UsersController {
     }
 
     getCurrentUserPermissions(req, res) {
-            userModel.getCurrentUserPermissions(req.session.user.user_id)
-                .then(data => { res.status(200).json(data) })
+        userModel.getCurrentUserPermissions(req.session.user.user_id)
+            .then(data => { res.status(200).json(data) })
 
-                .catch(error => {
-                    res.status(409).json({ message: error.message || error });
-                });
+            .catch(error => {
+                res.status(409).json({ message: error.message || error });
+            });
     }
 }
 

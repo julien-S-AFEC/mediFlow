@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Institute, Doctor } from "../types";
+import { Institute, Doctor } from "../../types";
 
 type Iprops = {
   visibilityToggler: React.Dispatch<React.SetStateAction<boolean>>;
+  refreshDashboardHandler: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-const UserCreationWidget: React.FC<Iprops> = ({ visibilityToggler }) => {
+const UserCreationWidget: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHandler }) => {
   const date = new Date();
   const [firstNameText, setFirstNameText] = useState("");
   const [secondNameText, setSecondNameText] = useState("");
@@ -24,15 +25,23 @@ const UserCreationWidget: React.FC<Iprops> = ({ visibilityToggler }) => {
       method: "GET",
       headers: { "Content-type": "application/json" },
     })
-      .then((res) => res.ok && res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+      })
       .then((data) => setInstitute(JSON.parse(data)));
 
     fetch("http://localhost:3000/api/doctors/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
     })
-      .then((res) => res.ok && res.json())
-      .then((data) => setDoctors(JSON.parse(data)));
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+      })
+      .then(data => {setDoctors(JSON.parse(data))});
   }, []);
 
   const createPatient = (): void => {
@@ -66,17 +75,19 @@ const UserCreationWidget: React.FC<Iprops> = ({ visibilityToggler }) => {
 
   return (
     <div className="modal show d-block fade" tabIndex={-1} role="dialog">
-      <div className="modal-dialog modal-lg" role="document">
-        <div className="modal-content">
-          {/* Modal Header */}
+      <div className="modal-dialog modal-xl" role="document">
+        <div className="modal-content" style={{ backgroundColor: "#d8e7d8" }}>
           <div className="modal-header">
             <h5 className="modal-title">Create New Patient</h5>
             <button type="button" className="btn-close" onClick={() => visibilityToggler((v) => !v)} aria-label="Close" />
           </div>
 
-          {/* Modal Body */}
           <div className="modal-body">
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              createPatient();
+              refreshDashboardHandler((oldValue) => !oldValue);
+            }}>
               <div className="row align-items-center">
                 <div className="col-6 pt-3">
                   <label className="form-label">Firstname</label>
@@ -133,17 +144,15 @@ const UserCreationWidget: React.FC<Iprops> = ({ visibilityToggler }) => {
                   </select>
                 </div>
               </div>
+              <div className="d-flex gap-2 justify-content-center mt-5">
+                <button type="submit" className="btn btn-primary" >
+                  Create Patient
+                </button>
+                <button type="button" className="btn btn-danger" onClick={() => visibilityToggler((v) => !v)}>
+                  Cancel
+                </button>
+              </div>
             </form>
-          </div>
-
-          {/* Modal Footer */}
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={() => visibilityToggler((v) => !v)}>
-              Cancel
-            </button>
-            <button type="button" className="btn btn-primary" onClick={createPatient}>
-              Create Patient
-            </button>
           </div>
         </div>
       </div>

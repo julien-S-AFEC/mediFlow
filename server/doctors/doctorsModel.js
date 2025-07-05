@@ -17,7 +17,7 @@ class DoctorModel {
                     }
                     else if (!result) {
                         con.end()
-                        reject("Cannot get the doctor table")
+                        resolve(JSON.stringify([]))
                     }
                     else {
                         con.end()
@@ -49,7 +49,44 @@ class DoctorModel {
                     }
                     else {
                         con.end()
-                        resolve(result[0])
+                        resolve(JSON.stringify(result)[0])
+                    }
+                })
+            })
+        })
+    }
+
+    getDoctorFromPatientId(id) {
+        console.log(id)
+        return new Promise((resolve, reject) => {
+            const con = createConnection(dbConfig)
+            con.connect((err) => {
+                if (err) {
+                    con.end()
+                    reject(err)
+                }
+                con.query(`SELECT 
+                    doctor_firstname,
+                    doctor_secondname,
+                    doctor_institute,
+                    doctor_email,
+                    doctor_phone_number
+                    FROM doctor_relation 
+                    LEFT JOIN doctors 
+                    ON doctor_relation.doctor_id=doctors.doctor_id 
+                    WHERE patient_id=?;
+                    `, [id], (err, result) => {
+                    if (err) {
+                        con.end
+                        reject(err)
+                    }
+                    else if (!result) {
+                        con.end()
+                        reject("Cannot get the doctor")
+                    }
+                    else {
+                        con.end()
+                        resolve(JSON.stringify(result))
                     }
                 })
             })
@@ -87,13 +124,51 @@ class DoctorModel {
                     con.end
                     reject(err)
                 }
-                else if (!result) {
-                    con.end()
-                    reject("Cannot create the doctor")
-                }
                 else {
                     con.end()
                     resolve(result[0])
+                }
+            })
+        })
+    }
+
+    updateDoctorFromId(patientId, doctorId) {
+
+        return new Promise((resolve, reject) => {
+
+            const con = createConnection(dbConfig)
+            con.query(`
+                UPDATE 
+                doctor_relation 
+                SET
+                end_date=NOW()
+                WHERE
+                doctor_relation.doctor_id=? and doctor_relation.patient_id=?
+                `, [doctorId, patientId], (err, result) => {
+                if (err) {
+                    con.end
+                    reject(err)
+                }
+                else {
+                    con.query(`
+                INSERT INTO 
+                doctor_relation 
+                (doctor_id,
+                patient_id,
+                start_date
+                )
+                VALUES
+                (?, ?, NOW())
+                `, [doctorId, patientId], (err, result) => {
+                        if (err) {
+                            con.end
+                            reject(err)
+                        }
+                        else {
+                            con.end()
+                            resolve(result)
+                        }
+                    })
                 }
             })
         })

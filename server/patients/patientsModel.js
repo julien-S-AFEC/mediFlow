@@ -35,30 +35,17 @@ class PatientModel {
                     con.end()
                     reject(err)
                 }
-                con.query(`SELECT patient_firstname, 
+                con.query(`SELECT 
+                    patient_firstname, 
                     patient_secondname, 
                     gender, 
                     birth_date, 
                     address, 
                     email, 
                     insurance_number, 
-                    created_at, 
-                    institute_name, 
-                    institute_address, 
-                    institute_phone_number,
-                    doctor_firstname,
-                    doctor_secondname,
-                    doctor_institute,
-                    doctor_address,
-                    doctor_phone_number
+                    created_at
                     FROM 
                     patients 
-                    LEFT JOIN 
-                    institutes ON patients.institute_id = institutes.inst_id 
-                    LEFT JOIN
-                    doctor_relation ON patients.patient_id=?
-                    LEFT JOIN
-                    doctors ON doctor_relation.doctor_id = doctors.doctor_id
                     WHERE patients.patient_id=?`, [id, id], (err, result) => {
                     if (err) {
                         con.end
@@ -114,14 +101,10 @@ class PatientModel {
                     con.end
                     reject(err)
                 }
-                else if (!result) {
-                    con.end()
-                    reject("Cannot get the patient")
-                }
                 else {
                     if (doctor) {
                         con.end()
-                        this.createRelationTable(doctor, result.insertId)
+                        this.createDoctorRelationTable(doctor, result.insertId)
                             .then(() => {
                                 resolve(result[0])
                             })
@@ -133,7 +116,7 @@ class PatientModel {
             })
         })
     }
-    createRelationTable(doctoId, patientId) {
+    createDoctorRelationTable(doctoId, patientId) {
         return new Promise((resolve, reject) => {
 
             const con = createConnection(dbConfig)
@@ -145,10 +128,55 @@ class PatientModel {
                 }
                 else {
                     con.end()
-                    resolve()
+                    resolve(result)
                 }
             }
             )
+        })
+    }
+
+    updatePatient(
+        patientId,
+        firstName,
+        secondName,
+        gender,
+        birthDate,
+        address,
+        email,
+        insurance) {
+
+        return new Promise((resolve, reject) => {
+            const con = createConnection(dbConfig)
+            con.query(`
+                UPDATE 
+                patients 
+                SET
+                patient_firstname=?,
+                patient_secondname=?,
+                gender=?,
+                birth_date=?,
+                address=?,
+                email=?,
+                insurance_number=?
+                WHERE patients.patient_id=?`, [
+                firstName,
+                secondName,
+                gender,
+                birthDate,
+                address,
+                email,
+                insurance,
+                patientId
+            ], (err, result) => {
+                if (err) {
+                    con.end
+                    reject(err)
+                }
+                else {
+                    con.end()
+                    resolve(result[0])
+                }
+            })
         })
     }
 }

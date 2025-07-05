@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react"
-import { Patient, Permissions } from '../types.ts';
-import Loader from './loader'
+import { Patient, Permissions } from '../../types.ts';
+import Loader from '../loader.tsx'
 import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 
 type Iprops = {
-    permissions?: Permissions
+    refreshState: boolean
 }
 
-const DashboardTable: React.FC<Iprops> = ({ permissions }) => {
+const DashboardTable: React.FC<Iprops> = ({ refreshState }) => {
 
     const [patients, setPatients] = useState<Patient[]>([])
     const navigate = useNavigate()
@@ -21,7 +21,7 @@ const DashboardTable: React.FC<Iprops> = ({ permissions }) => {
                 }
             })
             .then(data => { setPatients(data) })
-    }, [])
+    }, [refreshState])
 
     return (
         <table className="table table-hover table-responsive mt-5">
@@ -52,13 +52,6 @@ const DashboardTable: React.FC<Iprops> = ({ permissions }) => {
                         <td>{patient.email}</td>
                         <td>{patient.insurance_number}</td>
                         <td>{patient.institute_name || "Not provided"}</td>
-                        {Boolean(permissions?.update_patient)
-                            && <td>
-                                <button className="btn p-1">
-                                    <CiEdit color="blue" className="pe-auto" />
-                                </button>
-                            </td>
-                        }
                     </tr>
                 ))
                     : <Loader />

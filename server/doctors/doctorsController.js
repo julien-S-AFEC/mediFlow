@@ -19,7 +19,13 @@ class DoctorController {
     }
 
     getDoctorFromId(req, res) {
-        doctorModel.getDoctorFromId(req.body.patientId)
+        doctorModel.getDoctorFromId(req.body.doctorId)
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error))
+    }
+
+    getDoctorFromPatientId(req, res) {
+        doctorModel.getDoctorFromPatientId(req.body.patientId)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))
     }
@@ -36,12 +42,27 @@ class DoctorController {
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))
     }
+
+    updateDoctorFromId(req, res) {
+        console.log(req.body)
+        doctorModel.updateDoctorFromId(
+            req.body.patientId,
+            req.body.doctorId
+        )
+            .then(data => { res.status(200).json(data) })
+
+            .catch(error => {
+                res.status(500).json({ message: error.message || error });
+            });
+    }
 }
 
 const doctorController = new DoctorController()
 
 doctorRouter.get('/getAll', doctorController.getAll)
 doctorRouter.post('/getPatientFromId', doctorController.getDoctorFromId)
+doctorRouter.post('/getDoctorFromPatientId', doctorController.getDoctorFromPatientId)
 doctorRouter.post('/createPatient', doctorController.createDoctor)
+doctorRouter.put('/updateDoctorFromId', doctorController.updateDoctorFromId)
 
 export default doctorRouter

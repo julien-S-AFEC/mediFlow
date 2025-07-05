@@ -1,5 +1,5 @@
 export type Patient = {
-  patient_id: number;
+  patient_id: string;
   patient_firstname: string;
   patient_secondname: string;
   gender: string;
@@ -11,7 +11,7 @@ export type Patient = {
   institute_name: string;
   institute_address: string;
   institute_phone_number: string;
-  inst_id: number;
+  institute_id: string;
 };
 
 export type Permissions = {
@@ -31,11 +31,11 @@ export type Institute = {
   institute_adress: string;
   institute_name: string;
   institute_phone_number: string;
-  inst_id: number;
+  inst_id: string;
 };
 
 export type Doctor= {
-  doctor_id: number;
+  doctor_id: string;
   doctor_firstname: string;
   doctor_secondname: string;
   doctor_adress: string;
