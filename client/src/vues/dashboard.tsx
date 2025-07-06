@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Permissions } from "../types.ts";
 import DashboardTable from "../components/dashboard/dashboardTable.tsx";
 import Header from "../components/header";
-import OptionsWidget from "../components/dashboard/optionsWidget.tsx";
 import CreatePatient from "../vues/createPatient";
 
 const Dashboard: React.FC = () => {
   const [permissions, setPermissions] = useState<Permissions>();
-  const [dashboardVisible, setDashboardVisible] = useState<boolean>(false);
+  const [createPatientVisible, setCreatePatientVisible] = useState<boolean>(false);
   const [refreshBashboard, setRefreshDashboard] = useState<boolean>(false);
 
   useEffect(() => {
@@ -25,8 +24,21 @@ const Dashboard: React.FC = () => {
       <Header />
       <div className="container-fluid">
         <div className="d-flex flex-column">
-          <OptionsWidget permissions={permissions} setDashboardVisibleHandler={setDashboardVisible} />
-          {dashboardVisible && <CreatePatient visibilityToggler={setDashboardVisible} refreshDashboardHandler={setRefreshDashboard}/>}
+          <div className="d-flex mx-2 gap-2">
+            {Boolean(permissions?.create_patient)
+              && <div
+                className="btn btn-primary text-nowrap"
+                onClick={() => setCreatePatientVisible(oldValue => !oldValue)}
+                >
+                Create patient
+              </div>}
+            {Boolean(permissions?.create_patient)
+              && (<div
+                className="btn btn-primary text-nowrap">
+                Create institute
+              </div>)}
+          </div>
+          {createPatientVisible && <CreatePatient visibilityToggler={setCreatePatientVisible} refreshDashboardHandler={setRefreshDashboard} />}
           <DashboardTable refreshState={refreshBashboard} />
         </div>
       </div>

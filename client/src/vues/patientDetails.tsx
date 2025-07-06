@@ -63,7 +63,10 @@ const PatientDetails: React.FC = () => {
         }
       })
       .then((institute) => {
-        { setInstitute(JSON.parse(institute)); }
+        {
+          console.log(institute)
+          setInstitute(JSON.parse(institute)); 
+          }
       })
       .catch((error) => {
         throw error;
@@ -95,25 +98,10 @@ const PatientDetails: React.FC = () => {
             </div>
 
             <div className="col-4">
-              <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />
+              {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
             </div>
             <div className="col-4">
-              <h4 className="maint-font fw-normal text-center">Institute</h4>
-              <div className="p-3 rounded-3 border border-dark">
-                {
-                  institute ?
-                    Object.entries(institute).map(([prop, attr]) => (
-                      <InstituteDetailsWidget
-                        key={prop}
-                        patientId={params.patientId}
-                        prop={prop}
-                        attr={attr}
-                        permissions={permissions}
-                      />
-                    ))
-                    : <div>No institute assigned</div>
-                }
-              </div>
+              {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}
             </div>
           </div >
         ) : (

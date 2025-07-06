@@ -16,12 +16,25 @@ class InstituteController {
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))
     }
+
+    updateInstituteFromId(req, res) {
+        instituteModel.updateInstituteFromId(
+            req.body.instituteId,
+            req.body.patientId
+        )
+            .then(data => { res.status(200).json(data) })
+
+            .catch(error => {
+                res.status(500).json({ message: error.message || error });
+            });
+    }
 }
 
 const instituteController = new InstituteController()
 
 instituteRouter.get('/getAll', instituteController.getAll)
 instituteRouter.post('/getInstituteFromPatientId', instituteController.getInstituteFromPatientId)
+instituteRouter.put('/updateInstituteFromId', instituteController.updateInstituteFromId)
 
 
 export default instituteRouter

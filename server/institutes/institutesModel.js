@@ -35,8 +35,8 @@ class InstituteModel {
                     reject(err)
                 }
                 con.query(`SELECT 
-                    institute_address,
                     institute_name,
+                    institute_address,
                     institute_phone_number
                     FROM 
                     patients
@@ -49,15 +49,36 @@ class InstituteModel {
                         con.end
                         reject(err)
                     }
-                    else if (!result) {
-                        con.end()
-                        reject("Cannot get the doctor")
-                    }
                     else {
                         con.end()
                         resolve(JSON.stringify(result[0]))
                     }
                 })
+            })
+        })
+    }
+
+    updateInstituteFromId(instituteId, patientId) {
+
+        return new Promise((resolve, reject) => {
+
+            const con = createConnection(dbConfig)
+            con.query(`
+                UPDATE 
+                patients 
+                SET
+                patients.institute_id=?
+                WHERE
+                patients.patient_id=?
+                `, [instituteId, patientId], (err, result) => {
+                if (err) {
+                    con.end
+                    reject(err)
+                }
+                else {
+                    con.end()
+                    resolve(result)
+                }
             })
         })
     }

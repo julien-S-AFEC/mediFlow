@@ -1,38 +1,71 @@
 import React from "react";
 import { snakeCaseToPretty } from "../../utils.tsx";
-import { Permissions } from "../../types.ts";
+import UpdateInstituteWidget from "./updateInstituteWidget.tsx";
+import { Institute, Permissions } from "../../types.ts";
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
+
 type Iprops = {
-    prop: string
-    attr: string
+    institute?: Institute
+    permissions?: Permissions;
     patientId?: string
-    permissions?: Permissions
+    refreshHandler: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+const DoctorDetailsWidget: React.FC<Iprops> = ({ institute, patientId, permissions, refreshHandler }) => {
 
-const InstituteDetailsWidget: React.FC<Iprops> = ({ prop, attr, patientId, permissions }) => {
+    const [toggleUpdateInstitute, setToggleUpdateInstitute] = useState<boolean>(false)
+    const [instituteText, setInstituteText] = useState<string>("");
 
-    const [toggleEdit, setToggleEdit] = useState<boolean>(false)
+    const updatePatientInstitute = () => {
+        fetch("http://localhost:3000/api/institutes/updateInstituteFromId", {
+            method: "PUT",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+                instituteId: instituteText.slice(0, 1),
+                patientId: patientId
+            })
+        }).then((res) => {
+            if (res.ok) {
+                setInstituteText("");
+                setToggleUpdateInstitute(false)
+                refreshHandler(oldValue => !oldValue)
+            }
+        }).catch(error => console.log(error))
+    }
 
     return (
         <>
-            {toggleEdit ?
-                <div className="row mt-2" key={prop}>
-                    <div className="col-5 fs-light">{snakeCaseToPretty(prop)}</div>
-                    <input className="col-5 rounded-3" value={prop === "birth_date" || prop === "created_at" ? new Date(attr).toLocaleDateString() : attr || "Not provided"} />
-                    {permissions?.update_patient ? <CiEdit color="blue" className="col-2" onClick={() => setToggleEdit(oldValue => !oldValue)} /> : <div></div>}
+            {!toggleUpdateInstitute && <div>
+                <div className="d-flex align-items-center gap-3">
+                    <h4 className="maint-font fw-normal text-center">Institute</h4>
+                    {permissions?.update_patient && <CiEdit onClick={() => setToggleUpdateInstitute(true)} />}
                 </div>
-                :
-                <div className="row mt-2" key={prop}>
-                    <div className="col-5 fs-light">{snakeCaseToPretty(prop)}</div>
-                    <div className="col-5"> {prop === "birth_date" || prop === "created_at" ? new Date(attr).toLocaleDateString() : attr || "Not provided"}</div>
-                    {permissions?.update_patient ? <CiEdit color="blue" className="col-2" onClick={() => setToggleEdit(oldValue => !oldValue)} /> : <div></div>}
+                <div className="p-3 rounded-3 border border-dark shadow">
+
+                    {institute && Object.entries(institute).map(([prop, attr]) => {
+                        return (
+                            <div className="row mt-2" key={prop}>
+                                <div className="col-5 fs-light">{snakeCaseToPretty(prop)}</div>
+                                <div className="col-5"> {attr || "Not provided"}</div>
+                            </div>
+                        )
+                    }
+                    )}
                 </div>
-            }
+            </div>}
+
+            {toggleUpdateInstitute &&
+                <div className="d-flex flex-column">
+                    <UpdateInstituteWidget instituteText={instituteText} instituteTextHandler={setInstituteText} />
+                    <div className="d-flex justify-content-center gap-3 pt-3">
+                        <div className="btn btn-primary" onClick={updatePatientInstitute}>Accept</div>
+                        <div className="btn btn-danger" onClick={() => setToggleUpdateInstitute(false)}>Cancel</div>
+                    </div>
+                </div>}
         </>
     )
 }
 
-export default InstituteDetailsWidget
+export default DoctorDetailsWidget
