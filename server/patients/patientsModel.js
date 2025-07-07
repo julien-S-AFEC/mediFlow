@@ -179,6 +179,73 @@ class PatientModel {
             })
         })
     }
+
+    updateInstituteFromId(instituteId, patientId) {
+
+        return new Promise((resolve, reject) => {
+
+            const con = createConnection(dbConfig)
+            con.query(`
+                UPDATE 
+                patients 
+                SET
+                patients.institute_id=?
+                WHERE
+                patients.patient_id=?
+                `, [instituteId, patientId], (err, result) => {
+                if (err) {
+                    con.end
+                    reject(err)
+                }
+                else {
+                    con.end()
+                    resolve(result)
+                }
+            })
+        })
+    }
+
+    updateDoctorFromId(patientId, doctorId) {
+
+        return new Promise((resolve, reject) => {
+
+            const con = createConnection(dbConfig)
+            con.query(`
+                UPDATE 
+                doctor_relation 
+                SET
+                end_date=NOW()
+                WHERE
+                doctor_relation.doctor_id=? and doctor_relation.patient_id=?
+                `, [doctorId, patientId], (err, result) => {
+                if (err) {
+                    con.end
+                    reject(err)
+                }
+                else {
+                    con.query(`
+                INSERT INTO 
+                doctor_relation 
+                (doctor_id,
+                patient_id,
+                start_date
+                )
+                VALUES
+                (?, ?, NOW())
+                `, [doctorId, patientId], (err, result) => {
+                        if (err) {
+                            con.end
+                            reject(err)
+                        }
+                        else {
+                            con.end()
+                            resolve(result)
+                        }
+                    })
+                }
+            })
+        })
+    }
 }
 
 export default PatientModel

@@ -28,7 +28,7 @@ export type Permissions = {
 };
 
 export type Institute = {
-  institute_adress: string;
+  institute_address: string;
   institute_name: string;
   institute_phone_number: string;
   inst_id: string;

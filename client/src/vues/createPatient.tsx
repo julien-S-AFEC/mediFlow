@@ -6,7 +6,7 @@ type Iprops = {
   refreshDashboardHandler: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-const UserCreationWidget: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHandler }) => {
+const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHandler }) => {
   const date = new Date();
   const [firstNameText, setFirstNameText] = useState("");
   const [secondNameText, setSecondNameText] = useState("");
@@ -160,4 +160,4 @@ const UserCreationWidget: React.FC<Iprops> = ({ visibilityToggler, refreshDashbo
   );
 };
 
-export default UserCreationWidget;
+export default CreatePatient;

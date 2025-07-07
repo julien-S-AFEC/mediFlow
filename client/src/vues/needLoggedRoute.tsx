@@ -5,7 +5,7 @@ type Iprops = {
     children: ReactNode;
 }
 
-const NeedLogginRoute = ({ children }: Iprops) => {
+const NeedLogginRoute: React.FC<Iprops> = ({ children }) => {
 
     const navigate = useNavigate()
     useEffect(() => {

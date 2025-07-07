@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt'
 
 const SALT_ROUNDS = 5
 
+//TOOD, Switch createConnection to pool
+
 class UserModel {
     connectUser(email, password) {
         return new Promise((resolve, reject) => {

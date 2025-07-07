@@ -13,13 +13,13 @@ type Iprops = {
     refreshHandler: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const DoctorDetailsWidget: React.FC<Iprops> = ({ institute, patientId, permissions, refreshHandler }) => {
+const InstituteDetailsWidget: React.FC<Iprops> = ({ institute, patientId, permissions, refreshHandler }) => {
 
     const [toggleUpdateInstitute, setToggleUpdateInstitute] = useState<boolean>(false)
     const [instituteText, setInstituteText] = useState<string>("");
 
     const updatePatientInstitute = () => {
-        fetch("http://localhost:3000/api/institutes/updateInstituteFromId", {
+        fetch("http://localhost:3000/api/patients/updateInstituteFromId", {
             method: "PUT",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({
@@ -68,4 +68,4 @@ const DoctorDetailsWidget: React.FC<Iprops> = ({ institute, patientId, permissio
     )
 }
 
-export default DoctorDetailsWidget
+export default InstituteDetailsWidget

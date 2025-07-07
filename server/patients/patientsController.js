@@ -56,6 +56,30 @@ class PatientsController {
                 res.status(500).json({ message: error.message || error });
             });
     }
+
+    updateInstituteFromId(req, res) {
+        patientModel.updateInstituteFromId(
+            req.body.instituteId,
+            req.body.patientId
+        )
+            .then(data => { res.status(200).json(data) })
+
+            .catch(error => {
+                res.status(500).json({ message: error.message || error });
+            });
+    }
+
+    updateDoctorFromId(req, res) {
+        patientModel.updateDoctorFromId(
+            req.body.patientId,
+            req.body.doctorId
+        )
+            .then(data => { res.status(200).json(data) })
+
+            .catch(error => {
+                res.status(500).json({ message: error.message || error });
+            });
+    }
 }
 
 const patientsController = new PatientsController()
@@ -64,5 +88,9 @@ patientsRouter.get('/getAll', patientsController.getAll)
 patientsRouter.post('/getPatientFromId', patientsController.getPatientFromId)
 patientsRouter.post('/createPatient', patientsController.createPatient)
 patientsRouter.put('/updatePatient', patientsController.updatePatient)
+patientsRouter.put('/updateInstituteFromId', patientsController.updateInstituteFromId)
+patientsRouter.put('/updateDoctorFromId', patientsController.updateDoctorFromId)
+
+
 
 export default patientsRouter

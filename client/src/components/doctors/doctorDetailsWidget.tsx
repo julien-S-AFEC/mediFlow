@@ -17,24 +17,7 @@ type Iprops = {
 const DoctorDetailsWidget: React.FC<Iprops> = ({ doctor, patientId, permissions, refreshHandler }) => {
 
     const [toggleUpdateDoctor, setToggleUpdateDoctor] = useState<boolean>(false)
-    const [doctorText, setDoctorText] = useState<string>("");
 
-    const updatePatientDoctor = () => {
-        fetch("http://localhost:3000/api/doctors/updateDoctorFromId", {
-            method: "PUT",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-                doctorId: doctorText.slice(0, 1),
-                patientId: patientId
-            })
-        }).then((res) => {
-            if (res.ok) {
-                setDoctorText("");
-                setToggleUpdateDoctor(false)
-                refreshHandler(oldValue => !oldValue)
-            }
-        }).catch(error => console.log(error))
-    }
 
     return (
         <>
@@ -58,11 +41,8 @@ const DoctorDetailsWidget: React.FC<Iprops> = ({ doctor, patientId, permissions,
 
             {toggleUpdateDoctor &&
                 <div className="d-flex flex-column">
-                    <UpdateDoctorWidget patientId={patientId} visibilityToggler={setToggleUpdateDoctor} refreshHandler={refreshHandler} doctorText={doctorText} doctorTextHandler={setDoctorText} />
-                    <div className="d-flex justify-content-center gap-3 pt-3">
-                        <div className="btn btn-primary" onClick={updatePatientDoctor}>Accept</div>
-                        <div className="btn btn-danger" onClick={() => setToggleUpdateDoctor(false)}>Cancel</div>
-                    </div>
+                    <UpdateDoctorWidget patientId={patientId} visibilityToggler={setToggleUpdateDoctor} refreshHandler={refreshHandler} />
+
                 </div>}
         </>
     )

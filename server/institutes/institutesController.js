@@ -17,10 +17,14 @@ class InstituteController {
             .catch(error => res.status(500).json(error))
     }
 
-    updateInstituteFromId(req, res) {
-        instituteModel.updateInstituteFromId(
-            req.body.instituteId,
-            req.body.patientId
+
+
+    updateInstituteCredentialsFromId(req, res) {
+        instituteModel.updateInstituteCredentialsFromId(
+            req.body.name,
+            req.body.address,
+            req.body.phoneNumber,
+            req.body.id
         )
             .then(data => { res.status(200).json(data) })
 
@@ -28,13 +32,20 @@ class InstituteController {
                 res.status(500).json({ message: error.message || error });
             });
     }
+
+    createInstitute(req, res) {
+        instituteModel.createInstitute(req.body.instName, req.body.instPhone, req.body.instAdress)
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error))
+    }
 }
 
 const instituteController = new InstituteController()
 
 instituteRouter.get('/getAll', instituteController.getAll)
 instituteRouter.post('/getInstituteFromPatientId', instituteController.getInstituteFromPatientId)
-instituteRouter.put('/updateInstituteFromId', instituteController.updateInstituteFromId)
+instituteRouter.put('/updateInstituteCredentialsFromId', instituteController.updateInstituteCredentialsFromId)
+instituteRouter.post('/createInstitute', instituteController.createInstitute)
 
 
 export default instituteRouter

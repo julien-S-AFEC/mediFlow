@@ -94,11 +94,11 @@ class DoctorModel {
     }
 
     createDoctor(
-        firstName,
+        firstname,
         secondName,
         address,
         email,
-        phoneNumber,
+        phone,
         institute
     ) {
 
@@ -111,14 +111,14 @@ class DoctorModel {
                     doctor_address, 
                     doctor_email, 
                     doctor_phone_number, 
-                    doctor_institute
+                    doctor_institute)
                     VALUES (?, ?, ?, ?, ?, ?)`, [
-                firstName,
+                firstname,
                 secondName,
                 address,
                 email, ,
-                institute,
-                phoneNumber
+                phone,
+                institute
             ], (err, result) => {
                 if (err) {
                     con.end
@@ -127,48 +127,6 @@ class DoctorModel {
                 else {
                     con.end()
                     resolve(result[0])
-                }
-            })
-        })
-    }
-
-    updateDoctorFromId(patientId, doctorId) {
-
-        return new Promise((resolve, reject) => {
-
-            const con = createConnection(dbConfig)
-            con.query(`
-                UPDATE 
-                doctor_relation 
-                SET
-                end_date=NOW()
-                WHERE
-                doctor_relation.doctor_id=? and doctor_relation.patient_id=?
-                `, [doctorId, patientId], (err, result) => {
-                if (err) {
-                    con.end
-                    reject(err)
-                }
-                else {
-                    con.query(`
-                INSERT INTO 
-                doctor_relation 
-                (doctor_id,
-                patient_id,
-                start_date
-                )
-                VALUES
-                (?, ?, NOW())
-                `, [doctorId, patientId], (err, result) => {
-                        if (err) {
-                            con.end
-                            reject(err)
-                        }
-                        else {
-                            con.end()
-                            resolve(result)
-                        }
-                    })
                 }
             })
         })

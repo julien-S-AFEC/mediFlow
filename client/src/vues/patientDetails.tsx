@@ -12,7 +12,7 @@ const PatientDetails: React.FC = () => {
   const [doctor, setDoctor] = useState<Doctor[]>();
   const [institute, setInstitute] = useState<Institute>();
   const [permissions, setPermissions] = useState<Permissions>();
-  const [refresh, setRefresh] = useState<boolean>(false)
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/api/patients/getPatientFromId", {
@@ -26,7 +26,7 @@ const PatientDetails: React.FC = () => {
           return res.json();
         }
       })
-      .then(patient => {
+      .then((patient) => {
         setPatient(patient);
       })
       .catch((error) => {
@@ -62,12 +62,7 @@ const PatientDetails: React.FC = () => {
           return res.json();
         }
       })
-      .then((institute) => {
-        {
-          console.log(institute)
-          setInstitute(JSON.parse(institute)); 
-          }
-      })
+      .then((institute) => setInstitute(JSON.parse(institute)))
       .catch((error) => {
         throw error;
       });
@@ -85,42 +80,30 @@ const PatientDetails: React.FC = () => {
     <>
       <Header />
       <div className="container-fluid">
-        {patient ? (
-          <div className="row justify-content-center gap-3 mt-5">
-            <div className="col-11">
-              <Link to="/dashboard" className="btn btn-primary">
-                Back
-              </Link>
-            </div>
-
-            <div className="col-4">
-              <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />
-            </div>
-
-            <div className="col-4">
-              {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
-            </div>
-            <div className="col-4">
-              {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}
-            </div>
-          </div >
-        ) : (
-          <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
-            <div className="spinner-border text-primary" role="status" aria-label="Loading..."></div>
+        <Link to="/dashboard" className="btn btn-primary">
+          Back
+        </Link>
+        <div className="row">
+          <div className="col-8 d-flex justify-content-center ">
+            <img src="/img/ordo.jpg" alt="" />
           </div>
-        )}
+          <div className="col-4">
+            {patient ? (
+              <div className="d-flex flex-column gap-3">
+                {patient && <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />}
+                {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
+                {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}
+              </div>
+            ) : (
+              <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
+                <div className="spinner-border text-primary" role="status" aria-label="Loading..."></div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );
 };
 
 export default PatientDetails;
-
-
-
-// OLD INPUT
-//  <div className="row mt-2" key={prop}>
-//                 <div className="col-5 fs-light">{snakeCaseToPretty(prop)}</div>
-//                 <div className="col-5"> {prop === "birth_date" || prop === "created_at" ? new Date(attr).toLocaleDateString() : attr || "Not provided"}</div>
-//                 {permissions?.update_patient ? <CiEdit color="blue" className="col-2" /> : <div></div>}
-//               </div>
