@@ -8,7 +8,7 @@ class InstituteController {
     getAll(req, res) {
         instituteModel.getAll()
             .then(data => res.status(200).json(data))
-            .catch((err) => res.status(500).json(err))
+            .catch((error) => res.status(500).json(error))
     }
 
     getInstituteFromPatientId(req, res) {
@@ -17,8 +17,6 @@ class InstituteController {
             .catch(error => res.status(500).json(error))
     }
 
-
-
     updateInstituteCredentialsFromId(req, res) {
         instituteModel.updateInstituteCredentialsFromId(
             req.body.name,
@@ -26,11 +24,8 @@ class InstituteController {
             req.body.phoneNumber,
             req.body.id
         )
-            .then(data => { res.status(200).json(data) })
-
-            .catch(error => {
-                res.status(500).json({ message: error.message || error });
-            });
+            .then(data => res.status(200).json(data))
+            .catch((error) => res.status(500).json(error));
     }
 
     createInstitute(req, res) {

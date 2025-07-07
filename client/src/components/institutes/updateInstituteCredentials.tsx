@@ -48,15 +48,15 @@ const UpdateInstituteCredentials: React.FC<Iprops> = ({ institute, visHandler, r
               <div className="row align-items-center">
                 <div className="col-6 pt-3">
                   <label className="form-label">Name</label>
-                  <input type="text" required className="form-control" placeholder="EHPAD Le Clos Fleuri" value={name} onChange={(e) => setName(e.target.value)} />
+                  <input type="text" className="form-control" placeholder="EHPAD Le Clos Fleuri" value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
                 <div className="col-6 pt-3">
                   <label className="form-label">Address</label>
-                  <input type="text" required className="form-control" placeholder="Green" value={address} onChange={(e) => setAddress(e.target.value)} />
+                  <input type="text" className="form-control" placeholder="Green" value={address} onChange={(e) => setAddress(e.target.value)} />
                 </div>
                 <div className="col-6 pt-3">
                   <label className="form-label">Phone number</label>
-                  <input type="text" required className="form-control" placeholder="0658741..." value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                  <input type="text" className="form-control" placeholder="0658741..." value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
                 </div>
               </div>
               <div className="d-flex gap-2 justify-content-center mt-5">

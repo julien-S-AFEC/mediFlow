@@ -11,7 +11,7 @@ const Header = () => {
     <nav className="navbar navbar-expand-lg bg-blue-color px-5 py-2 rounded-bottom-4 w-100">
       <div className="container-fluid">
         <div className="navbar-brand p-0">
-          <Link to="/">
+          <Link to="/dashboard">
             <img src="/logos/logo_shaded.png" alt="mediflow-logo" className="p-0" onClick={logOut} style={{ width: "5rem", height: "5rem" }} />
           </Link>
         </div>
@@ -28,11 +28,6 @@ const Header = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/" onClick={logOut}>
-                Home
-              </Link>
-            </li>
             <li className="nav-item">
               <Link className="nav-link" to="/dashboard">
                 Dashboard

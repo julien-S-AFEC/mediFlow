@@ -21,36 +21,36 @@ const App = () => {
           <Route
             path="/dashboard"
             element={
-              // <NeedLogginRoute>
+              <NeedLogginRoute>
               <Dashboard />
-              // </NeedLogginRoute>
+              </NeedLogginRoute>
             }
           ></Route>
 
           <Route
             path="/patientDetails/:patientId"
             element={
-              // <NeedLogginRoute>
+              <NeedLogginRoute>
               <PatientDetails />
-              // </NeedLogginRoute>
+              </NeedLogginRoute>
             }
           ></Route>
 
           <Route
             path="/institutes"
             element={
-              // <NeedLogginRoute>
+              <NeedLogginRoute>
               <Institutes />
-              // </NeedLogginRoute>
+              </NeedLogginRoute>
             }
           ></Route>
 
           <Route
             path="/doctors"
             element={
-              // <NeedLogginRoute>
+              <NeedLogginRoute>
               <Doctors />
-              // </NeedLogginRoute>
+              </NeedLogginRoute>
             }
           ></Route>
 

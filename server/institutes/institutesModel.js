@@ -1,40 +1,30 @@
-import { createConnection } from 'mysql'
-import { dbConfig } from '../sql/dbConfig.js'
+import { pool } from '../sql/dbConfig.js'
 
 
 class InstituteModel {
-    getAll() {
-        return new Promise((resolve, reject) => {
-            const con = createConnection(dbConfig)
-            con.connect((err) => {
-                if (err) {
-                    con.end()
-                    reject(err)
-                    return
-                }
-                con.query("SELECT inst_id, institute_name, institute_address, institute_phone_number FROM institutes WHERE 1", [], (err, result) => {
-                    if (err) {
-                        con.end()
-                        reject(err)
-                        return
-                    }
-                    else {
-                        resolve(JSON.stringify(result))
-                    }
-                })
+    async getAll() {
+        const con = await pool.getConnection()
+        return con.execute(`SELECT 
+            inst_id, 
+            institute_name, 
+            institute_address, 
+            institute_phone_number 
+            FROM institutes 
+            WHERE 1`, [])
+            .then((rows, fields) => {
+                console.log(rows, fields)
+                con.release()
+                return JSON.stringify(rows[0])
             })
-        })
+            .catch(error => {
+                con.release();
+                throw error
+            })
     }
 
-    getInstituteFromPatientId(id) {
-        return new Promise((resolve, reject) => {
-            const con = createConnection(dbConfig)
-            con.connect((err) => {
-                if (err) {
-                    con.end()
-                    reject(err)
-                }
-                con.query(`SELECT 
+    async getInstituteFromPatientId(id) {
+        const con = await pool.getConnection()
+        return con.execute(`SELECT 
                     institute_name,
                     institute_address,
                     institute_phone_number
@@ -44,27 +34,20 @@ class InstituteModel {
                     institutes
                     ON
                     patients.institute_id=institutes.inst_id 
-                    WHERE patient_id=?`, [id], (err, result) => {
-                    if (err) {
-                        con.end
-                        reject(err)
-                    }
-                    else {
-                        con.end()
-                        resolve(JSON.stringify(result[0]))
-                    }
-                })
+                    WHERE patient_id=?`, [id])
+            .then((rows, fields) => {
+                con.release()
+                return JSON.stringify(rows[0])
             })
-        })
+            .catch(error => {
+                con.release();
+                throw error
+            })
     }
 
-    updateInstituteCredentialsFromId(name, addres, phoneNumber, id) {
-
-        return new Promise((resolve, reject) => {
-
-            const con = createConnection(dbConfig)
-            con.query(`
-                UPDATE 
+    async updateInstituteCredentialsFromId(name, addres, phoneNumber, id) {
+        const con = await pool.getConnection()
+        return con.execute(`UPDATE 
                 institutes 
                 SET
                 institutes.institute_name=?,
@@ -72,26 +55,20 @@ class InstituteModel {
                 institutes.institute_phone_number= ?
                 WHERE
                 institutes.inst_id=?
-                `, [name, addres, phoneNumber, id], (err, result) => {
-                if (err) {
-                    con.end
-                    reject(err)
-                }
-                else {
-                    con.end()
-                    resolve(result)
-                }
+                `, [name, addres, phoneNumber, id])
+            .then((rows, fields) => {
+                con.release()
+                return JSON.stringify(rows[0])
             })
-        })
+            .catch(error => {
+                con.release();
+                throw error
+            })
     }
 
-    createInstitute(instName, instPhone, instAdress) {
-
-        return new Promise((resolve, reject) => {
-
-            const con = createConnection(dbConfig)
-            con.query(`
-                INSERT INTO 
+    async createInstitute(instName, instPhone, instAdress) {
+        const con = await pool.getConnection()
+        return con.execute(`INSERT INTO 
                 institutes
                 (
                 institute_name, 
@@ -99,17 +76,15 @@ class InstituteModel {
                 institute_phone_number
                 )
                 VALUES (?, ?, ?)
-                `, [instName, instPhone, instAdress], (err, result) => {
-                if (err) {
-                    con.end
-                    reject(err)
-                }
-                else {
-                    con.end()
-                    resolve(result)
-                }
+                `, [instName, instPhone, instAdress])
+            .then((rows, fields) => {
+                con.release()
+                return JSON.stringify(rows[0])
             })
-        })
+            .catch(error => {
+                con.release();
+                throw error
+            })
     }
 }
 

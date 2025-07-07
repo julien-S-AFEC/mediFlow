@@ -10,7 +10,7 @@ const CreateInstitute: React.FC<Iprops> = ({ visibilityToggler, refreshDashboard
   const [instituteAdress, setInstituteAdress] = useState("");
   const [institutePhone, setInstitutePhone] = useState("");
 
-  const createPatient = (): void => {
+  const createInstitute = (): void => {
     fetch("http://localhost:3000/api/institutes/createInstitute", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -41,7 +41,7 @@ const CreateInstitute: React.FC<Iprops> = ({ visibilityToggler, refreshDashboard
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                createPatient();
+                createInstitute();
                 refreshDashboardHandler((oldValue) => !oldValue);
               }}
             >
@@ -52,7 +52,7 @@ const CreateInstitute: React.FC<Iprops> = ({ visibilityToggler, refreshDashboard
                 </div>
                 <div className="col-6 pt-3">
                   <label className="form-label">Phone number</label>
-                  <input type="number" className="form-control" placeholder="00668877..." value={institutePhone} onChange={(e) => setInstitutePhone(e.target.value)} />
+                  <input type="text" className="form-control" placeholder="00668877..." value={institutePhone} onChange={(e) => setInstitutePhone(e.target.value)} />
                 </div>
                 <div className="col-12 pt-3">
                   <label className="form-label">Adress</label>

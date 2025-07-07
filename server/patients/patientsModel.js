@@ -1,4 +1,3 @@
-import { createConnection } from 'mysql'
 import { dbConfig } from '../sql/dbConfig.js'
 
 class PatientModel {

@@ -1,71 +1,34 @@
-import { createConnection } from 'mysql'
-import { dbConfig } from '../sql/dbConfig.js'
+import { pool } from '../sql/dbConfig.js'
 
 class DoctorModel {
-    getAll() {
-        return new Promise((resolve, reject) => {
-            const con = createConnection(dbConfig)
-            con.connect((err) => {
-                if (err) {
-                    con.end()
-                    reject(err)
-                }
-                con.query("SELECT * FROM doctors WHERE 1", (err, result) => {
-                    if (err) {
-                        con.end
-                        reject(err)
-                    }
-                    else if (!result) {
-                        con.end()
-                        resolve(JSON.stringify([]))
-                    }
-                    else {
-                        con.end()
-                        resolve(JSON.stringify(result))
-                    }
-                })
+    async getAll() {
+        const con = await pool.getConnection()
+        return con.execute("SELECT * FROM doctors WHERE 1", [])
+            .then((rows, fields) => {
+                con.release()
+                return JSON.stringify(rows[0])
             })
-        })
+            .catch(error => {
+                con.release();
+                throw error
+            })
     }
-    getDoctorFromId(id) {
-        return new Promise((resolve, reject) => {
-            const con = createConnection(dbConfig)
-            con.connect((err) => {
-                if (err) {
-                    con.end()
-                    reject(err)
-                }
-                con.query(`SELECT *
-                    FROM 
-                    doctors 
-                    WHERE doctor_id=?`, [id], (err, result) => {
-                    if (err) {
-                        con.end
-                        reject(err)
-                    }
-                    else if (!result) {
-                        con.end()
-                        reject("Cannot get the doctor")
-                    }
-                    else {
-                        con.end()
-                        resolve(JSON.stringify(result)[0])
-                    }
-                })
+    async getDoctorFromId(id) {
+        const con = await pool.getConnection()
+        return con.execute("SELECT * FROM doctors WHERE doctors.doctor_id=?", [id])
+            .then((rows, fields) => {
+                con.release()
+                return JSON.stringify(rows[0])
             })
-        })
+            .catch(error => {
+                con.release();
+                throw error
+            })
     }
 
-    getDoctorFromPatientId(id) {
-        console.log(id)
-        return new Promise((resolve, reject) => {
-            const con = createConnection(dbConfig)
-            con.connect((err) => {
-                if (err) {
-                    con.end()
-                    reject(err)
-                }
-                con.query(`SELECT 
+    async getDoctorFromPatientId(id) {
+        const con = await pool.getConnection()
+        return con.execute(`SELECT 
                     doctor_firstname,
                     doctor_secondname,
                     doctor_institute,
@@ -74,26 +37,18 @@ class DoctorModel {
                     FROM doctor_relation 
                     LEFT JOIN doctors 
                     ON doctor_relation.doctor_id=doctors.doctor_id 
-                    WHERE patient_id=?;
-                    `, [id], (err, result) => {
-                    if (err) {
-                        con.end
-                        reject(err)
-                    }
-                    else if (!result) {
-                        con.end()
-                        reject("Cannot get the doctor")
-                    }
-                    else {
-                        con.end()
-                        resolve(JSON.stringify(result))
-                    }
-                })
+                    WHERE patient_id=?`, [id])
+            .then((rows, fields) => {
+                con.release()
+                return JSON.stringify(rows[0])
             })
-        })
+            .catch(error => {
+                con.release();
+                throw error
+            })
     }
 
-    createDoctor(
+    async createDoctor(
         firstname,
         secondName,
         address,
@@ -101,10 +56,8 @@ class DoctorModel {
         phone,
         institute
     ) {
-
-        return new Promise((resolve, reject) => {
-            const con = createConnection(dbConfig)
-            con.query(`INSERT INTO doctors 
+        const con = await pool.getConnection()
+        return con.execute(`INSERT INTO doctors 
                     (
                     doctor_firstname, 
                     doctor_secondname, 
@@ -113,23 +66,60 @@ class DoctorModel {
                     doctor_phone_number, 
                     doctor_institute)
                     VALUES (?, ?, ?, ?, ?, ?)`, [
-                firstname,
-                secondName,
-                address,
-                email, ,
-                phone,
-                institute
-            ], (err, result) => {
-                if (err) {
-                    con.end
-                    reject(err)
-                }
-                else {
-                    con.end()
-                    resolve(result[0])
-                }
+            firstname,
+            secondName,
+            address,
+            email,
+            phone,
+            institute
+        ])
+            .then((rows, fields) => {
+                con.release()
+                return rows[0]
             })
-        })
+            .catch(error => {
+                con.release()
+                    ; throw error
+            })
+    }
+
+    async updateDoctorCredentialsFromId(
+        firstname,
+        secondname,
+        institute,
+        address,
+        phoneNumber,
+        email,
+        doctorId
+    ) {
+        const con = await pool.getConnection()
+        return con.execute(`UPDATE doctors
+                    SET
+                    doctor_firstname=?, 
+                    doctor_secondname=?, 
+                    doctor_institute= ?,
+                    doctor_address= ?, 
+                    doctor_phone_number=?, 
+                    doctor_email=?
+                    WHERE
+                    doctors.doctor_id=?
+                    `, [
+            firstname,
+            secondname,
+            institute,
+            address,
+            phoneNumber,
+            email,
+            doctorId
+        ])
+            .then((rows, fields) => {
+                con.release()
+                return JSON.stringify(rows[0])
+            })
+            .catch(error => {
+                con.release();
+                throw error
+            })
     }
 }
 
