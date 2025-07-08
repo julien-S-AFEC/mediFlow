@@ -12,7 +12,6 @@ class InstituteModel {
             FROM institutes 
             WHERE 1`, [])
             .then((rows, fields) => {
-                console.log(rows, fields)
                 con.release()
                 return JSON.stringify(rows[0])
             })
@@ -37,7 +36,7 @@ class InstituteModel {
                     WHERE patient_id=?`, [id])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0])
+                return JSON.stringify(rows[0][0])
             })
             .catch(error => {
                 con.release();

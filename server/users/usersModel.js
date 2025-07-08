@@ -1,131 +1,115 @@
-import { createConnection } from 'mysql'
-import { dbConfig } from '../sql/dbConfig.js'
+import { pool } from '../sql/dbConfig.js'
 import bcrypt from 'bcrypt'
 
 const SALT_ROUNDS = 5
 
-//TOOD, Switch createConnection to pool
-
 class UserModel {
-    connectUser(email, password) {
-        return new Promise((resolve, reject) => {
-
-            const con = createConnection(dbConfig)
-            con.connect((err) => {
-                if (err) {
-                    con.end()
-                    reject(err)
+    async connectUser(email, password) {
+        const con = await pool.getConnection()
+        return con.execute(`SELECT username, user_email, user_password, role_id, user_id FROM users WHERE user_email = ?`, [email])
+            .then((rows, fields) => {
+                con.release();
+                if (!rows) {
+                    throw new Error("The user is not found")
                 }
-                con.query(`SELECT username, user_email, user_password, role_id, user_id FROM users WHERE user_email = ?`, [email], (err, result) => {
-                    con.end()
-                    if (err) {
-                        reject(err)
-                    }
-                    else if (!result.length) {
-                        reject("User not found")
-                    }
-                    else {
-                        if (bcrypt.compareSync(password, result[0].user_password)) {
-                            resolve(JSON.stringify(result))
-                        }
-                        else {
-                            reject("Invalid password")
-                        }
-                    }
-                })
+                if (bcrypt.compareSync(password, rows[0][0].user_password)) {
+                    return JSON.stringify(rows[0])
+                }
+                else { throw new Error("The password doesnt match") }
             })
-        })
+            .catch(error => {
+                con.release();
+                throw new Error("The user is not found")
+            })
     }
 
-    registerUser(name, email, password) {
-        return new Promise((resolve, reject) => {
-
-            const con = createConnection(dbConfig)
-            con.connect((err) => {
-                if (err) {
-                    con.end()
-                    reject(err)
-                    return
+    async getUserByNameOrEmail(name, email) {
+        const con = await pool.getConnection()
+        return con.execute("SELECT * FROM USERS WHERE username = ? OR user_email = ?", [name, email])
+            .then((rows, fields) => {
+                con.release();
+                if (!rows) {
+                    return false
                 }
-                con.query("SELECT * FROM USERS WHERE username = ? OR user_email = ?", [name, email], (err, userResult) => {
-                    if (err) {
-                        con.end()
-                        reject(err)
-                        return
-                    }
-                    if (!userResult.length) {
-                        con.query("INSERT INTO `permissions`() VALUES ();", ((err, permissionResult) => {
-                            if (err) {
-                                con.end()
-                                reject(err)
-                                return
-                            }
-                            const permissionId = permissionResult.insertId
-                            con.query("INSERT INTO users (`username`, `user_email`, `user_password`, `role_id`, `permissions`) VALUES (?, ?, ?, ?, ?)",
-                                [name, email, bcrypt.hashSync(password, SALT_ROUNDS), 1, permissionId], (err, result) => {
-                                    if (err) {
-                                        con.end()
-                                        reject(err)
-                                    }
-                                    con.end()
-                                    resolve(JSON.stringify(JSON.parse(result.insertId)))
-                                }
-                            )
-                        }))
-                    }
-                    else {
-                        reject("Name or email already used")
-                    }
-                })
+                return JSON.stringify(rows[0][0])
             })
-        })
+            .catch(error => {
+                con.release();
+                throw new Error("The user is not found")
+            })
     }
 
-    getUserById(id) {
-        return new Promise((resolve, reject) => {
-
-            const con = createConnection(dbConfig)
-            con.connect((err) => {
-                if (err) {
-                    con.end()
-                    throw err
-                }
-                con.query("SELECT * FROM USERS WHERE user_id = ?", [id], (err, result) => {
-                    if (err) {
-                        con.end()
-                        reject(err)
-                    }
-                    else if (!result) {
-                        con.end()
-                        reject("Can't get the user")
-                    }
-                    else {
-                        con.end()
-                        resolve(JSON.stringify(result))
-                    }
-                })
+    async createPermissionTable() {
+        const con = await pool.getConnection()
+        return con.execute(`INSERT INTO permissions() VALUES ()`, [])
+            .then((rows, fields) => {
+                con.release();
+                return rows[0].insertId
             })
-        })
+            .catch(error => {
+                con.release();
+                throw new Error("The permission table cannot be created.")
+            })
     }
 
-    getCurrentUserPermissions(userId) {
-        return new Promise((resolve, reject) => {
-            this.getUserById(userId)
-                .then(data => {
-                    const permissionId = JSON.parse(data)[0].permissions
-                    const con = createConnection(dbConfig)
-                    con.query("SELECT * FROM permissions WHERE permission_id = ?", [permissionId], (err, result) => {
-                        if (err) {
-                            reject(err)
-                            con.end()
-                            return
-                        }
-                        resolve(result[0])
-                        con.end()
-                    })
-                })
-                .catch(error => reject(error))
-        })
+    async registerUser(name, email, password) {
+        try {
+            const user = await this.getUserByNameOrEmail(name, email)
+
+            if (user) {
+                throw new Error("The username or email is already used.")
+            }
+
+            const permissionId = await this.createPermissionTable()
+
+            try {
+                const con = await pool.getConnection()
+                const [rows, fields] = await con.execute(`INSERT INTO users (username, user_email, user_password, role_id, permissions) 
+                VALUES (?, ?, ?, ?, ?)`,
+                    [name, email, bcrypt.hashSync(password, SALT_ROUNDS), 1, permissionId])
+                con.release()
+                return JSON.stringify(rows.insertId)
+
+            } catch (error) {
+                throw error
+            }
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async getUserById(id) {
+        const con = await pool.getConnection()
+        return con.execute(`SELECT * FROM USERS WHERE user_id = ?`, [id])
+            .then((rows, fields) => {
+                con.release();
+                if (!rows) {
+                    throw new Error("The user is not found")
+                }
+                return JSON.stringify(rows[0])
+            })
+            .catch(error => {
+                con.release();
+                throw new Error("The user is not found")
+            })
+    }
+
+    async getCurrentUserPermissions(userId) {
+        const user = await this.getUserById(userId)
+
+        const con = await pool.getConnection()
+        return con.execute(`SELECT * FROM permissions WHERE permission_id = ?`, [JSON.parse(user)[0].permissions])
+            .then((rows, fields) => {
+                con.release();
+                if (!rows) {
+                    throw new Error("The user is not found")
+                }
+                return JSON.stringify(rows[0][0])
+            })
+            .catch(error => {
+                con.release();
+                throw new Error("The user is not found")
+            })
     }
 }
 

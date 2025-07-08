@@ -13,9 +13,7 @@ type Iprops = {
     refreshHandler: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-
 const PatientDetailsWidget: React.FC<Iprops> = ({ patient, patientId, permissions, refreshHandler }) => {
-
     const [toggleUpdatePatientModal, setToggleUpdatePatientModal] = useState<boolean>(false)
 
     return (

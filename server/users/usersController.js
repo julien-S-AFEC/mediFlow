@@ -18,8 +18,8 @@ class UsersController {
             })
 
             .catch(error => {
-                res.status(409).json({ "message": error })
                 console.log(error)
+                res.status(500).json({ "message": error.message })
             })
     }
     registerUser(req, res) {
@@ -39,7 +39,7 @@ class UsersController {
                 res.status(200).json(userCredentials);
             })
             .catch(error => {
-                res.status(409).json({ message: error.message || error });
+                res.status(500).json({ message: error.message });
             });
     }
 

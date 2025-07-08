@@ -5,6 +5,7 @@ import PatientDetailsWidget from "../components/patients/patientDetailsWidget.ts
 import DoctorDetailsWidget from "../components/doctors/doctorDetailsWidget.tsx";
 import InstituteDetailsWidget from "../components/institutes/instituteDetailsWidget.tsx";
 import Header from "../components/header";
+import ConfirmArchiveModal from "../components/confirmArchiveModal.tsx";
 
 const PatientDetails: React.FC = () => {
   const params = useParams();
@@ -13,6 +14,7 @@ const PatientDetails: React.FC = () => {
   const [institute, setInstitute] = useState<Institute>();
   const [permissions, setPermissions] = useState<Permissions>();
   const [refresh, setRefresh] = useState<boolean>(false);
+  const [archiveVis, setArchiveVis] = useState<boolean>(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/api/patients/getPatientFromId", {
@@ -27,7 +29,7 @@ const PatientDetails: React.FC = () => {
         }
       })
       .then((patient) => {
-        setPatient(patient);
+        setPatient(JSON.parse(patient));
       })
       .catch((error) => {
         throw error;
@@ -73,13 +75,15 @@ const PatientDetails: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => setPermissions(data));
+      .then((data) => setPermissions(JSON.parse(data)));
   }, [refresh]);
 
   return (
     <>
       <Header />
       <div className="container-fluid">
+        {archiveVis && <div>LOOOOL</div>}
+
         <Link to="/dashboard" className="btn btn-primary">
           Back
         </Link>
@@ -99,6 +103,9 @@ const PatientDetails: React.FC = () => {
                 <div className="spinner-border text-primary" role="status" aria-label="Loading..."></div>
               </div>
             )}
+            <div className="d-flex justify-content-center align-items-center my-3">
+              <ConfirmArchiveModal patient={patient}/>
+            </div>
           </div>
         </div>
       </div>

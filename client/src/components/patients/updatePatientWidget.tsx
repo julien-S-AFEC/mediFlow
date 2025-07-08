@@ -11,13 +11,13 @@ type Iprops = {
 const UpdatePatientWidget: React.FC<Iprops> = ({ patientId, patient, visibilityToggler, refreshHandler }) => {
 
     const date = new Date();
-    const [firstNameText, setFirstNameText] = useState(patient.patient_firstname || "Not provided");
-    const [secondNameText, setSecondNameText] = useState(patient.patient_secondname || "Not provided");
-    const [genderText, setGenderText] = useState(patient.gender || "Not provided");
-    const [birthDateText, setBirthDateText] = useState(patient.birth_date.slice(0, 10) || "Not provided");
-    const [addressText, setAddresText] = useState(patient.address || "Not provided");
-    const [emailText, setEmailText] = useState(patient.email || "Not provided");
-    const [insuranceText, setInsuranceText] = useState(patient.insurance_number || "Not provided");
+    const [firstNameText, setFirstNameText] = useState(patient.patient_firstname || "");
+    const [secondNameText, setSecondNameText] = useState(patient.patient_secondname || "");
+    const [genderText, setGenderText] = useState(patient.gender || "");
+    const [birthDateText, setBirthDateText] = useState(patient.birth_date.slice(0, 10) || "");
+    const [addressText, setAddresText] = useState(patient.address || "");
+    const [emailText, setEmailText] = useState(patient.email || "");
+    const [insuranceText, setInsuranceText] = useState(patient.insurance_number || "");
 
     const updatePatient = (): void => {
         fetch("http://localhost:3000/api/patients/updatePatient", {

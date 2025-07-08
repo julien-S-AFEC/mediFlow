@@ -12,6 +12,7 @@ export type Patient = {
   institute_address: string;
   institute_phone_number: string;
   institute_id: string;
+  active: string;
 };
 
 export type Permissions = {

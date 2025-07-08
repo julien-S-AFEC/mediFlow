@@ -20,7 +20,7 @@ const DashboardTable: React.FC<Iprops> = ({ refreshState }) => {
                     return res.json()
                 }
             })
-            .then(data => { setPatients(data) })
+            .then(data => { setPatients(JSON.parse(data)) })
     }, [refreshState])
 
     return (
@@ -39,7 +39,7 @@ const DashboardTable: React.FC<Iprops> = ({ refreshState }) => {
                 </tr>
             </thead>
             <tbody>
-                {patients ? patients.map(patient => (
+                {patients ? patients.filter(p => p.active).map(patient => (
                     <tr key={patient.patient_id} onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: 'pointer' }}>
 
                         <th scope="row">{patient.patient_id}</th>

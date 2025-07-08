@@ -25,7 +25,7 @@ const logOut = (req, res) => {
         })
     }
     else[
-        res.status(500).json("Cannot access to the session")
+        res.status(500).json({"message": "Cannot access to the session"})
     ]
 }
 

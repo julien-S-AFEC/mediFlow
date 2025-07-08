@@ -22,7 +22,7 @@ const Institutes: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => setPermissions(data));
+      .then((data) => setPermissions(JSON.parse(data)));
   }, []);
 
   useEffect(() => {

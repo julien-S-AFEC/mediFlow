@@ -6,16 +6,9 @@ const patientModel = new PatientsModel()
 
 class PatientsController {
     getAll(req, res) {
-        try {
-            patientModel.getAll()
-                .then(data => {
-                    res.status(200).json(data)
-                })
-        }
-        catch (error) {
-            res.status(500).json({ "message": "Cannot fetch" })
-            console.log(error)
-        }
+        patientModel.getAll()
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error))
     }
 
     getPatientFromId(req, res) {
@@ -51,7 +44,6 @@ class PatientsController {
             req.body.email,
             req.body.insurance)
             .then(data => { res.status(200).json(data) })
-
             .catch(error => {
                 res.status(500).json({ message: error.message || error });
             });
@@ -63,7 +55,6 @@ class PatientsController {
             req.body.patientId
         )
             .then(data => { res.status(200).json(data) })
-
             .catch(error => {
                 res.status(500).json({ message: error.message || error });
             });
@@ -75,7 +66,16 @@ class PatientsController {
             req.body.doctorId
         )
             .then(data => { res.status(200).json(data) })
+            .catch(error => {
+                res.status(500).json({ message: error.message || error });
+            });
+    }
 
+    archivePatientFromId(req, res) {
+        patientModel.archivePatientFromId(
+            req.body.patientId
+        )
+            .then(data => { res.status(200).json(data) })
             .catch(error => {
                 res.status(500).json({ message: error.message || error });
             });
@@ -90,6 +90,7 @@ patientsRouter.post('/createPatient', patientsController.createPatient)
 patientsRouter.put('/updatePatient', patientsController.updatePatient)
 patientsRouter.put('/updateInstituteFromId', patientsController.updateInstituteFromId)
 patientsRouter.put('/updateDoctorFromId', patientsController.updateDoctorFromId)
+patientsRouter.post('/archivePatientFromId', patientsController.archivePatientFromId)
 
 
 
