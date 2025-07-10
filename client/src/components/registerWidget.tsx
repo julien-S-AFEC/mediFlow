@@ -69,7 +69,7 @@ const RegisterWidget = () => {
 
             <div className="col-md-6 col-12">
                 <div
-                    className="d-flex flex-column border align-items-center p-2 rounded-3 shadow"
+                    className="d-flex flex-column border align-items-center p-2 m-3 rounded-3 shadow"
                     style={{ marginTop: "5rem", backgroundColor: "rgba(200, 200, 200, .8)" }}
                 >
                     <h3 className="mt-3 main-font">Inscription</h3>

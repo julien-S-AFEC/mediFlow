@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Permissions } from "../types.ts";
-import DashboardTable from "../components/dashboard/dashboardTable.tsx";
+import ArchivedPatientTable from "../components/patients/archivedPatientTable.tsx";
 import Header from "../components/header";
 import CreatePatient from "../vues/createPatient";
 
@@ -16,24 +16,19 @@ const Dashboard: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => setPermissions(JSON.parse(data)));
+      .then(data => setPermissions(JSON.parse(data)))
+
   }, []);
 
   return (
     <>
       <Header />
+      <div className="container-fluid">
         <div className="d-flex flex-column">
-          <div className="d-flex mx-2 gap-2">
-            
-            {Boolean(permissions?.create_patient) && (
-              <div className="btn btn-primary text-nowrap" onClick={() => setCreatePatientVisible((oldValue) => !oldValue)}>
-                Create Patient
-              </div>
-            )}
-          </div>
           {createPatientVisible && <CreatePatient visibilityToggler={setCreatePatientVisible} refreshDashboardHandler={setRefreshDashboard} />}
-          <DashboardTable refreshState={refreshDashboard} />
+          <ArchivedPatientTable refreshState={refreshDashboard} refreshHandler={setRefreshDashboard} permissions={permissions} />
         </div>
+      </div>
     </>
   );
 };

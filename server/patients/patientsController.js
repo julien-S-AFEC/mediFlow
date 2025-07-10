@@ -45,7 +45,7 @@ class PatientsController {
             req.body.insurance)
             .then(data => { res.status(200).json(data) })
             .catch(error => {
-                res.status(500).json({ message: error.message || error });
+                res.status(500).json({ message: error.message });
             });
     }
 
@@ -56,7 +56,7 @@ class PatientsController {
         )
             .then(data => { res.status(200).json(data) })
             .catch(error => {
-                res.status(500).json({ message: error.message || error });
+                res.status(500).json({ message: error.message });
             });
     }
 
@@ -67,7 +67,7 @@ class PatientsController {
         )
             .then(data => { res.status(200).json(data) })
             .catch(error => {
-                res.status(500).json({ message: error.message || error });
+                res.status(500).json({ message: error.message });
             });
     }
 
@@ -77,7 +77,17 @@ class PatientsController {
         )
             .then(data => { res.status(200).json(data) })
             .catch(error => {
-                res.status(500).json({ message: error.message || error });
+                res.status(500).json({ message: error.message });
+            });
+    }
+
+    unArchivePatientFromId(req, res) {
+        patientModel.unArchivePatientFromId(
+            req.body.patientId
+        )
+            .then(data => { res.status(200).json(data) })
+            .catch(error => {
+                res.status(500).json({ message: error.message });
             });
     }
 }
@@ -91,7 +101,6 @@ patientsRouter.put('/updatePatient', patientsController.updatePatient)
 patientsRouter.put('/updateInstituteFromId', patientsController.updateInstituteFromId)
 patientsRouter.put('/updateDoctorFromId', patientsController.updateDoctorFromId)
 patientsRouter.post('/archivePatientFromId', patientsController.archivePatientFromId)
-
-
+patientsRouter.post('/unArchivePatientFromId', patientsController.unArchivePatientFromId)
 
 export default patientsRouter

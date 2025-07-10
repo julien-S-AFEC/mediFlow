@@ -75,7 +75,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
 
   return (
     <div className="modal show d-block fade" tabIndex={-1} role="dialog">
-      <div className="modal-dialog modal-xl" role="document">
+      <div className="modal-dialog " role="document">
         <div className="modal-content" style={{ backgroundColor: "#d8e7d8" }}>
           <div className="modal-header">
             <h5 className="modal-title">Create New Patient</h5>

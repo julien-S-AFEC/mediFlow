@@ -16,24 +16,6 @@ type Iprops = {
 const InstituteDetailsWidget: React.FC<Iprops> = ({ institute, patientId, permissions, refreshHandler }) => {
 
     const [toggleUpdateInstitute, setToggleUpdateInstitute] = useState<boolean>(false)
-    const [instituteText, setInstituteText] = useState<string>("");
-
-    const updatePatientInstitute = () => {
-        fetch("http://localhost:3000/api/patients/updateInstituteFromId", {
-            method: "PUT",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-                instituteId: instituteText.slice(0, 1),
-                patientId: patientId
-            })
-        }).then((res) => {
-            if (res.ok) {
-                setInstituteText("");
-                setToggleUpdateInstitute(false)
-                refreshHandler(oldValue => !oldValue)
-            }
-        }).catch(error => console.log(error))
-    }
 
     return (
         <>
@@ -58,11 +40,7 @@ const InstituteDetailsWidget: React.FC<Iprops> = ({ institute, patientId, permis
 
             {toggleUpdateInstitute &&
                 <div className="d-flex flex-column">
-                    <UpdateInstituteWidget instituteText={instituteText} instituteTextHandler={setInstituteText} />
-                    <div className="d-flex justify-content-center gap-3 pt-3">
-                        <div className="btn btn-primary" onClick={updatePatientInstitute}>Accept</div>
-                        <div className="btn btn-danger" onClick={() => setToggleUpdateInstitute(false)}>Cancel</div>
-                    </div>
+                    <UpdateInstituteWidget visHandler={setToggleUpdateInstitute} patientId={patientId} refreshHandler={refreshHandler} />
                 </div>}
         </>
     )

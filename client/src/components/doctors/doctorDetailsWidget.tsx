@@ -42,7 +42,6 @@ const DoctorDetailsWidget: React.FC<Iprops> = ({ doctor, patientId, permissions,
             {toggleUpdateDoctor &&
                 <div className="d-flex flex-column">
                     <UpdateDoctorWidget patientId={patientId} visibilityToggler={setToggleUpdateDoctor} refreshHandler={refreshHandler} />
-
                 </div>}
         </>
     )

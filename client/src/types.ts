@@ -35,7 +35,7 @@ export type Institute = {
   inst_id: string;
 };
 
-export type Doctor= {
+export type Doctor = {
   doctor_id: string;
   doctor_firstname: string;
   doctor_secondname: string;
@@ -43,4 +43,15 @@ export type Doctor= {
   doctor_email: string;
   doctor_phone_number: string;
   doctor_institute: string;
+};
+
+export type Prescription = {
+  id: string;
+  file_path: string;
+  start_date: string;
+  end_date: string;
+  created_at: string;
+  deleted_at: string;
+  commentary_id: string;
+  patient_id: string;
 };

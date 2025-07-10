@@ -7,6 +7,7 @@ import Dashboard from "./vues/dashboard";
 import PatientDetails from "./vues/patientDetails";
 import Institutes from "./vues/institutes";
 import Doctors from "./vues/doctors";
+import ArchivedPatients from "./vues/archivedPatients";
 import Error404 from "./vues/error404";
 
 const App = () => {
@@ -22,7 +23,7 @@ const App = () => {
             path="/dashboard"
             element={
               <NeedLogginRoute>
-              <Dashboard />
+                <Dashboard />
               </NeedLogginRoute>
             }
           ></Route>
@@ -31,7 +32,7 @@ const App = () => {
             path="/patientDetails/:patientId"
             element={
               <NeedLogginRoute>
-              <PatientDetails />
+                <PatientDetails />
               </NeedLogginRoute>
             }
           ></Route>
@@ -40,7 +41,7 @@ const App = () => {
             path="/institutes"
             element={
               <NeedLogginRoute>
-              <Institutes />
+                <Institutes />
               </NeedLogginRoute>
             }
           ></Route>
@@ -49,7 +50,16 @@ const App = () => {
             path="/doctors"
             element={
               <NeedLogginRoute>
-              <Doctors />
+                <Doctors />
+              </NeedLogginRoute>
+            }
+          ></Route>
+
+          <Route
+            path="/archivedPatients"
+            element={
+              <NeedLogginRoute>
+                <ArchivedPatients />
               </NeedLogginRoute>
             }
           ></Route>

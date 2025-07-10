@@ -47,8 +47,7 @@ const ConnexionWidget = () => {
   return (
     <>
       <div className="col-3"></div>
-
-      <div className="col-md-6 col-12">
+      <div className="col-md-6 col-10">
         <div
           className="d-flex flex-column border align-items-center p-2 rounded-3 shadow"
           style={{ marginTop: "5rem", backgroundColor: "rgba(200, 200, 200, .6)" }}

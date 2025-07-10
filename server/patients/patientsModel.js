@@ -196,6 +196,25 @@ class PatientModel {
                 throw error
             })
     }
+
+    async unArchivePatientFromId(patientId) {
+        const con = await pool.getConnection()
+        return con.execute(`UPDATE
+                patients
+                SET
+                active=1
+                WHERE
+                patients.patient_id=?
+                `, [patientId])
+            .then((rows, fields) => {
+                con.release()
+                return JSON.stringify(rows[0])
+            })
+            .catch(error => {
+                con.release();
+                throw error
+            })
+    }
 }
 
 export default PatientModel

@@ -12,7 +12,7 @@ const Header = () => {
       <div className="container-fluid">
         <div className="navbar-brand p-0">
           <Link to="/dashboard">
-            <img src="/logos/logo_shaded.png" alt="mediflow-logo" className="p-0" onClick={logOut} style={{ width: "5rem", height: "5rem" }} />
+            <img src="/logos/logo_shaded.png" alt="mediflow-logo" className="p-0" style={{ width: "5rem", height: "5rem" }} />
           </Link>
         </div>
         <button
@@ -44,7 +44,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/doctors">
+              <Link className="nav-link" to="/archivedPatients">
                 Archived patients
               </Link>
             </li>
