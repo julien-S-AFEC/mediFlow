@@ -25,7 +25,8 @@ class PatientModel {
                     address, 
                     email, 
                     insurance_number, 
-                    created_at
+                    created_at,
+                    active
                     FROM 
                     patients 
                     WHERE patients.patient_id=?`, [id])

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Patient, Permissions } from "../../types.ts";
+import { Patient } from "../../types.ts";
 import Loader from "../loader.tsx";
-import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 
 type Iprops = {
@@ -65,7 +64,6 @@ const DashboardTable: React.FC<Iprops> = ({ refreshState }) => {
               .map((patient) => (
                 <tr key={patient.patient_id} onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: "pointer" }}>
                   <th scope="row">{patient.patient_id}</th>
-
                   <td className="text-nowrap">{patient.patient_firstname}</td>
                   <td className="text-nowrap">{patient.patient_secondname}</td>
                   <td className="text-nowrap">{patient.gender}</td>

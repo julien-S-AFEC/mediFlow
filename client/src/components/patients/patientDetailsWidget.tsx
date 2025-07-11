@@ -20,11 +20,11 @@ const PatientDetailsWidget: React.FC<Iprops> = ({ patient, patientId, permission
         <>
             <div className="d-flex align-items-center gap-3">
                 <h4 className="maint-font fw-normal text-center">Patient</h4>
-                {permissions?.update_patient && <CiEdit onClick={() => setToggleUpdatePatientModal(true)}/>}
+                {permissions?.update_patient && <CiEdit onClick={() => setToggleUpdatePatientModal(true)} />}
             </div>
             <div className="p-3 rounded-3 border border-dark shadow">
 
-                {patient && Object.entries(patient).map(([prop, attr]) => {
+                {patient && Object.entries(patient).filter(([p, _]) => !['patient_id', 'active'].includes(p)).map(([prop, attr]) => {
                     return (
                         <div className="row mt-2" key={prop}>
                             <div className="col-5 fs-light">{snakeCaseToPretty(prop)}</div>
@@ -34,7 +34,7 @@ const PatientDetailsWidget: React.FC<Iprops> = ({ patient, patientId, permission
                 }
                 )}
             </div>
-            {toggleUpdatePatientModal && <UpdatePatientWidget patient={patient} patientId={patientId} visibilityToggler={setToggleUpdatePatientModal} refreshHandler={refreshHandler}/>}
+            {toggleUpdatePatientModal && <UpdatePatientWidget patient={patient} patientId={patientId} visibilityToggler={setToggleUpdatePatientModal} refreshHandler={refreshHandler} />}
         </>
     )
 }

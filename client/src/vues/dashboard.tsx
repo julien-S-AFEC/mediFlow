@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Permissions } from "../types.ts";
 import DashboardTable from "../components/dashboard/dashboardTable.tsx";
 import Header from "../components/header";
-import CreatePatient from "../vues/createPatient";
+import CreatePatient from "../components/patients/createPatient.tsx";
 
 const Dashboard: React.FC = () => {
   const [permissions, setPermissions] = useState<Permissions>();

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Patient } from "../types";
 
@@ -10,7 +10,7 @@ const ConfirmArchiveModal: React.FC<Iprops> = ({ patient }) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
-  const archivePatient = () => {
+  const archivePatient = useCallback(() => {
     fetch("http://localhost:3000/api/patients/archivePatientFromId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -21,7 +21,7 @@ const ConfirmArchiveModal: React.FC<Iprops> = ({ patient }) => {
       setShow(false);
       navigate("/dashboard");
     });
-  };
+  }, [])
 
   return (
     <>

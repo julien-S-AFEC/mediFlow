@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Doctor, Institute, Patient, Permissions, Prescription } from "../types";
 import { Link, useParams } from "react-router-dom";
 import PatientDetailsWidget from "../components/patients/patientDetailsWidget.tsx";
@@ -6,6 +6,7 @@ import DoctorDetailsWidget from "../components/doctors/doctorDetailsWidget.tsx";
 import InstituteDetailsWidget from "../components/institutes/instituteDetailsWidget.tsx";
 import Header from "../components/header";
 import ConfirmArchiveModal from "../components/confirmArchiveModal.tsx";
+import { Outlet } from 'react-router-dom';
 
 const PatientDetails: React.FC = () => {
   const params = useParams();
@@ -13,8 +14,10 @@ const PatientDetails: React.FC = () => {
   const [doctor, setDoctor] = useState<Doctor[]>();
   const [institute, setInstitute] = useState<Institute>();
   const [permissions, setPermissions] = useState<Permissions>();
-  const [prescriptions, setPrescriptions] = useState<Prescription[]>();
+  const [currentDescription, setCurrentPrescription] = useState<Prescription>();
+  const [oldPrescriptions, setOldPrescriptions] = useState<Prescription[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
+  const [file, setUploadFile] = useState<any>({});
 
   useEffect(() => {
     fetch("http://localhost:3000/api/patients/getPatientFromId", {
@@ -28,9 +31,7 @@ const PatientDetails: React.FC = () => {
           return res.json();
         }
       })
-      .then((patient) => {
-        setPatient(JSON.parse(patient));
-      })
+      .then(data => setPatient(JSON.parse(data)))
       .catch((error) => {
         throw error;
       });
@@ -80,7 +81,7 @@ const PatientDetails: React.FC = () => {
         throw error;
       });
 
-    fetch("http://localhost:3000/api/prescriptions/getAll", {
+    fetch("http://localhost:3000/api/prescriptions/getAllByPatientId", {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -91,21 +92,25 @@ const PatientDetails: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => setPrescriptions(JSON.parse(data)))
+      .then((data) => {
+        const reversedPresc = JSON.parse(data).reverse();
+        setCurrentPrescription(reversedPresc[0])
+        setOldPrescriptions(reversedPresc.slice(1, reversedPresc.length))
+      })
 
       .catch((error) => {
         throw error;
       });
   }, [refresh]);
 
-  const [file, setFile] = useState(null);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
-    setFile(e.target.files[0]);
-  };
+    if (e.target.files) {
+      setUploadFile(e.target.files[0])
+    }
+  }, [])
 
-  const handleUpload = (e) => {
+  const handleUpload = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!file) return alert("Please select an image.");
 
@@ -116,8 +121,10 @@ const PatientDetails: React.FC = () => {
     fetch("http://localhost:3000/api/prescriptions/upload", {
       method: "POST",
       body: formData,
-    }).catch(() => alert("Upload failed"));
-  };
+    })
+      .then(() => setRefresh(oldValue => !oldValue))
+      .catch(() => alert("Upload failed"));
+  }
 
   return (
     <>
@@ -130,22 +137,34 @@ const PatientDetails: React.FC = () => {
           <div className="col-lg-8 col-md-12">
             <div className="row gap-2">
               <div className="col-lg-2 mt-3">
-                <div className="h-100 border">prescription placeholder</div>
-              </div>
-              <div className="col-lg-9 d-flex flex-column justify-content-center align-items-center mt-3">
-                <label className="py-2" htmlFor="imgForm">
-                  Upload a prescription
-                </label>
-                <form className="d-flex flex-column justify-content-center align-items-center gap-3">
-                  <input type="file" accept="image/*" onChange={handleSubmit} />
-                  <button type="submit" onClick={handleUpload}>
-                    Submit
-                  </button>
-                </form>
-                {prescriptions &&
-                  prescriptions.map((prescription) => {
-                    return <img key={prescription.created_at} src={`http://localhost:3000/${prescription.file_path}`} alt="" />;
+                {oldPrescriptions &&
+                  oldPrescriptions.map((prescription) => {
+                    return (
+                      <Link to={`prescriptionView/${prescription.id}`} key={prescription.created_at}>
+                        <img className="img img-fluid my-2"
+                          style={{ maxWidth: "100px" }}
+                          src={`http://localhost:3000/${prescription.file_path}`} alt="" />
+                      </Link>
+                    )
                   })}
+              </div>
+              <div className="col-lg-9 d-flex flex-column justify-content-center align-items-center">
+                <div className="py-3 px-5 border rounded">
+                  <label className="py-1" htmlFor="imgForm">
+                    Upload a prescription
+                  </label>
+                  <form className="d-flex flex-column justify-content-center align-items-center gap-3">
+                    <input type="file" accept="image/*" onChange={handleSubmit} />
+                    <button className="btn btn-primary" type="submit" onClick={handleUpload}>
+                      Submit
+                    </button>
+                  </form>
+                </div>
+                {currentDescription
+                  && <Link to={`prescriptionView/${currentDescription.id}`} key={currentDescription.created_at}>
+                    <img className="img img-fluid my-5" style={{ maxWidth: "500px" }} key={currentDescription.id} src={`http://localhost:3000/${currentDescription.file_path}`} alt="" />
+                  </Link>
+                }
               </div>
             </div>
           </div>
@@ -161,12 +180,18 @@ const PatientDetails: React.FC = () => {
                 <div className="spinner-border text-primary" role="status" aria-label="Loading..."></div>
               </div>
             )}
+
             <div className="d-flex justify-content-center align-items-center my-3">
-              <ConfirmArchiveModal patient={patient} />
+              {
+                patient?.active ?
+                  <ConfirmArchiveModal patient={patient} />
+                  : null
+              }
             </div>
           </div>
         </div>
       </div>
+      <Outlet />
     </>
   );
 };

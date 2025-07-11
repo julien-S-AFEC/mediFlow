@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import { Doctor } from "../../types";
 
 type Iprops = {
-  doctor: Doctor;
+  doctor?: Doctor;
   visHandler: React.Dispatch<React.SetStateAction<boolean>>;
   refreshHandler: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const UpdateDoctorCredentials: React.FC<Iprops> = ({ doctor, visHandler, refreshHandler }) => {
-  const [firstname, setFirstname] = useState<string>(doctor.doctor_firstname || "");
-  const [secondname, setSecondname] = useState<string>(doctor.doctor_secondname || "");
-  const [institute, setinstitute] = useState<string>(doctor.doctor_institute || "");
-  const [address, setAddress] = useState<string>(doctor.doctor_adress || "");
-  const [phoneNumber, setPhoneNumber] = useState<string>(doctor.doctor_phone_number || "");
-  const [email, setEmail] = useState<string>(doctor.doctor_email || "");
+  const [firstname, setFirstname] = useState<string>(doctor?.doctor_firstname || "");
+  const [secondname, setSecondname] = useState<string>(doctor?.doctor_secondname || "");
+  const [institute, setinstitute] = useState<string>(doctor?.doctor_institute || "");
+  const [address, setAddress] = useState<string>(doctor?.doctor_adress || "");
+  const [phoneNumber, setPhoneNumber] = useState<string>(doctor?.doctor_phone_number || "");
+  const [email, setEmail] = useState<string>(doctor?.doctor_email || "");
 
   const updateInstituteCredentials = (): void => {
     fetch("http://localhost:3000/api/doctors/updateDoctorCredentialsFromId", {
@@ -26,7 +26,7 @@ const UpdateDoctorCredentials: React.FC<Iprops> = ({ doctor, visHandler, refresh
         address: address,
         phoneNumber: phoneNumber,
         email: email,
-        doctorId: doctor.doctor_id
+        doctorId: doctor?.doctor_id
       }),
     })
       .then(() => {
@@ -34,7 +34,7 @@ const UpdateDoctorCredentials: React.FC<Iprops> = ({ doctor, visHandler, refresh
         visHandler((oldValue) => !oldValue);
       })
       .catch((error) => console.log(error));
-  };
+  }
 
   return (
     <div className="modal show d-block fade" tabIndex={-1} role="dialog">
@@ -54,19 +54,19 @@ const UpdateDoctorCredentials: React.FC<Iprops> = ({ doctor, visHandler, refresh
               <div className="row align-items-center">
                 <div className="col-6 pt-3">
                   <label className="form-label">Firstname</label>
-                  <input type="text" className="form-control" placeholder="EHPAD Le Clos Fleuri" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+                  <input type="text" className="form-control" placeholder="Robert" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
                 </div>
                 <div className="col-6 pt-3">
                   <label className="form-label">Secondname</label>
-                  <input type="text" className="form-control" placeholder="EHPAD Le Clos Fleuri" value={secondname} onChange={(e) => setSecondname(e.target.value)} />
+                  <input type="text" className="form-control" placeholder="Duchamp" value={secondname} onChange={(e) => setSecondname(e.target.value)} />
                 </div>
                 <div className="col-6 pt-3">
                   <label className="form-label">Institute</label>
-                  <input type="text" className="form-control" placeholder="Green" value={institute} onChange={(e) => setinstitute(e.target.value)} />
+                  <input type="text" className="form-control" placeholder="Centre clinical ..." value={institute} onChange={(e) => setinstitute(e.target.value)} />
                 </div>
                 <div className="col-6 pt-3">
                   <label className="form-label">Address</label>
-                  <input type="text" className="form-control" placeholder="0658741..." value={address} onChange={(e) => setAddress(e.target.value)} />
+                  <input type="text" className="form-control" placeholder="1 rue ..." value={address} onChange={(e) => setAddress(e.target.value)} />
                 </div>
                 <div className="col-6 pt-3">
                   <label className="form-label">Phone number</label>
@@ -74,7 +74,7 @@ const UpdateDoctorCredentials: React.FC<Iprops> = ({ doctor, visHandler, refresh
                 </div>
                 <div className="col-6 pt-3">
                   <label className="form-label">Email</label>
-                  <input type="text" className="form-control" placeholder="0658741..." value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <input type="text" className="form-control" placeholder="robert.duchamp@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
               </div>
               <div className="d-flex gap-2 justify-content-center mt-5">

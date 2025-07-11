@@ -1,11 +1,12 @@
+import { useCallback } from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  const logOut = () => {
+  const logOut = useCallback(() => {
     fetch("http://localhost:3000/api/auth/logOut", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" }).catch((error) => {
       alert(error);
     });
-  };
+  }, [])
 
   return (
     <nav className="navbar navbar-expand-lg bg-blue-color px-5 py-2 rounded-bottom-4 w-100">

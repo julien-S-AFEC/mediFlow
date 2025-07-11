@@ -1,30 +1,26 @@
 import React from "react";
 import { snakeCaseToPretty } from "../../utils.tsx";
-import UpdateDoctorWidget from "./updateDoctorWidget.tsx";
+import UpdateDoctorWidget from "./updateDoctorDropdown.tsx";
 import { Doctor, Permissions } from "../../types.ts";
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
-
 type Iprops = {
-    doctor: Doctor[]
+    doctor: Doctor[];
     permissions?: Permissions;
-    patientId?: string
-    refreshHandler: React.Dispatch<React.SetStateAction<boolean>>
+    patientId?: string;
+    refreshHandler: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-
 const DoctorDetailsWidget: React.FC<Iprops> = ({ doctor, patientId, permissions, refreshHandler }) => {
-
     const [toggleUpdateDoctor, setToggleUpdateDoctor] = useState<boolean>(false)
-
 
     return (
         <>
             {!toggleUpdateDoctor && <div>
                 <div className="d-flex align-items-center gap-3">
                     <h4 className="maint-font fw-normal text-center">Doctor</h4>
-                    {permissions?.update_patient && <CiEdit onClick={() => setToggleUpdateDoctor(true)} />}
+                    {permissions?.update_patient ? <CiEdit onClick={() => setToggleUpdateDoctor(true)} /> : null}
                 </div>
                 <div className="p-3 rounded-3 border border-dark shadow">
                     {Boolean(doctor.length) && Object.entries(doctor[doctor.length - 1]).map(([prop, attr]) => {
@@ -34,8 +30,7 @@ const DoctorDetailsWidget: React.FC<Iprops> = ({ doctor, patientId, permissions,
                                 <div className="col-5"> {attr || "not provided"}</div>
                             </div>
                         )
-                    }
-                    )}
+                    })}
                 </div>
             </div>}
 

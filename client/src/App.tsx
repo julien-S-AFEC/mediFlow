@@ -8,6 +8,7 @@ import PatientDetails from "./vues/patientDetails";
 import Institutes from "./vues/institutes";
 import Doctors from "./vues/doctors";
 import ArchivedPatients from "./vues/archivedPatients";
+import PrescriptionView from "./vues/prescriptionView";
 import Error404 from "./vues/error404";
 
 const App = () => {
@@ -33,6 +34,15 @@ const App = () => {
             element={
               <NeedLogginRoute>
                 <PatientDetails />
+              </NeedLogginRoute>
+            }
+          ></Route>
+
+          <Route
+            path="/patientDetails/:patientId/prescriptionView/:fileId"
+            element={
+              <NeedLogginRoute>
+                <PrescriptionView />
               </NeedLogginRoute>
             }
           ></Route>

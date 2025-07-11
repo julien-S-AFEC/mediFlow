@@ -14,8 +14,14 @@ class PrescriptionController {
             .catch(error => res.status(500).json(error.message))
     }
 
-    getAll(req, res) {
-        prescriptionModel.getAll(req.body.patientId)
+    getAllByPatientId(req, res) {
+        prescriptionModel.getAllByPatientId(req.body.patientId)
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error.message))
+    }
+
+    getById(req, res) {
+        prescriptionModel.getById(req.body.prescriptionId)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error.message))
     }
@@ -24,6 +30,7 @@ class PrescriptionController {
 const prescriptionController = new PrescriptionController()
 
 prescriptionRouter.post('/upload', multer.single('prescription'), prescriptionController.upload);
-prescriptionRouter.post('/getAll', prescriptionController.getAll);
+prescriptionRouter.post('/getAllByPatientId', prescriptionController.getAllByPatientId);
+prescriptionRouter.post('/getById', prescriptionController.getById);
 
 export default prescriptionRouter

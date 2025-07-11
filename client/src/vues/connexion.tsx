@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ConnexionWidget from "../components/connexionWidget";
 
 const Connexion: React.FC = () => {
   const [scaled, setIsScalled] = useState<string>("translateY(-50%) scale(100%)");
 
-  const adaptBG = (): void => {
+  const adaptBG = useCallback((): void => {
     setIsScalled(window.innerWidth >= 900 ? "translateY(-50%) scale(100%)" : "");
-  };
+  }, [])
 
   useEffect(() => {
     adaptBG();

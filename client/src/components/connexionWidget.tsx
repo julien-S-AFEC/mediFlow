@@ -11,11 +11,11 @@ const ConnexionWidget = () => {
 
   const navigate = useNavigate()
 
-  const changeEmailTxt = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeEmailTxt = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value)
   }, [])
 
-  const changePasswordTxt = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const changePasswordTxt = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value)
   }, [])
 
@@ -67,7 +67,7 @@ const ConnexionWidget = () => {
             <div className="d-flex flex-column w-75">
               <label htmlFor="passwordInput" className="main-font fw-light">Password</label>
             </div>
-            <input type="password" value={password} onChange={changePasswordTxt} className="form-control w-75" id="passwordInput" />
+            <input type="password" value={password} onChange={changePasswordTxt} className="form-control w-75" id="passwordInput"/>
             <button className="btn btn-primary mt-2" onClick={tryToLog}>Connect</button>
           </form>
           <div className="d-flex w-100 pt-3 justify-content-end">

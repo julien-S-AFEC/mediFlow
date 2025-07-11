@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Patient, Permissions } from "../../types.ts";
 import Loader from "../loader.tsx";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { LuUndo } from "react-icons/lu";
 
 type Iprops = {
@@ -12,7 +12,7 @@ type Iprops = {
 
 const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, permissions }) => {
   const [patients, setPatients] = useState<Patient[]>([]);
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   useEffect(() => {
     fetch("http://localhost:3000/api/patients/getAll", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
@@ -26,7 +26,7 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
       });
   }, [refreshState]);
 
-  const unArchivePatient = (patientId: string): void => {
+  const unArchivePatient = useCallback((patientId: string): void => {
     fetch("http://localhost:3000/api/patients/unArchivePatientFromId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -34,7 +34,7 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
         patientId: patientId,
       }),
     }).then(() => refreshHandler((oldValue) => !oldValue));
-  };
+  }, [])
 
   return (
     <table className="table table-hover table-responsive mt-5">
@@ -74,17 +74,17 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
           patients
             .filter((p) => !p.active)
             .map((patient) => (
-              <tr key={patient.patient_id}>
+              <tr key={patient.patient_id} onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} >
                 <th scope="row">{patient.patient_id}</th>
 
-                <td onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: "pointer" }}>{patient.patient_firstname}</td>
-                <td onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: "pointer" }}>{patient.patient_secondname}</td>
-                <td onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: "pointer" }}>{patient.gender}</td>
-                <td onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: "pointer" }}>{new Date(patient.birth_date).toLocaleDateString()}</td>
-                <td onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: "pointer" }}>{patient.address}</td>
-                <td onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: "pointer" }}>{patient.email}</td>
-                <td onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: "pointer" }}>{patient.insurance_number}</td>
-                <td onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: "pointer" }}>{patient.institute_name || "Not provided"}</td>
+                <td style={{ cursor: "pointer" }}>{patient.patient_firstname}</td>
+                <td style={{ cursor: "pointer" }}>{patient.patient_secondname}</td>
+                <td style={{ cursor: "pointer" }}>{patient.gender}</td>
+                <td style={{ cursor: "pointer" }}>{new Date(patient.birth_date).toLocaleDateString()}</td>
+                <td style={{ cursor: "pointer" }}>{patient.address}</td>
+                <td style={{ cursor: "pointer" }}>{patient.email}</td>
+                <td style={{ cursor: "pointer" }}>{patient.insurance_number}</td>
+                <td style={{ cursor: "pointer" }}>{patient.institute_name || "Not provided"}</td>
                 <td>
                   {permissions && permissions.create_patient ? (
                     <button className="bg-transparent border-0" onClick={() => unArchivePatient(patient.patient_id)}>

@@ -10,7 +10,7 @@ const Error404: React.FC = () => {
                 <p className="lead text-secondary">
                     Sorry, the page you are looking for doesn't exist or has been moved.
                 </p>
-                <Link to="/" className="btn btn-outline-success mt-3 px-4">
+                <Link to="/dashboard" className="btn btn-outline-success mt-3 px-4">
                     Back to Home
                 </Link>
             </div>

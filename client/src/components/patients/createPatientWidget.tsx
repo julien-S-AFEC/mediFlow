@@ -41,7 +41,7 @@ const UserCreationWidget: React.FC<Iprops> = ({ visibilityToggler, refreshDashbo
           return res.json()
         }
       })
-      .then(data => {setDoctors(JSON.parse(data))});
+      .then(data => { setDoctors(JSON.parse(data)) });
   }, []);
 
   const createPatient = (): void => {
@@ -71,7 +71,7 @@ const UserCreationWidget: React.FC<Iprops> = ({ visibilityToggler, refreshDashbo
       setDoctorText("");
       visibilityToggler((oldValue) => !oldValue);
     });
-  };
+  }
 
   return (
     <div className="modal show d-block fade" tabIndex={-1} role="dialog">

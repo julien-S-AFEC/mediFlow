@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
 import { Institute } from "../types";
 import Header from "../components/header";
 import { AiOutlineEdit } from "react-icons/ai";
-import UpdateInstituteCredentials from "../components/institutes/updateInstituteCredentials";
-import CreateInstitute from "./createInstitute";
+import UpdateInstituteCredentials from "../components/institutes/updateInstituteModal";
+import CreateInstitute from "../components/institutes/createInstitute";
 import { LuCirclePlus } from "react-icons/lu";
 
 const Institutes: React.FC = () => {
   const [institutes, setInstitutes] = useState<Institute[]>([]);
-  const [clickedInstitute, setClickedInstitute] = useState<Institute>([]);
+  const [clickedInstitute, setClickedInstitute] = useState<Institute>();
   const [modifyInstituteVis, setModifyInstituteVis] = useState<boolean>(false);
   const [refresh, setRefresh] = useState<boolean>(false);
   const [createInstituteVisible, setCreateInstituteVisible] = useState<boolean>(false);
@@ -38,10 +38,10 @@ const Institutes: React.FC = () => {
       .then((data) => setInstitutes(JSON.parse(data)));
   }, [refresh]);
 
-  const setModifyVis = (inst: Institute) => {
+  const setModifyVis = useCallback((inst: Institute) => {
     setClickedInstitute(inst);
     setModifyInstituteVis(true);
-  };
+  }, [])
 
   return (
     <>

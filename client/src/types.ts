@@ -39,7 +39,7 @@ export type Doctor = {
   doctor_id: string;
   doctor_firstname: string;
   doctor_secondname: string;
-  doctor_adress: string;
+  doctor_address: string;
   doctor_email: string;
   doctor_phone_number: string;
   doctor_institute: string;

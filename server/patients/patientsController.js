@@ -18,16 +18,25 @@ class PatientsController {
     }
 
     createPatient(req, res) {
+        console.log(req.body.firstName,
+            req.body.secondName,
+            req.body.gender,
+            req.body.birthDate,
+            req.body.address,
+            req.body.email,
+            req.body.insurance,
+            req.body.institute,
+            req.body.doctor)
         patientModel.createPatient(
-            req.body.firstNameText || null,
-            req.body.secondNameText || null,
-            req.body.genderText || null,
-            req.body.birthDateText || null,
-            req.body.addressText || null,
-            req.body.emailText || null,
-            req.body.insuranceText || null,
-            req.body.instituteText || null,
-            req.body.doctorText || null
+            req.body.firstName || null,
+            req.body.secondName || null,
+            req.body.gender || null,
+            req.body.birthDate || null,
+            req.body.address || null,
+            req.body.email || null,
+            req.body.insurance || null,
+            req.body.institute || null,
+            req.body.doctor || null
         )
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))

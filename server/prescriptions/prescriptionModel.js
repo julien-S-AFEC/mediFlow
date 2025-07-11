@@ -40,7 +40,7 @@ class PrescriptionModel {
             })
     }
 
-    async getAll(patientId) {
+    async getAllByPatientId(patientId) {
         const con = await pool.getConnection()
         return con.execute(`SELECT *
             FROM 
@@ -55,6 +55,25 @@ class PrescriptionModel {
             .then((rows, fields) => {
                 con.release()
                 return JSON.stringify(rows[0])
+            })
+            .catch(error => {
+                con.release();
+                throw error
+            })
+    }
+
+    async getById(prescriptionId) {
+        const con = await pool.getConnection()
+        return con.execute(`SELECT 
+            prescriptions.file_path
+            FROM 
+            prescriptions
+            WHERE
+            prescriptions.id=?
+            `, [prescriptionId])
+            .then((rows, fields) => {
+                con.release()
+                return JSON.stringify(rows[0][0].file_path)
             })
             .catch(error => {
                 con.release();
