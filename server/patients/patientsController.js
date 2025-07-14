@@ -2,32 +2,22 @@ import PatientsModel from "./patientsModel.js"
 import { Router } from "express"
 
 const patientsRouter = Router()
-const patientModel = new PatientsModel()
 
 class PatientsController {
-    getAll(req, res) {
-        patientModel.getAll()
+    static getAll(req, res) {
+        PatientsModel.getAll()
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))
     }
 
-    getPatientFromId(req, res) {
-        patientModel.getPatientFromId(req.body.patientId)
+    static getPatientFromId(req, res) {
+        PatientsModel.getPatientFromId(req.body.patientId)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))
     }
 
-    createPatient(req, res) {
-        console.log(req.body.firstName,
-            req.body.secondName,
-            req.body.gender,
-            req.body.birthDate,
-            req.body.address,
-            req.body.email,
-            req.body.insurance,
-            req.body.institute,
-            req.body.doctor)
-        patientModel.createPatient(
+    static createPatient(req, res) {
+        PatientsModel.createPatient(
             req.body.firstName || null,
             req.body.secondName || null,
             req.body.gender || null,
@@ -42,8 +32,8 @@ class PatientsController {
             .catch(error => res.status(500).json(error))
     }
 
-    updatePatient(req, res) {
-        patientModel.updatePatient(
+    static updatePatient(req, res) {
+        PatientsModel.updatePatient(
             req.body.patientId,
             req.body.firstName,
             req.body.secondName,
@@ -58,8 +48,8 @@ class PatientsController {
             });
     }
 
-    updateInstituteFromId(req, res) {
-        patientModel.updateInstituteFromId(
+    static updateInstituteFromId(req, res) {
+        PatientsModel.updateInstituteFromId(
             req.body.instituteId,
             req.body.patientId
         )
@@ -69,8 +59,8 @@ class PatientsController {
             });
     }
 
-    updateDoctorFromId(req, res) {
-        patientModel.updateDoctorFromId(
+    static updateDoctorFromId(req, res) {
+        PatientsModel.updateDoctorFromId(
             req.body.patientId,
             req.body.doctorId
         )
@@ -80,8 +70,8 @@ class PatientsController {
             });
     }
 
-    archivePatientFromId(req, res) {
-        patientModel.archivePatientFromId(
+    static archivePatientFromId(req, res) {
+        PatientsModel.archivePatientFromId(
             req.body.patientId
         )
             .then(data => { res.status(200).json(data) })
@@ -90,8 +80,8 @@ class PatientsController {
             });
     }
 
-    unArchivePatientFromId(req, res) {
-        patientModel.unArchivePatientFromId(
+    static unArchivePatientFromId(req, res) {
+        PatientsModel.unArchivePatientFromId(
             req.body.patientId
         )
             .then(data => { res.status(200).json(data) })
@@ -101,15 +91,13 @@ class PatientsController {
     }
 }
 
-const patientsController = new PatientsController()
-
-patientsRouter.get('/getAll', patientsController.getAll)
-patientsRouter.post('/getPatientFromId', patientsController.getPatientFromId)
-patientsRouter.post('/createPatient', patientsController.createPatient)
-patientsRouter.put('/updatePatient', patientsController.updatePatient)
-patientsRouter.put('/updateInstituteFromId', patientsController.updateInstituteFromId)
-patientsRouter.put('/updateDoctorFromId', patientsController.updateDoctorFromId)
-patientsRouter.post('/archivePatientFromId', patientsController.archivePatientFromId)
-patientsRouter.post('/unArchivePatientFromId', patientsController.unArchivePatientFromId)
+patientsRouter.get('/getAll', PatientsController.getAll)
+patientsRouter.post('/getPatientFromId', PatientsController.getPatientFromId)
+patientsRouter.post('/createPatient', PatientsController.createPatient)
+patientsRouter.put('/updatePatient', PatientsController.updatePatient)
+patientsRouter.put('/updateInstituteFromId', PatientsController.updateInstituteFromId)
+patientsRouter.put('/updateDoctorFromId', PatientsController.updateDoctorFromId)
+patientsRouter.post('/archivePatientFromId', PatientsController.archivePatientFromId)
+patientsRouter.post('/unArchivePatientFromId', PatientsController.unArchivePatientFromId)
 
 export default patientsRouter

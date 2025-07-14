@@ -1,0 +1,17 @@
+.prescription {
+    transform: scale(100%);
+    transition: .5s;
+}
+
+.prescription:hover {
+    transform: scale(110%);
+    transition: .5s;
+}
+
+.selected-prescription {
+    opacity: 100%;
+}
+
+.non-selected-prescription {
+    opacity: 30%;
+}

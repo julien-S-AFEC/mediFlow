@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
-import { Institute } from "../types";
+import { Institute, Permissions } from "../types";
 import Header from "../components/header";
 import { AiOutlineEdit } from "react-icons/ai";
 import UpdateInstituteCredentials from "../components/institutes/updateInstituteModal";

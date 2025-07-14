@@ -1,7 +1,7 @@
 import { pool } from '../sql/dbConfig.js'
 
 class PatientModel {
-    async getAll() {
+    static async getAll() {
         const con = await pool.getConnection()
         return con.execute(`SELECT * FROM patients LEFT JOIN institutes ON patients.institute_id = institutes.inst_id WHERE 1`, [])
             .then((rows, fields) => {
@@ -14,7 +14,7 @@ class PatientModel {
             })
     }
 
-    async getPatientFromId(id) {
+    static async getPatientFromId(id) {
         const con = await pool.getConnection()
         return con.execute(`SELECT 
                     patient_id, 
@@ -40,7 +40,7 @@ class PatientModel {
             })
     }
 
-    async createPatient(
+    static async createPatient(
         firstName,
         secondName,
         gender,
@@ -85,7 +85,7 @@ class PatientModel {
             })
     }
 
-    async createDoctorRelationTable(doctoId, patientId) {
+    static async createDoctorRelationTable(doctoId, patientId) {
         const con = await pool.getConnection()
         return con.execute(`INSERT INTO doctor_relation 
                     (doctor_id, patient_id) VALUES (?, ?)`, [doctoId, patientId])
@@ -99,7 +99,7 @@ class PatientModel {
             })
     }
 
-    async updatePatient(
+    static async updatePatient(
         patientId,
         firstName,
         secondName,
@@ -139,7 +139,7 @@ class PatientModel {
             })
     }
 
-    async updateInstituteFromId(instituteId, patientId) {
+    static async updateInstituteFromId(instituteId, patientId) {
         const con = await pool.getConnection()
         return con.execute(`UPDATE 
                 patients 
@@ -158,7 +158,7 @@ class PatientModel {
             })
     }
 
-    async updateDoctorFromId(patientId, doctorId) {
+    static async updateDoctorFromId(patientId, doctorId) {
         const con = await pool.getConnection()
         return con.execute(`INSERT INTO 
                 doctor_relation 
@@ -179,7 +179,7 @@ class PatientModel {
             })
     }
 
-    async archivePatientFromId(patientId) {
+    static async archivePatientFromId(patientId) {
         const con = await pool.getConnection()
         return con.execute(`UPDATE
                 patients
@@ -198,7 +198,7 @@ class PatientModel {
             })
     }
 
-    async unArchivePatientFromId(patientId) {
+    static async unArchivePatientFromId(patientId) {
         const con = await pool.getConnection()
         return con.execute(`UPDATE
                 patients

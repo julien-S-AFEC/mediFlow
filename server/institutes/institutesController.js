@@ -2,23 +2,22 @@ import InstituteModel from "./institutesModel.js"
 import { Router } from "express"
 
 const instituteRouter = Router()
-const instituteModel = new InstituteModel()
 
 class InstituteController {
-    getAll(req, res) {
-        instituteModel.getAll()
+    static getAll(req, res) {
+        InstituteModel.getAll()
             .then(data => res.status(200).json(data))
             .catch((error) => res.status(500).json(error))
     }
 
-    getInstituteFromPatientId(req, res) {
-        instituteModel.getInstituteFromPatientId(req.body.patientId)
+    static getInstituteFromPatientId(req, res) {
+        InstituteModel.getInstituteFromPatientId(req.body.patientId)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))
     }
 
-    updateInstituteCredentialsFromId(req, res) {
-        instituteModel.updateInstituteCredentialsFromId(
+    static updateInstituteCredentialsFromId(req, res) {
+        InstituteModel.updateInstituteCredentialsFromId(
             req.body.name,
             req.body.address,
             req.body.phoneNumber,
@@ -28,19 +27,17 @@ class InstituteController {
             .catch((error) => res.status(500).json(error));
     }
 
-    createInstitute(req, res) {
-        instituteModel.createInstitute(req.body.instName, req.body.instPhone, req.body.instAdress)
+    static createInstitute(req, res) {
+        InstituteModel.createInstitute(req.body.instName, req.body.instPhone, req.body.instAdress)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))
     }
 }
 
-const instituteController = new InstituteController()
-
-instituteRouter.get('/getAll', instituteController.getAll)
-instituteRouter.post('/getInstituteFromPatientId', instituteController.getInstituteFromPatientId)
-instituteRouter.put('/updateInstituteCredentialsFromId', instituteController.updateInstituteCredentialsFromId)
-instituteRouter.post('/createInstitute', instituteController.createInstitute)
+instituteRouter.get('/getAll', InstituteController.getAll)
+instituteRouter.post('/getInstituteFromPatientId', InstituteController.getInstituteFromPatientId)
+instituteRouter.put('/updateInstituteCredentialsFromId', InstituteController.updateInstituteCredentialsFromId)
+instituteRouter.post('/createInstitute', InstituteController.createInstitute)
 
 
 export default instituteRouter

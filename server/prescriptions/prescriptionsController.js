@@ -1,36 +1,32 @@
 import PrescriptionModel from "./prescriptionModel.js"
 import { Router } from "express"
 import { configurationStorage } from "../multerConf.js"
-import express from 'express'
 const multer = configurationStorage()
 
 const prescriptionRouter = Router()
-const prescriptionModel = new PrescriptionModel()
 
 class PrescriptionController {
-    upload(req, res) {
-        prescriptionModel.upload(req.file.path, req.body.patientId)
+    static upload(req, res) {
+        PrescriptionModel.upload(req.file.path, req.body.patientId)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error.message))
     }
 
-    getAllByPatientId(req, res) {
-        prescriptionModel.getAllByPatientId(req.body.patientId)
+    static getAllByPatientId(req, res) {
+        PrescriptionModel.getAllByPatientId(req.body.patientId)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error.message))
     }
 
-    getById(req, res) {
-        prescriptionModel.getById(req.body.prescriptionId)
+    static getById(req, res) {
+        PrescriptionModel.getById(req.body.prescriptionId)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error.message))
     }
 }
 
-const prescriptionController = new PrescriptionController()
-
-prescriptionRouter.post('/upload', multer.single('prescription'), prescriptionController.upload);
-prescriptionRouter.post('/getAllByPatientId', prescriptionController.getAllByPatientId);
-prescriptionRouter.post('/getById', prescriptionController.getById);
+prescriptionRouter.post('/upload', multer.single('prescription'), PrescriptionController.upload);
+prescriptionRouter.post('/getAllByPatientId', PrescriptionController.getAllByPatientId);
+prescriptionRouter.post('/getById', PrescriptionController.getById);
 
 export default prescriptionRouter

@@ -1,7 +1,7 @@
 import { pool } from '../sql/dbConfig.js'
 
 class DoctorModel {
-    async getAll() {
+    static async getAll() {
         const con = await pool.getConnection()
         return con.execute("SELECT * FROM doctors WHERE 1", [])
             .then((rows, fields) => {
@@ -13,7 +13,7 @@ class DoctorModel {
                 throw error
             })
     }
-    async getDoctorFromId(id) {
+    static async getDoctorFromId(id) {
         const con = await pool.getConnection()
         return con.execute("SELECT * FROM doctors WHERE doctors.doctor_id=?", [id])
             .then((rows, fields) => {
@@ -26,7 +26,7 @@ class DoctorModel {
             })
     }
 
-    async getDoctorFromPatientId(id) {
+    static async getDoctorFromPatientId(id) {
         const con = await pool.getConnection()
         return con.execute(`SELECT 
                     doctor_firstname,
@@ -48,7 +48,7 @@ class DoctorModel {
             })
     }
 
-    async createDoctor(
+    static async createDoctor(
         firstname,
         secondName,
         address,
@@ -83,7 +83,7 @@ class DoctorModel {
             })
     }
 
-    async updateDoctorCredentialsFromId(
+    static async updateDoctorCredentialsFromId(
         firstname,
         secondname,
         institute,

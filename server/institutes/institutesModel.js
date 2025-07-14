@@ -1,8 +1,7 @@
 import { pool } from '../sql/dbConfig.js'
 
-
 class InstituteModel {
-    async getAll() {
+    static async getAll() {
         const con = await pool.getConnection()
         return con.execute(`SELECT 
             inst_id, 
@@ -21,7 +20,7 @@ class InstituteModel {
             })
     }
 
-    async getInstituteFromPatientId(id) {
+    static async getInstituteFromPatientId(id) {
         const con = await pool.getConnection()
         return con.execute(`SELECT 
                     institute_name,
@@ -44,7 +43,7 @@ class InstituteModel {
             })
     }
 
-    async updateInstituteCredentialsFromId(name, addres, phoneNumber, id) {
+    static async updateInstituteCredentialsFromId(name, addres, phoneNumber, id) {
         const con = await pool.getConnection()
         return con.execute(`UPDATE 
                 institutes 
@@ -65,7 +64,7 @@ class InstituteModel {
             })
     }
 
-    async createInstitute(instName, instPhone, instAdress) {
+    static async createInstitute(instName, instPhone, instAdress) {
         const con = await pool.getConnection()
         return con.execute(`INSERT INTO 
                 institutes

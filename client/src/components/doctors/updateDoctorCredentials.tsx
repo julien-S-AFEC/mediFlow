@@ -11,7 +11,7 @@ const UpdateDoctorCredentials: React.FC<Iprops> = ({ doctor, visHandler, refresh
   const [firstname, setFirstname] = useState<string>(doctor?.doctor_firstname || "");
   const [secondname, setSecondname] = useState<string>(doctor?.doctor_secondname || "");
   const [institute, setinstitute] = useState<string>(doctor?.doctor_institute || "");
-  const [address, setAddress] = useState<string>(doctor?.doctor_adress || "");
+  const [address, setAddress] = useState<string>(doctor?.doctor_address || "");
   const [phoneNumber, setPhoneNumber] = useState<string>(doctor?.doctor_phone_number || "");
   const [email, setEmail] = useState<string>(doctor?.doctor_email || "");
 

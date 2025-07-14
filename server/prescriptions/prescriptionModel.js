@@ -1,7 +1,7 @@
 import { pool } from '../sql/dbConfig.js'
 
 class PrescriptionModel {
-    async upload(filePath, patientId) {
+    static async upload(filePath, patientId) {
         const commentaryResult = await this.createPrescriptionCommentary()
         const con = await pool.getConnection()
         return con.execute(`INSERT INTO
@@ -22,7 +22,7 @@ class PrescriptionModel {
             })
     }
 
-    async createPrescriptionCommentary() {
+    static async createPrescriptionCommentary() {
         const con = await pool.getConnection()
         return con.execute(`INSERT INTO
                 prescription_commentary
@@ -40,7 +40,7 @@ class PrescriptionModel {
             })
     }
 
-    async getAllByPatientId(patientId) {
+    static async getAllByPatientId(patientId) {
         const con = await pool.getConnection()
         return con.execute(`SELECT *
             FROM 
@@ -62,7 +62,7 @@ class PrescriptionModel {
             })
     }
 
-    async getById(prescriptionId) {
+    static async getById(prescriptionId) {
         const con = await pool.getConnection()
         return con.execute(`SELECT 
             prescriptions.file_path

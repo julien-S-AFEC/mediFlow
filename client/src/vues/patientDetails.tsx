@@ -7,6 +7,8 @@ import InstituteDetailsWidget from "../components/institutes/instituteDetailsWid
 import Header from "../components/header";
 import ConfirmArchiveModal from "../components/confirmArchiveModal.tsx";
 import { Outlet } from 'react-router-dom';
+import CurrentPrescriptionWidget from "../components/prescriptions/currentPrescriptionWidget.tsx";
+import AllPrescriptionsWidget from "../components/prescriptions/allPrescriptionsWidget.tsx";
 
 const PatientDetails: React.FC = () => {
   const params = useParams();
@@ -15,7 +17,7 @@ const PatientDetails: React.FC = () => {
   const [institute, setInstitute] = useState<Institute>();
   const [permissions, setPermissions] = useState<Permissions>();
   const [currentDescription, setCurrentPrescription] = useState<Prescription>();
-  const [oldPrescriptions, setOldPrescriptions] = useState<Prescription[]>();
+  const [allPrescriptions, setAllPrescriptions] = useState<Prescription[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
   const [file, setUploadFile] = useState<any>({});
 
@@ -95,7 +97,7 @@ const PatientDetails: React.FC = () => {
       .then((data) => {
         const reversedPresc = JSON.parse(data).reverse();
         setCurrentPrescription(reversedPresc[0])
-        setOldPrescriptions(reversedPresc.slice(1, reversedPresc.length))
+        setAllPrescriptions(reversedPresc)
       })
 
       .catch((error) => {
@@ -134,21 +136,12 @@ const PatientDetails: React.FC = () => {
           Back
         </Link>
         <div className="row">
-          <div className="col-lg-8 col-md-12">
-            <div className="row gap-2">
+          <div className="col-lg-10 col-md-12">
+            <div className="row">
               <div className="col-lg-2 mt-3">
-                {oldPrescriptions &&
-                  oldPrescriptions.map((prescription) => {
-                    return (
-                      <Link to={`prescriptionView/${prescription.id}`} key={prescription.created_at}>
-                        <img className="img img-fluid my-2"
-                          style={{ maxWidth: "100px" }}
-                          src={`http://localhost:3000/${prescription.file_path}`} alt="" />
-                      </Link>
-                    )
-                  })}
+                {allPrescriptions && <AllPrescriptionsWidget prescriptions={allPrescriptions} currentPrescriptionHandler={setCurrentPrescription} />}
               </div>
-              <div className="col-lg-9 d-flex flex-column justify-content-center align-items-center">
+              <div className="col-lg-10 d-flex flex-column justify-content-center align-items-center">
                 <div className="py-3 px-5 border rounded">
                   <label className="py-1" htmlFor="imgForm">
                     Upload a prescription
@@ -160,20 +153,25 @@ const PatientDetails: React.FC = () => {
                     </button>
                   </form>
                 </div>
-                {currentDescription
-                  && <Link to={`prescriptionView/${currentDescription.id}`} key={currentDescription.created_at}>
-                    <img className="img img-fluid my-5" style={{ maxWidth: "500px" }} key={currentDescription.id} src={`http://localhost:3000/${currentDescription.file_path}`} alt="" />
-                  </Link>
-                }
+                {currentDescription ? <CurrentPrescriptionWidget currentDescription={currentDescription} /> : null}
               </div>
             </div>
           </div>
-          <div className="col-lg-4">
+          <div className="col-lg-2">
             {patient ? (
-              <div className="d-flex flex-column gap-3">
-                {patient && <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />}
-                {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
-                {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}
+              <div className="d-flex justify-content-center align-items-center my-3">
+                <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Patient details</button>
+                <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex={-1} id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                  <div className="offcanvas-header">
+                    <h5 className="offcanvas-title" id="offcanvasScrollingLabel">Offcanvas with body scrolling</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  </div>
+                  <div className="offcanvas-body">
+                    {patient && <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />}
+                    {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
+                    {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}                  </div>
+                </div>
+
               </div>
             ) : (
               <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>

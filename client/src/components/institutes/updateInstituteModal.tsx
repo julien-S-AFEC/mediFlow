@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { Institute } from "../../types";
 
 type Iprops = {
-  institute: Institute;
+  institute?: Institute;
   visHandler: React.Dispatch<React.SetStateAction<boolean>>;
   refreshHandler: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const UpdateInstituteCredentials: React.FC<Iprops> = ({ institute, visHandler, refreshHandler }) => {
-  const [name, setName] = useState<string>(institute.institute_name);
-  const [address, setAddress] = useState<string>(institute.institute_address);
-  const [phoneNumber, setPhoneNumber] = useState<string>(institute.institute_phone_number);
+  const [name, setName] = useState<string>(institute?.institute_name || "");
+  const [address, setAddress] = useState<string>(institute?.institute_address || "");
+  const [phoneNumber, setPhoneNumber] = useState<string>(institute?.institute_phone_number || "");
 
   const updateInstituteCredentials = (): void => {
     fetch("http://localhost:3000/api/institutes/updateInstituteCredentialsFromId", {
@@ -20,7 +20,7 @@ const UpdateInstituteCredentials: React.FC<Iprops> = ({ institute, visHandler, r
         name: name,
         address: address,
         phoneNumber: phoneNumber,
-        id: institute.inst_id,
+        id: institute?.inst_id,
       }),
     })
       .then(() => {
