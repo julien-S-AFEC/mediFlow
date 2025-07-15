@@ -16,10 +16,10 @@ const PatientDetails: React.FC = () => {
   const [doctor, setDoctor] = useState<Doctor[]>();
   const [institute, setInstitute] = useState<Institute>();
   const [permissions, setPermissions] = useState<Permissions>();
-  const [currentDescription, setCurrentPrescription] = useState<Prescription>();
+  const [currentPrescription, setCurrentPrescription] = useState<Prescription>();
   const [allPrescriptions, setAllPrescriptions] = useState<Prescription[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
-  const [file, setUploadFile] = useState<any>({});
+  const [file, setUploadFile] = useState<File>();
 
   useEffect(() => {
     fetch("http://localhost:3000/api/patients/getPatientFromId", {
@@ -153,7 +153,7 @@ const PatientDetails: React.FC = () => {
                     </button>
                   </form>
                 </div>
-                {currentDescription ? <CurrentPrescriptionWidget currentDescription={currentDescription} /> : null}
+                {currentPrescription ? <CurrentPrescriptionWidget currentPrescription={currentPrescription} /> : null}
               </div>
             </div>
           </div>

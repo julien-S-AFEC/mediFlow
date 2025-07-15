@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Permissions } from "../types.ts";
 import ArchivedPatientTable from "../components/patients/archivedPatientTable.tsx";
 import Header from "../components/header";
-import CreatePatient from "../components/patients/createPatient.tsx";
 
 const Dashboard: React.FC = () => {
   const [permissions, setPermissions] = useState<Permissions>();
-  const [createPatientVisible, setCreatePatientVisible] = useState<boolean>(false);
   const [refreshDashboard, setRefreshDashboard] = useState<boolean>(false);
 
   useEffect(() => {
@@ -26,7 +24,6 @@ const Dashboard: React.FC = () => {
       <div className="container-fluid">
         <div className="d-flex flex-column align-items-center">
           <h2 className="main-font fw-light">Archived patients</h2>
-          {createPatientVisible && <CreatePatient visibilityToggler={setCreatePatientVisible} refreshDashboardHandler={setRefreshDashboard} />}
           <ArchivedPatientTable refreshState={refreshDashboard} refreshHandler={setRefreshDashboard} permissions={permissions} />
         </div>
       </div>

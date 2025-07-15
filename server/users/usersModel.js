@@ -4,6 +4,30 @@ import bcrypt from 'bcrypt'
 const SALT_ROUNDS = 5
 
 class UserModel {
+    async getAllWithPermissions() {
+        const con = await pool.getConnection()
+        return con.execute(`SELECT 
+                            username, create_patient, create_prescription, create_prescription_commentary
+                            FROM 
+                            users
+                            LEFT JOIN
+                            permissions
+                            ON
+                            permissions.permission_id=users.permissions
+                            WHERE 1`, [])
+            .then((rows, fields) => {
+                con.release();
+                if (!rows) {
+                    throw new Error("The users are not found")
+                }
+                return JSON.stringify(rows[0])
+            })
+            .catch(error => {
+                con.release();
+                throw new Error("The user is not found")
+            })
+    }
+
     async connectUser(email, password) {
         const con = await pool.getConnection()
         return con.execute(`SELECT username, user_email, user_password, role_id, user_id FROM users WHERE user_email = ?`, [email])
@@ -19,7 +43,7 @@ class UserModel {
             })
             .catch(error => {
                 con.release();
-                throw new Error("The user is not found")
+                throw new Error(error)
             })
     }
 
@@ -29,7 +53,7 @@ class UserModel {
             .then((rows, fields) => {
                 con.release();
                 if (!rows) {
-                    return false
+                    throw new Error("The user is not found")
                 }
                 return JSON.stringify(rows[0][0])
             })

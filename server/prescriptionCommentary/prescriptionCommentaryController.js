@@ -9,8 +9,15 @@ class PrescriptionCommentaryController {
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error.message))
     }
+
+    static store(req, res) {
+        PrescriptionCommentaryModel.store(req.body.id, req.body.content)
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error.message))
+    }
 }
 
 prescriptionCommentaryRouter.post('/getContentById', PrescriptionCommentaryController.getContentById);
+prescriptionCommentaryRouter.post('/store', PrescriptionCommentaryController.store);
 
 export default prescriptionCommentaryRouter

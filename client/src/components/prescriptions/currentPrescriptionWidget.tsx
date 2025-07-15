@@ -1,44 +1,99 @@
 import React, { useEffect, useState } from "react";
-import { Prescription } from "../../types";
+import { Prescription, Emoji } from "../../types";
 import { Link } from "react-router-dom";
-import Editor from 'react-simple-wysiwyg';
+import Editor from "react-simple-wysiwyg";
+import EmojiPicker, { SuggestionMode } from "emoji-picker-react";
 
 type Iprops = {
-    currentDescription: Prescription
-}
+  currentPrescription: Prescription;
+};
 
-const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentDescription }) => {
+const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentPrescription }) => {
+  const [commentaryContent, setCommentaryContent] = useState("my <b>HTML</b>");
 
-    const [commentaryContent, setCommentaryContent] = useState('my <b>HTML</b>');
+  const onChange = (e: { target: { value: string } }) => {
+    setCommentaryContent(e.target.value);
+  };
 
-    const onChange = (e) => {
-        setCommentaryContent(e.target.value);
+  const handleReaction = (emoji: Emoji) => {
+    setCommentaryContent((oldValue) => oldValue + emoji.emoji);
+  };
+
+  const printContent = () => {
+    const printWindow = window.open("", "_blank", "width=800,height=600");
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Print</title>
+            <style>
+              body { font-family: sans-serif; padding: 20px; }
+            </style>
+          </head>
+          <body>${document.getElementById("editorContent")?.innerHTML}</body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
+      printWindow.close();
     }
+  };
 
-    useEffect(() => {
-        fetch("http://localhost:3000/api/prescriptionCommentary/getContentById", {
-            method: "POST",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({ commentaryId: currentDescription.commentary_id })
-        })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json()
-                }
-            })
-            .then(data => {console.log(JSON.parse(data)); setCommentaryContent(JSON.parse(data))})
-    }, [])
-    return (
-        <div className="d-flex w-100">
-            <Link to={`prescriptionView/${currentDescription.id}`} key={currentDescription.created_at}>
-                <img className="img img-fluid my-5" style={{ maxWidth: "450px" }} key={currentDescription.id} src={`http://localhost:3000/${currentDescription.file_path}`} alt="" />
-            </Link>
-            <div className="p-3 w-100">
-                <h4 className="main-font fw-light text-center">Annotations</h4>
-                <Editor value={commentaryContent} onChange={onChange}/>
-            </div>
+  const storeCommentary = () => {
+    fetch("http://localhost:3000/api/prescriptionCommentary/store", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        id: currentPrescription.commentary_id,
+        content: commentaryContent,
+      }),
+    });
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/prescriptionCommentary/getContentById", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ commentaryId: currentPrescription.commentary_id }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        setCommentaryContent(JSON.parse(data));
+      });
+  }, [currentPrescription]);
+
+  return (
+    <div className="d-flex w-100 gap-5">
+      <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at}>
+        <img className="img img-fluid my-5" style={{ maxWidth: "450px" }} key={currentPrescription.id} src={`http://localhost:3000/${currentPrescription.file_path}`} alt="" />
+      </Link>
+      <div className="d-flex flex-column gap-1 p-3 w-100">
+        <h4 className="main-font fw-light text-center">Annotations</h4>
+        <EmojiPicker
+          suggestedEmojisMode={SuggestionMode.FREQUENT}
+          skinTonesDisabled={true}
+          onEmojiClick={handleReaction}
+          reactions={["1f314", "1f315", "1f316", "1f319"]}
+          reactionsDefaultOpen={true}
+          height={350}
+        />
+        <Editor style={{ minHeight: "350px" }} id="editorContent" value={commentaryContent} onChange={onChange} />
+        <div className="d-flex justify-content-between">
+          <button className="btn btn-primary w-100" onClick={storeCommentary}>
+            Save
+          </button>
+          <button className="btn btn-warning  w-100" onClick={printContent}>
+            🖨️
+          </button>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default CurrentPrescriptionWidget
+export default CurrentPrescriptionWidget;

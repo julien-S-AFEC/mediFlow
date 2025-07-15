@@ -19,6 +19,25 @@ class PrescriptionCommentaryModel {
                 throw error
             })
     }
+
+    static async store(id, content) {
+        const con = await pool.getConnection()
+        return con.execute(`
+            UPDATE
+            prescription_commentary
+            SET
+            content=?
+            WHERE
+            prescription_commentary.commentary_id=?`, [content, id])
+            .then((rows, fields) => {
+                con.release()
+                return JSON.stringify(rows[0].content)
+            })
+            .catch(error => {
+                con.release();
+                throw error
+            })
+    }
 }
 
 export default PrescriptionCommentaryModel

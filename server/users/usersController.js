@@ -5,6 +5,15 @@ const usersRouter = Router()
 const userModel = new UserModel()
 
 class UsersController {
+    getAllWithPermissions(req, res) {
+        userModel.getAllWithPermissions()
+            .then(data => { res.status(200).json(data) })
+
+            .catch(error => {
+                res.status(409).json({ message: error.message });
+            });
+    }
+
     connectUser(req, res) {
         userModel.connectUser(req.body.email, req.body.password)
             .then(data => {
@@ -18,10 +27,10 @@ class UsersController {
             })
 
             .catch(error => {
-                console.log(error)
-                res.status(500).json({ "message": error.message })
+                res.status(500).json({ message: error.message })
             })
     }
+
     registerUser(req, res) {
         userModel.registerUser(req.body.name, req.body.email, req.body.password)
             .then(userId => {
@@ -48,7 +57,7 @@ class UsersController {
             .then(data => { res.status(200).json(data) })
 
             .catch(error => {
-                res.status(409).json({ message: error.message || error });
+                res.status(409).json({ message: error.message });
             });
     }
 
@@ -57,13 +66,14 @@ class UsersController {
             .then(data => { res.status(200).json(data) })
 
             .catch(error => {
-                res.status(409).json({ message: error.message || error });
+                res.status(500).json({ message: error.message });
             });
     }
 }
 
 const userController = new UsersController()
 
+usersRouter.get('/getAllWithPermissions', userController.getAllWithPermissions)
 usersRouter.post('/connectUser', userController.connectUser)
 usersRouter.post('/registerUser', userController.registerUser)
 usersRouter.post('/getUserById', userController.getUserById)

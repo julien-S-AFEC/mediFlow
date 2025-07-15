@@ -1,3 +1,13 @@
+export type User = {
+  user_id: string;
+  username: string;
+  user_email: string;
+  user_password: string;
+  user_status: string;
+  role_id: string;
+  permissions: string;
+};
+
 export type Patient = {
   patient_id: string;
   patient_firstname: string;
@@ -54,4 +64,15 @@ export type Prescription = {
   deleted_at: string;
   commentary_id: string;
   patient_id: string;
+};
+
+export type Emoji = {
+  activeSkinTone: string;
+  emoji: string;
+  getImageUrl: CallableFunction;
+  imageUrl: string;
+  isCustom: boolean;
+  names: string[];
+  unified: string;
+  unifiedWithoutSkinTone: string;
 };

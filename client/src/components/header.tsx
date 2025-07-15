@@ -1,12 +1,27 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
   const logOut = useCallback(() => {
     fetch("http://localhost:3000/api/auth/logOut", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" }).catch((error) => {
-      alert(error);
+      console.log(error);
     });
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/auth/isAdmin", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => setIsAdmin(JSON.parse(data)))
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg bg-blue-color px-5 py-2 rounded-bottom-4 w-100">
@@ -49,6 +64,13 @@ const Header = () => {
                 Archived patients
               </Link>
             </li>
+            {isAdmin && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/userManagement">
+                  Manage users
+                </Link>
+              </li>
+            )}
             <li className="nav-item">
               <a className="nav-link" href="#">
                 About

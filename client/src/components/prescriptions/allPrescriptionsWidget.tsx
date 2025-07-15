@@ -4,7 +4,7 @@ import './allPrescriptionsWidget.css'
 
 type Iprops = {
     prescriptions: Prescription[],
-    currentPrescriptionHandler: React.Dispatch<React.SetStateAction<Prescription>>
+    currentPrescriptionHandler: React.Dispatch<React.SetStateAction<Prescription | undefined>>
 };
 
 const AllPrescriptionsWidget: React.FC<Iprops> = ({ prescriptions, currentPrescriptionHandler }) => {

@@ -9,6 +9,7 @@ import Institutes from "./vues/institutes";
 import Doctors from "./vues/doctors";
 import ArchivedPatients from "./vues/archivedPatients";
 import PrescriptionView from "./vues/prescriptionView";
+import UserManagement from "./vues/userManagement";
 import Error404 from "./vues/error404";
 
 const App = () => {
@@ -70,6 +71,15 @@ const App = () => {
             element={
               <NeedLogginRoute>
                 <ArchivedPatients />
+              </NeedLogginRoute>
+            }
+          ></Route>
+
+          <Route
+            path="/userManagement"
+            element={
+              <NeedLogginRoute>
+                <UserManagement />
               </NeedLogginRoute>
             }
           ></Route>
