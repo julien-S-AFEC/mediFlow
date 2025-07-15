@@ -1,4 +1,4 @@
-export type User = {
+export interface User extends Permissions {
   user_id: string;
   username: string;
   user_email: string;
@@ -25,7 +25,7 @@ export type Patient = {
   active: string;
 };
 
-export type Permissions = {
+export interface Permissions {
   create_patient: boolean;
   update_patient: boolean;
   delete_patient: boolean;

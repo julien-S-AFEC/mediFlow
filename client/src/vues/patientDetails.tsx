@@ -9,6 +9,7 @@ import ConfirmArchiveModal from "../components/confirmArchiveModal.tsx";
 import { Outlet } from 'react-router-dom';
 import CurrentPrescriptionWidget from "../components/prescriptions/currentPrescriptionWidget.tsx";
 import AllPrescriptionsWidget from "../components/prescriptions/allPrescriptionsWidget.tsx";
+import Loading from "../components/loading.tsx";
 
 const PatientDetails: React.FC = () => {
   const params = useParams();
@@ -20,6 +21,7 @@ const PatientDetails: React.FC = () => {
   const [allPrescriptions, setAllPrescriptions] = useState<Prescription[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
   const [file, setUploadFile] = useState<File>();
+  const [pageReady, setPageReady] = useState<boolean>(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/api/patients/getPatientFromId", {
@@ -98,6 +100,7 @@ const PatientDetails: React.FC = () => {
         const reversedPresc = JSON.parse(data).reverse();
         setCurrentPrescription(reversedPresc[0])
         setAllPrescriptions(reversedPresc)
+        setPageReady(true)
       })
 
       .catch((error) => {
@@ -130,66 +133,71 @@ const PatientDetails: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <div className="container-fluid">
-        <Link to="/dashboard" className="btn btn-primary">
-          Back
-        </Link>
-        <div className="row">
-          <div className="col-lg-10 col-md-12">
+
+      {pageReady ?
+        <>
+          <Header />
+          <div className="container-fluid">
+            <Link to="/dashboard" className="btn btn-primary">
+              Back
+            </Link>
             <div className="row">
-              <div className="col-lg-2 mt-3">
-                {allPrescriptions && <AllPrescriptionsWidget prescriptions={allPrescriptions} currentPrescriptionHandler={setCurrentPrescription} />}
-              </div>
-              <div className="col-lg-10 d-flex flex-column justify-content-center align-items-center">
-                <div className="py-3 px-5 border rounded">
-                  <label className="py-1" htmlFor="imgForm">
-                    Upload a prescription
-                  </label>
-                  <form className="d-flex flex-column justify-content-center align-items-center gap-3">
-                    <input type="file" accept="image/*" onChange={handleSubmit} />
-                    <button className="btn btn-primary" type="submit" onClick={handleUpload}>
-                      Submit
-                    </button>
-                  </form>
-                </div>
-                {currentPrescription ? <CurrentPrescriptionWidget currentPrescription={currentPrescription} /> : null}
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-2">
-            {patient ? (
-              <div className="d-flex justify-content-center align-items-center my-3">
-                <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Patient details</button>
-                <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex={-1} id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-                  <div className="offcanvas-header">
-                    <h5 className="offcanvas-title" id="offcanvasScrollingLabel">Offcanvas with body scrolling</h5>
-                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              <div className="col-lg-10 col-md-12">
+                <div className="row">
+                  <div className="col-lg-2 mt-3">
+                    {allPrescriptions && <AllPrescriptionsWidget prescriptions={allPrescriptions} currentPrescriptionHandler={setCurrentPrescription} />}
                   </div>
-                  <div className="offcanvas-body">
-                    {patient && <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />}
-                    {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
-                    {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}                  </div>
+                  <div className="col-lg-10 d-flex flex-column justify-content-center align-items-center">
+                    <div className="py-3 px-5 border rounded">
+                      <label className="py-1" htmlFor="imgForm">
+                        Upload a prescription
+                      </label>
+                      <form className="d-flex flex-column justify-content-center align-items-center gap-3">
+                        <input type="file" accept="image/*" onChange={handleSubmit} />
+                        <button className="btn btn-primary" type="submit" onClick={handleUpload}>
+                          Submit
+                        </button>
+                      </form>
+                    </div>
+                    {currentPrescription ? <CurrentPrescriptionWidget currentPrescription={currentPrescription} /> : null}
+                  </div>
                 </div>
-
               </div>
-            ) : (
-              <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
-                <div className="spinner-border text-primary" role="status" aria-label="Loading..."></div>
-              </div>
-            )}
+              <div className="col-lg-2">
+                {patient ? (
+                  <div className="d-flex justify-content-center align-items-center my-3">
+                    <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Patient details</button>
+                    <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex={-1} id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                      <div className="offcanvas-header">
+                        <h5 className="offcanvas-title" id="offcanvasScrollingLabel">Offcanvas with body scrolling</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                      </div>
+                      <div className="offcanvas-body">
+                        {patient && <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />}
+                        {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
+                        {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}                  </div>
+                    </div>
 
-            <div className="d-flex justify-content-center align-items-center my-3">
-              {
-                patient?.active ?
-                  <ConfirmArchiveModal patient={patient} />
-                  : null
-              }
+                  </div>
+                ) : (
+                  <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
+                    <div className="spinner-border text-primary" role="status" aria-label="Loading..."></div>
+                  </div>
+                )}
+
+                <div className="d-flex justify-content-center align-items-center my-3">
+                  {
+                    patient?.active ?
+                      <ConfirmArchiveModal patient={patient} />
+                      : null
+                  }
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <Outlet />
+          <Outlet />
+        </>
+        : <Loading />}
     </>
   );
 };

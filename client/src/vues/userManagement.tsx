@@ -4,6 +4,9 @@ import Header from "../components/header";
 
 const UserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [createPatient, setCreatePatient] = useState<boolean>()
+  const [createPrescription, setCreatePrescription] = useState<boolean>()
+  const [createPrescriptionCommentary, setCreatePrescriptionCommentary] = useState<boolean>()
 
   useEffect(() => {
     fetch("http://localhost:3000/api/users/getAllWithPermissions", {
@@ -17,13 +20,20 @@ const UserManagement = () => {
       })
       .then((data) => {
         setUsers(JSON.parse(data));
-        console.log(JSON.parse(data));
       })
       .catch((error) => console.log(error));
   }, []);
 
-  const handleChange = (field: string, value: boolean): void => {
-    console.log(field, value)
+  const handleChange = (permissionId: number, field: string, value: boolean): void => {
+    fetch("http://localhost:3000/api/users/updatePermissionFromName", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        permissionId: permissionId,
+        field: field,
+        value: value
+      })
+    })
   }
 
   return (
@@ -35,19 +45,19 @@ const UserManagement = () => {
             <div key={user.username} className="d-flex justify-content-around p-1 gap-5">
               <div>{user.username}</div>
               <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" onChange={() => handleChange("create_patient", !createPatient)} checked={user.create_patient} />
+                <input className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" onChange={(e) => handleChange(user.permission_id, "create_patient", e.target.checked)} defaultChecked={user.create_patient} />
                 <label className="form-check-label" htmlFor="switchCheckDefault">
                   Create patient
                 </label>
               </div>
               <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" onChange={() => handleChange("create_prescription", !createPrescription)} checked={user.create_prescription}/>
+                <input className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" onChange={(e) => handleChange(user.permission_id, "create_prescription", e.target.checked)} defaultChecked={user.create_prescription} />
                 <label className="form-check-label" htmlFor="switchCheckDefault">
                   Create prescription
                 </label>
               </div>
               <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" onChange={() => handleChange("create_prescription_commentary", !createPrescriptionCommentary)} checked={user.create_prescription_commentary}/>
+                <input className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" onChange={(e) => handleChange(user.permission_id, "create_prescription_commentary", e.target.checked)} defaultChecked={user.create_prescription_commentary} />
                 <label className="form-check-label" htmlFor="switchCheckDefault">
                   Create prescription commentary
                 </label>

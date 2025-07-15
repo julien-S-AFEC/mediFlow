@@ -60,9 +60,10 @@ const Doctors: React.FC = () => {
             doctors.map((doctor) => {
               return (
                 <div key={doctor.doctor_id} className="border rounded-3 col-xl-3 col-lg-4 col-md-5 p-3 shadow">
+                  {Boolean(permissions?.create_patient) &&
                   <div className="d-flex justify-content-end mb-2">
                     <AiOutlineEdit onClick={() => setModifyVis(doctor)} />
-                  </div>
+                  </div>}
 
                   <div className="d-flex justify-content-between gap-3">
                     <div className="main-font">{doctor.doctor_firstname + " " + doctor.doctor_secondname || "Not provided"}</div>

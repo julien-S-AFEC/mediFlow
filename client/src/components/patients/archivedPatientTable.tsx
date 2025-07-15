@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Patient, Permissions } from "../../types.ts";
-import Loader from "../loader.tsx";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { LuUndo } from "react-icons/lu";
+import Loading from "../loading.tsx";
 
 type Iprops = {
   refreshState: boolean;
@@ -95,7 +95,7 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
               </tr>
             ))
         ) : (
-          <Loader />
+          <Loading />
         )}
       </tbody>
     </table>

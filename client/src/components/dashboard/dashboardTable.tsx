@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Patient } from "../../types.ts";
-import Loader from "../loader.tsx";
 import { useNavigate } from "react-router-dom";
+import Loading from "../loading.tsx";
 
 type Iprops = {
   refreshState: boolean;
@@ -75,7 +75,7 @@ const DashboardTable: React.FC<Iprops> = ({ refreshState }) => {
                 </tr>
               ))
           ) : (
-            <Loader />
+            <Loading />
           )}
         </tbody>
       </table>

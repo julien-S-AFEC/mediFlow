@@ -69,6 +69,15 @@ class UsersController {
                 res.status(500).json({ message: error.message });
             });
     }
+
+    updatePermissionFromName(req, res) {
+        userModel.updatePermissionFromName(req.body.permissionId, req.body.field, req.body.value)
+            .then(data => { res.status(200).json(data) })
+
+            .catch(error => {
+                res.status(500).json({ message: error.message });
+            });
+    }
 }
 
 const userController = new UsersController()
@@ -78,5 +87,6 @@ usersRouter.post('/connectUser', userController.connectUser)
 usersRouter.post('/registerUser', userController.registerUser)
 usersRouter.post('/getUserById', userController.getUserById)
 usersRouter.get('/getCurrentUserPermissions', userController.getCurrentUserPermissions)
+usersRouter.post('/updatePermissionFromName', userController.updatePermissionFromName)
 
 export default usersRouter

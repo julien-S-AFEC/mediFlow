@@ -49,7 +49,7 @@ const Institutes: React.FC = () => {
       <div className="container-fluid">
         {Boolean(permissions?.create_patient) && (
           <div className="btn text-nowrap" onClick={() => setCreateInstituteVisible((oldValue) => !oldValue)}>
-            <LuCirclePlus color="blue" style={{width: "35px", height: "auto"}} />
+            <LuCirclePlus color="blue" style={{ width: "35px", height: "auto" }} />
           </div>
         )}
         <div className="row gap-4 justify-content-center mt-5">
@@ -57,9 +57,10 @@ const Institutes: React.FC = () => {
             institutes.map((institute) => {
               return (
                 <div key={institute.inst_id} className="border rounded-3 col-3 p-3 shadow">
-                  <div className="d-flex justify-content-end mb-2">
-                    <AiOutlineEdit onClick={() => setModifyVis(institute)} />
-                  </div>
+                  {Boolean(permissions?.create_patient) &&
+                    <div className="d-flex justify-content-end mb-2">
+                      <AiOutlineEdit onClick={() => setModifyVis(institute)} />
+                    </div>}
                   <div className="d-flex justify-content-between">
                     <div>Name</div>
                     <div className="main-font">{institute.institute_name || "Not provided"}</div>

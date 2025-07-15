@@ -7,7 +7,7 @@ class UserModel {
     async getAllWithPermissions() {
         const con = await pool.getConnection()
         return con.execute(`SELECT 
-                            username, create_patient, create_prescription, create_prescription_commentary
+                            username, create_patient, create_prescription, create_prescription_commentary, permission_id
                             FROM 
                             users
                             LEFT JOIN
@@ -120,7 +120,6 @@ class UserModel {
 
     async getCurrentUserPermissions(userId) {
         const user = await this.getUserById(userId)
-
         const con = await pool.getConnection()
         return con.execute(`SELECT * FROM permissions WHERE permission_id = ?`, [JSON.parse(user)[0].permissions])
             .then((rows, fields) => {
@@ -132,7 +131,29 @@ class UserModel {
             })
             .catch(error => {
                 con.release();
-                throw new Error("The user is not found")
+                throw new Error(error)
+            })
+    }
+
+    async updatePermissionFromName(permissionId, field, value) {
+        if (!["create_patient", "create_prescription", "create_prescription_commentary"].includes(field)) {
+            throw new Error("Invalid field name.")
+        }
+        const con = await pool.getConnection()
+        return con.execute(`UPDATE
+            permissions
+            SET 
+            ${field} = ?
+            WHERE 
+            permissions.permission_id=?
+            `, [value, permissionId])
+            .then((rows, fields) => {
+                con.release();
+                return JSON.stringify(rows[0])
+            })
+            .catch(error => {
+                con.release();
+                throw new Error(error)
             })
     }
 }
