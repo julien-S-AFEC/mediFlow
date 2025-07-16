@@ -1,18 +1,18 @@
 import { pool } from '../sql/dbConfig.js'
 
 class PrescriptionCommentaryModel {
-    static async getContentById(id) {
+    static async getAllbyPrescId(commentaryId) {
         const con = await pool.getConnection()
         return con.execute(`
             SELECT
-            prescription_commentary.content
+            content, created_at
             FROM prescription_commentary
             WHERE
-            prescription_commentary.commentary_id=?
-                `, [id])
+            prescription_commentary.prescription_id=?
+                `, [commentaryId])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0][0].content)
+                return rows[0]
             })
             .catch(error => {
                 con.release();
@@ -20,18 +20,17 @@ class PrescriptionCommentaryModel {
             })
     }
 
-    static async store(id, content) {
+    static async create(prescriptionId, content) {
         const con = await pool.getConnection()
         return con.execute(`
-            UPDATE
+            INSERT INTO
             prescription_commentary
-            SET
-            content=?
-            WHERE
-            prescription_commentary.commentary_id=?`, [content, id])
+            (prescription_id, content)
+            VALUES
+            (?, ?)`, [prescriptionId, content])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0].content)
+                return rows[0]
             })
             .catch(error => {
                 con.release();
