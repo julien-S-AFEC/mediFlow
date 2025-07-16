@@ -20,7 +20,7 @@ const PatientDetailsWidget: React.FC<Iprops> = ({ patient, patientId, permission
         <>
             <div className="d-flex align-items-center gap-3">
                 <h4 className="maint-font fw-normal text-center">Patient</h4>
-                {permissions?.update_patient && <CiEdit onClick={() => setToggleUpdatePatientModal(true)} />}
+                {Boolean(permissions?.create_patient) && <CiEdit onClick={() => setToggleUpdatePatientModal(true)} />}
             </div>
             <div className="p-3 rounded-3 border border-dark shadow">
 

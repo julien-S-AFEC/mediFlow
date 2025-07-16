@@ -21,7 +21,7 @@ const InstituteDetailsWidget: React.FC<Iprops> = ({ institute, patientId, permis
                 ? <div>
                     <div className="d-flex align-items-center gap-3">
                         <h4 className="maint-font fw-normal text-center">Institute</h4>
-                        {permissions?.update_patient && <button className="btn m-0 p-0"><CiEdit onClick={() => setToggleUpdateInstitute(true)} /></button>}
+                        {Boolean(permissions?.create_patient) && <button className="btn m-0 p-0"><CiEdit onClick={() => setToggleUpdateInstitute(true)} /></button>}
                     </div>
                     <div className="p-3 rounded-3 border border-dark shadow">
 

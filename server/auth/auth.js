@@ -10,11 +10,20 @@ const isConnected = (req, res) => {
     }
 }
 
+const getCurrentUser = (req, res) => {
+    if (req.session?.user) {
+        res.status(200).json({ user: req.session.user })
+    }
+    else {
+        res.status(500).json({ message: "user not found."})
+    }
+}
+
 const isAdmin = (req, res) => {
     if (req.session?.user) {
         res.status(200).json(req.session.user.role_id === 2)
     } else {
-        res.status(200).json('cant find session')
+        res.status(500).json('cant find session')
     }
 }
 
@@ -25,11 +34,12 @@ const logOut = (req, res) => {
         })
     }
     else[
-        res.status(500).json({"message": "Cannot access to the session"})
+        res.status(500).json({ "message": "Cannot access to the session" })
     ]
 }
 
 authRouter.get('/isConnected', isConnected)
+authRouter.get('/getCurrentUser', getCurrentUser)
 authRouter.get('/isAdmin', isAdmin)
 authRouter.get('/logOut', logOut)
 

@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Prescription, Emoji } from "../../types";
+import { Prescription, Permissions } from "../../types";
 import { Link } from "react-router-dom";
 import Editor from "react-simple-wysiwyg";
-import EmojiPicker, { SuggestionMode } from "emoji-picker-react";
 
 type Iprops = {
   currentPrescription: Prescription;
+  permissions?: Permissions;
 };
 
-const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentPrescription }) => {
+const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentPrescription, permissions }) => {
   const [commentaryContent, setCommentaryContent] = useState("my <b>HTML</b>");
 
   const onChange = (e: { target: { value: string } }) => {
     setCommentaryContent(e.target.value);
-  };
-
-  const handleReaction = (emoji: Emoji) => {
-    setCommentaryContent((oldValue) => oldValue + emoji.emoji);
   };
 
   const printContent = () => {
@@ -74,23 +70,20 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentPrescription }) =>
       </Link>
       <div className="d-flex flex-column gap-1 p-3 w-100">
         <h4 className="main-font fw-light text-center">Annotations</h4>
-        <EmojiPicker
-          suggestedEmojisMode={SuggestionMode.FREQUENT}
-          skinTonesDisabled={true}
-          onEmojiClick={handleReaction}
-          reactions={["1f314", "1f315", "1f316", "1f319"]}
-          reactionsDefaultOpen={true}
-          height={350}
-        />
-        <Editor style={{ minHeight: "350px" }} id="editorContent" value={commentaryContent} onChange={onChange} />
-        <div className="d-flex justify-content-between">
-          <button className="btn btn-primary w-100" onClick={storeCommentary}>
-            Save
-          </button>
-          <button className="btn btn-warning  w-100" onClick={printContent}>
-            🖨️
-          </button>
-        </div>
+
+        {Boolean(permissions) && (
+          <>
+            <Editor style={{ minHeight: "150px" }} id="editorContent" value={commentaryContent} onChange={onChange} />
+            <div className="d-flex justify-content-between">
+              <button className="btn btn-primary w-100" onClick={storeCommentary}>
+                Save
+              </button>
+              <button className="btn btn-warning  w-100" onClick={printContent}>
+                🖨️
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

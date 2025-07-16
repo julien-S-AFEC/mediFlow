@@ -48,7 +48,7 @@ class PrescriptionModel {
             LEFT JOIN
             prescription_commentary
             ON
-            prescriptions.commentary_id=prescription_commentary.commentary_id
+            prescriptions.id=prescription_commentary.prescription_id
             WHERE
             prescriptions.patient_id=?
             `, [patientId])

@@ -4,6 +4,7 @@ import NeedLogginRoute from "./vues/needLoggedRoute";
 import Connexion from "./vues/connexion";
 import Register from "./vues/register";
 import Dashboard from "./vues/dashboard";
+import Patients from "./vues/patients";
 import PatientDetails from "./vues/patientDetails";
 import Institutes from "./vues/institutes";
 import Doctors from "./vues/doctors";
@@ -26,6 +27,15 @@ const App = () => {
             element={
               <NeedLogginRoute>
                 <Dashboard />
+              </NeedLogginRoute>
+            }
+          ></Route>
+          
+          <Route
+            path="/patients"
+            element={
+              <NeedLogginRoute>
+                <Patients />
               </NeedLogginRoute>
             }
           ></Route>

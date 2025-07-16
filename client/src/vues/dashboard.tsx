@@ -1,39 +1,56 @@
-import React, { useEffect, useState } from "react";
-import { Permissions } from "../types.ts";
-import DashboardTable from "../components/dashboard/dashboardTable.tsx";
+import "./dashboard.css";
 import Header from "../components/header";
-import CreatePatient from "../components/patients/createPatient.tsx";
+import { LuUsersRound } from "react-icons/lu";
+import { FaHouseMedicalFlag } from "react-icons/fa6";
+import { FaUserDoctor } from "react-icons/fa6";
+import { RiArchiveStackLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { User } from "../types";
 
-const Dashboard: React.FC = () => {
-  const [permissions, setPermissions] = useState<Permissions>();
-  const [createPatientVisible, setCreatePatientVisible] = useState<boolean>(false);
-  const [refreshDashboard, setRefreshDashboard] = useState<boolean>(false);
+const Dashboard = () => {
+  const [user, setUser] = useState<User>();
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch("http://localhost:3000/api/auth/getCurrentUser", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
       .then((res) => {
         if (res.ok) {
           return res.json();
         }
       })
-      .then((data) => setPermissions(JSON.parse(data)));
+      .then((data) => setUser(data.user));
   }, []);
 
   return (
     <>
       <Header />
-        <div className="d-flex flex-column">
-          <div className="d-flex mx-2 gap-2">
-            
-            {Boolean(permissions?.create_patient) && (
-              <div className="btn btn-primary text-nowrap" onClick={() => setCreatePatientVisible((oldValue) => !oldValue)}>
-                Create Patient
-              </div>
-            )}
+      {user && <h3 className="main-font fw-light text-center">hello {user.username}</h3>}
+      <div className="d-flex flex-column align-items-center gap-4 mt-5">
+        <div className="d-flex gap-4">
+          <div className="border border-black rounded-4 p-5 pe-auto icon-hovered">
+            <Link to="/patients">
+              <LuUsersRound size={100} />
+            </Link>
           </div>
-          {createPatientVisible && <CreatePatient visibilityToggler={setCreatePatientVisible} refreshDashboardHandler={setRefreshDashboard} />}
-          <DashboardTable refreshState={refreshDashboard} />
+          <div className="border border-black rounded-4 p-5 pe-auto icon-hovered">
+            <Link to="/institutes">
+              <FaHouseMedicalFlag size={100} />{" "}
+            </Link>
+          </div>
         </div>
+        <div className="d-flex gap-4">
+          <div className="border border-black rounded-4 p-5 pe-auto icon-hovered">
+            <Link to="/doctors">
+              <FaUserDoctor size={100} />
+            </Link>
+          </div>
+          <div className="border border-black rounded-4 p-5 pe-auto icon-hovered">
+            <Link to="/archivedPatients">
+              <RiArchiveStackLine size={100} />
+            </Link>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
