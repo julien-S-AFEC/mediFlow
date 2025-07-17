@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Patient } from "../types";
+import { GoArchive } from "react-icons/go";
 
 type Iprops = {
   patient?: Patient;
@@ -21,12 +22,12 @@ const ConfirmArchiveModal: React.FC<Iprops> = ({ patient }) => {
       setShow(false);
       navigate("/dashboard");
     });
-  }, [])
+  }, []);
 
   return (
     <>
-      <button type="button" className="btn btn-danger" onClick={() => setShow(true)}>
-        Archive Patient
+      <button type="button" className="btn btn-danger w-100" onClick={() => setShow(true)}>
+        <GoArchive />
       </button>
 
       {show && (

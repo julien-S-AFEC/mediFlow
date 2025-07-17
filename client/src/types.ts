@@ -6,7 +6,7 @@ export interface User extends Permissions {
   user_status: string;
   role_id: string;
   permissions: string;
-};
+}
 
 export type Patient = {
   patient_id: string;
@@ -36,7 +36,7 @@ export interface Permissions {
   update_prescription_commentary: boolean;
   delete_prescription_commentar: boolean;
   permission_id: number;
-};
+}
 
 export type Institute = {
   institute_address: string;
@@ -66,13 +66,11 @@ export type Prescription = {
   patient_id: string;
 };
 
-export type Emoji = {
-  activeSkinTone: string;
-  emoji: string;
-  getImageUrl: CallableFunction;
-  imageUrl: string;
-  isCustom: boolean;
-  names: string[];
-  unified: string;
-  unifiedWithoutSkinTone: string;
+export type PrescriptionCommentary = {
+  id: string;
+  content: string;
+  created_at: string;
+  created_by: string;
+  edited_at: string;
+  prescription_id: string;
 };

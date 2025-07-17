@@ -1,32 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Prescription, Permissions } from "../../types";
+import { Prescription, Permissions, User, PrescriptionCommentary } from "../../types";
 import { Link } from "react-router-dom";
 import Editor from "react-simple-wysiwyg";
 import { IoMdSend } from "react-icons/io";
+import DosageWidget from "../dosage/dosageWidget.tsx";
 
 type Iprops = {
   currentPrescription: Prescription;
   permissions?: Permissions;
+  currentUser?: User;
 };
 
-const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentPrescription, permissions }) => {
-  const [allCommentaries, setAllCommentaries] = useState();
+const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPrescription, permissions }) => {
+  const [allCommentaries, setAllCommentaries] = useState<PrescriptionCommentary[]>([]);
   const [commentaryContent, setCommentaryContent] = useState("");
-  const editorRef = useRef(null)
-
+  const editorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const el = editorRef.current;
 
-    const blockEnter = (e) => {
-      if (e.key === 'Enter') e.preventDefault();
+    const blockEnter = (e: KeyboardEvent) => {
+      if (e.key === "Enter") e.preventDefault();
     };
 
     if (el) {
-      el.addEventListener('keydown', blockEnter);
+      el.addEventListener("keydown", blockEnter);
     }
-    return () => el ? el.removeEventListener('keydown', blockEnter) : null;
-
+    return () => {
+      if (el) {
+        el.removeEventListener("keydown", blockEnter);
+      }
+    };
   }, [editorRef.current]);
 
   const onChange = (e: { target: { value: string } }) => {
@@ -61,9 +65,10 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentPrescription, perm
       body: JSON.stringify({
         prescriptionId: currentPrescription.id,
         content: commentaryContent,
+        currentUser: currentUser?.username,
       }),
-    })
-    setAllCommentaries(oldValues => [...oldValues, { "content": commentaryContent, "created_at": new Date }])
+    });
+    setAllCommentaries((oldValues) => [...oldValues, { content: commentaryContent, created_at: new Date(), created_by: currentUser?.username }]);
   };
 
   useEffect(() => {
@@ -79,24 +84,32 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentPrescription, perm
       })
       .then((data) => {
         setAllCommentaries(data);
+        console.log(data);
       });
   }, [currentPrescription]);
 
   return (
-    <div className="d-flex w-100 gap-5">
+    <div className="d-flex gap-5 my-5 align-items-start w-100">
       <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at}>
-        <img className="img img-fluid my-5" style={{ maxWidth: "450px" }} key={currentPrescription.id} src={`http://localhost:3000/${currentPrescription.file_path}`} alt="" />
+        <img className="img img-fluid" style={{ minWidth: "450px" }} key={currentPrescription.id} src={`http://localhost:3000/${currentPrescription.file_path}`} alt="" />
       </Link>
-      <div className="d-flex flex-column gap-1 p-3 w-100" style={{maxWidth: '450px'}}>
+      <div className="d-flex flex-column gap-1">
         <h4 className="main-font fw-light text-center">Annotations</h4>
-        <ul className="list-group list-group-flush h-25 overflow-y-auto">
-          {allCommentaries && allCommentaries.map(commentary => <li key={commentary.created_at} className="list-group-item">
-            <div className="d-flex  justify-content-between">
-              <div>{commentary.content}</div>
-              <div className="main-font fw-light fs-6">{new Date(commentary.created_at).toLocaleString().slice(0, 16)}</div>
-            </div>
-          </li>)}
-
+        <ul className="list-group list-group-flush overflow-y-auto gap-1" style={{ width: "600px" }}>
+          {allCommentaries &&
+            allCommentaries.map((commentary) => (
+              <li key={commentary.created_at} className="list-group-item bg-secondary-subtle rounded">
+                <div className="d-flex justify-content-between">
+                  <div>{commentary.content}</div>
+                  <div>
+                    <div className="d-flex flex-column align-items-center">
+                      <div>{commentary.created_by}</div>
+                      <div className="main-font fw-light fs-6">{new Date(commentary.created_at).toLocaleString().slice(0, 16)}</div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            ))}
         </ul>
         {Boolean(permissions) && (
           <>
@@ -106,6 +119,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentPrescription, perm
             </button>
           </>
         )}
+        <DosageWidget />
       </div>
     </div>
   );

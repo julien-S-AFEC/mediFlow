@@ -20,14 +20,14 @@ class PrescriptionCommentaryModel {
             })
     }
 
-    static async create(prescriptionId, content) {
+    static async create(currentUser, prescriptionId, content) {
         const con = await pool.getConnection()
         return con.execute(`
             INSERT INTO
             prescription_commentary
-            (prescription_id, content)
+            (prescription_id, content, created_by)
             VALUES
-            (?, ?)`, [prescriptionId, content])
+            (?, ?, ?)`, [prescriptionId, content, currentUser])
             .then((rows, fields) => {
                 con.release()
                 return rows[0]

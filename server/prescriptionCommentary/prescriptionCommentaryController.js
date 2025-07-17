@@ -12,8 +12,7 @@ class PrescriptionCommentaryController {
     }
 
     static create(req, res) {
-        console.log('aaa', req.body)
-        PrescriptionCommentaryModel.create(req.body.prescriptionId, req.body.content)
+        PrescriptionCommentaryModel.create(req.body.currentUser, req.body.prescriptionId, req.body.content)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error.message))
     }

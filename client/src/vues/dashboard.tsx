@@ -29,24 +29,24 @@ const Dashboard = () => {
         <div className="d-flex gap-4">
           <div className="border border-black rounded-4 p-5 pe-auto icon-hovered">
             <Link to="/patients">
-              <LuUsersRound size={100} />
+              <LuUsersRound size={100} color="rgb(0, 202, 27)"/>
             </Link>
           </div>
           <div className="border border-black rounded-4 p-5 pe-auto icon-hovered">
             <Link to="/institutes">
-              <FaHouseMedicalFlag size={100} />{" "}
+              <FaHouseMedicalFlag size={100} color="rgba(241, 239, 89, 1)" />{" "}
             </Link>
           </div>
         </div>
         <div className="d-flex gap-4">
           <div className="border border-black rounded-4 p-5 pe-auto icon-hovered">
             <Link to="/doctors">
-              <FaUserDoctor size={100} />
+              <FaUserDoctor size={100} color="rgba(89, 129, 241, 1)" />
             </Link>
           </div>
           <div className="border border-black rounded-4 p-5 pe-auto icon-hovered">
             <Link to="/archivedPatients">
-              <RiArchiveStackLine size={100} />
+              <RiArchiveStackLine size={100} color="rgba(255, 59, 59, 1)"  />
             </Link>
           </div>
         </div>

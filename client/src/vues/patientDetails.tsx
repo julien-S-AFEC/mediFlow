@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Doctor, Institute, Patient, Permissions, Prescription } from "../types";
+import { Doctor, Institute, Patient, Permissions, Prescription, User } from "../types";
 import { Link, useParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { CgDetailsMore } from "react-icons/cg";
 import PatientDetailsWidget from "../components/patients/patientDetailsWidget.tsx";
 import DoctorDetailsWidget from "../components/doctors/doctorDetailsWidget.tsx";
 import InstituteDetailsWidget from "../components/institutes/instituteDetailsWidget.tsx";
 import Header from "../components/header";
 import ConfirmArchiveModal from "../components/confirmArchiveModal.tsx";
-import { Outlet } from "react-router-dom";
 import CurrentPrescriptionWidget from "../components/prescriptions/currentPrescriptionWidget.tsx";
 import AllPrescriptionsWidget from "../components/prescriptions/allPrescriptionsWidget.tsx";
 import Loading from "../components/loading.tsx";
@@ -18,6 +19,7 @@ const PatientDetails: React.FC = () => {
   const [institute, setInstitute] = useState<Institute>();
   const [permissions, setPermissions] = useState<Permissions>();
   const [currentPrescription, setCurrentPrescription] = useState<Prescription>();
+  const [currentUser, setCurrentUser] = useState<User>();
   const [allPrescriptions, setAllPrescriptions] = useState<Prescription[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
   const [file, setUploadFile] = useState<File>();
@@ -85,6 +87,14 @@ const PatientDetails: React.FC = () => {
         throw error;
       });
 
+    fetch("http://localhost:3000/api/auth/getCurrentUser", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => setCurrentUser(data.user));
+
     fetch("http://localhost:3000/api/prescriptions/getAllByPatientId", {
       method: "POST",
       credentials: "include",
@@ -137,34 +147,12 @@ const PatientDetails: React.FC = () => {
         <>
           <Header />
           <div className="container-fluid">
-            <Link to="/dashboard" className="btn btn-primary">
-              Back
-            </Link>
             <div className="row">
-              <div className="col-lg-10 col-md-12">
-                <div className="row">
-                  <div className="col-lg-2 mt-3">{allPrescriptions && <AllPrescriptionsWidget prescriptions={allPrescriptions} currentPrescriptionHandler={setCurrentPrescription} />}</div>
-                  <div className="col-lg-10 d-flex flex-column justify-content-center align-items-center">
-                    {Boolean(permissions?.create_prescription) && <div className="py-3 px-5 border rounded">
-                      <label className="py-1" htmlFor="imgForm">
-                        Upload a prescription
-                      </label>
-                      <form className="d-flex flex-column justify-content-center align-items-center gap-3">
-                        <input type="file" accept="image/*" onChange={handleSubmit} />
-                        <button className="btn btn-primary" type="submit" onClick={handleUpload}>
-                          Submit
-                        </button>
-                      </form>
-                    </div>}
-                    {currentPrescription ? <CurrentPrescriptionWidget currentPrescription={currentPrescription} permissions={permissions} /> : null}
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2">
-                {patient ? (
-                  <div className="d-flex justify-content-center align-items-center my-3">
+              <div className="row">
+                <div className="col-lg-1">
+                  <div className="d-flex flex-column gap-2">
                     <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                      Patient details
+                      <CgDetailsMore />
                     </button>
                     <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex={-1} id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                       <div className="offcanvas-header">
@@ -179,14 +167,36 @@ const PatientDetails: React.FC = () => {
                         {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}{" "}
                       </div>
                     </div>
+                    {patient?.active ? <ConfirmArchiveModal patient={patient} /> : null}
+                    <Link to="/dashboard" className="btn btn-primary">
+                      Back
+                    </Link>
+                    {allPrescriptions && <AllPrescriptionsWidget prescriptions={allPrescriptions} currentPrescriptionHandler={setCurrentPrescription} />}
                   </div>
+                </div>
+                <div className="col-lg-11 d-flex flex-column justify-content-center align-items-center">
+                  {Boolean(permissions?.create_prescription) && (
+                    <div className="d-flex gap-3 py-3 align-items-center">
+                      <form className="d-flex flex-column justify-content-center align-items-center gap-3">
+                        <input type="file" accept="image/*" onChange={handleSubmit} />
+                        <button className="btn btn-primary" type="submit" onClick={handleUpload}>
+                          Add prescription
+                        </button>
+                      </form>
+                    </div>
+                  )}
+                  {currentPrescription ? <CurrentPrescriptionWidget currentPrescription={currentPrescription} permissions={permissions} currentUser={currentUser} /> : null}
+                </div>
+              </div>
+
+              <div className="col-lg-1">
+                {patient ? (
+                  <div className="d-flex justify-content-center align-items-center my-3"></div>
                 ) : (
                   <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
                     <div className="spinner-border text-primary" role="status" aria-label="Loading..."></div>
                   </div>
                 )}
-
-                <div className="d-flex justify-content-center align-items-center my-3">{patient?.active ? <ConfirmArchiveModal patient={patient} /> : null}</div>
               </div>
             </div>
           </div>
