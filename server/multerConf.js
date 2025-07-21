@@ -23,7 +23,7 @@ const fileFilter = (
 ) => {
   if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/))
     return callback(
-      new UnauthorizedError('Only image files are allowed'),
+      new Error('Only image files are allowed'),
       false,
     );
   callback(null, true);

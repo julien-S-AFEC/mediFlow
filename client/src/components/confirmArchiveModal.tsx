@@ -20,7 +20,7 @@ const ConfirmArchiveModal: React.FC<Iprops> = ({ patient }) => {
       }),
     }).then(() => {
       setShow(false);
-      navigate("/dashboard");
+      navigate("/patients");
     });
   }, []);
 

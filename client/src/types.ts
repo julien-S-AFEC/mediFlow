@@ -9,7 +9,7 @@ export interface User extends Permissions {
 }
 
 export type Patient = {
-  patient_id: string;
+  patient_id: number;
   patient_firstname: string;
   patient_secondname: string;
   gender: string;
@@ -21,8 +21,8 @@ export type Patient = {
   institute_name: string;
   institute_address: string;
   institute_phone_number: string;
-  institute_id: string;
-  active: string;
+  institute_id: number;
+  active: number;
 };
 
 export interface Permissions {
@@ -42,11 +42,11 @@ export type Institute = {
   institute_address: string;
   institute_name: string;
   institute_phone_number: string;
-  inst_id: string;
+  inst_id: number;
 };
 
 export type Doctor = {
-  doctor_id: string;
+  doctor_id: number;
   doctor_firstname: string;
   doctor_secondname: string;
   doctor_address: string;
@@ -56,21 +56,21 @@ export type Doctor = {
 };
 
 export type Prescription = {
-  id: string;
+  id: number;
   file_path: string;
   start_date: string;
   end_date: string;
   created_at: string;
   deleted_at: string;
-  commentary_id: string;
-  patient_id: string;
+  commentary_id: number;
+  patient_id: number;
 };
 
 export type PrescriptionCommentary = {
-  id: string;
+  id?: number;
   content: string;
-  created_at: string;
-  created_by: string;
-  edited_at: string;
-  prescription_id: string;
+  created_at: Date;
+  created_by?: string;
+  edited_at?: Date;
+  prescription_id?: number;
 };

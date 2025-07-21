@@ -137,8 +137,8 @@ const PatientDetails: React.FC = () => {
       method: "POST",
       body: formData,
     })
-    if (!uploadRes.ok) throw new Error("Upload failed");
-
+    if (!uploadRes.ok) alert("Upload failed, wrong file type.");
+    
     const data = await uploadRes.json();
     const id = data.insertId;
 
@@ -209,7 +209,6 @@ const PatientDetails: React.FC = () => {
               </div>
             </div>
           </div>
-          <Outlet />
         </>
       ) : (
         <Loading />

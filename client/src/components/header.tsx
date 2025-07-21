@@ -1,7 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+type Iprops = {
+  search?: string;
+  searchHandler?: React.Dispatch<React.SetStateAction<string>> | undefined;
+  searchVis?: boolean;
+};
+
+const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis=false }) => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const logOut = useCallback(() => {
@@ -87,12 +93,14 @@ const Header = () => {
               </Link>
             </li>
           </ul>
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+          {searchVis && searchHandler && (
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={search} onChange={(e) => searchHandler(e.target.value)} />
+              <button className="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </nav>

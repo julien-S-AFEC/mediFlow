@@ -76,7 +76,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
         <ul className="list-group list-group-flush overflow-y-auto gap-1" style={{ width: "850px", height:"200px" }}>
           {allCommentaries &&
             allCommentaries.map((commentary) => (
-              <li key={commentary.created_at} className="list-group-item bg-secondary-subtle rounded">
+              <li key={commentary.id} className="list-group-item bg-secondary-subtle rounded">
                 <div className="d-flex justify-content-between">
                   <div>{commentary.content}</div>
                   <div>
@@ -89,7 +89,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
               </li>
             ))}
         </ul>
-        {Boolean(permissions) && (
+        {Boolean(permissions?.create_prescription_commentary) && (
           <>
             <Editor ref={editorRef} style={{ maxHeight: "40px" }} id="editorContent" value={commentaryContent} onChange={onChange} />
             <button className="btn btn-primary rounded-5" onClick={storeCommentary}>
@@ -97,7 +97,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
             </button>
           </>
         )}
-        <DosageWidget prescriptionId={currentPrescription.id}/>
+        <DosageWidget prescriptionId={currentPrescription.id} permissions={permissions}/>
       </div>
     </div>
   );
