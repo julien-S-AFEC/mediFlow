@@ -5,7 +5,7 @@ class PrescriptionCommentaryModel {
         const con = await pool.getConnection()
         return con.execute(`
             SELECT
-            content, created_at, created_by
+            id, content, created_at, created_by
             FROM prescription_commentary
             WHERE
             prescription_commentary.prescription_id=?
@@ -28,9 +28,26 @@ class PrescriptionCommentaryModel {
             (prescription_id, content, created_by)
             VALUES
             (?, ?, ?)`, [prescriptionId, content, currentUser])
-            .then((rows, fields) => {
+            .then(async (rows, fields) => {
                 con.release()
-                return rows[0]
+                const allCommentaries = await this.getAllbyPrescId(prescriptionId)
+                return allCommentaries
+            })
+            .catch(error => {
+                con.release();
+                throw error
+            })
+    }
+
+    static async deleteById(commentaryId, prescriptionId) {
+        const con = await pool.getConnection()
+        return con.execute(
+            `DELETE FROM prescription_commentary WHERE (id = ?);`,
+            [commentaryId])
+            .then(async (rows, fields) => {
+                con.release()
+                const allCommentaries = await this.getAllbyPrescId(prescriptionId)
+                return allCommentaries
             })
             .catch(error => {
                 con.release();

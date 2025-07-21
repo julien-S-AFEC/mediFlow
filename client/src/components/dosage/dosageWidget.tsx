@@ -4,6 +4,7 @@ import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { PiPrinterThin } from "react-icons/pi";
 import { AiOutlineSun } from "react-icons/ai";
 import { PiSunHorizonLight } from "react-icons/pi";
+import { GiMedicines } from "react-icons/gi";
 import { PiMoonThin } from "react-icons/pi";
 import { LuCakeSlice } from "react-icons/lu";
 import { Permissions } from "../../types";
@@ -82,6 +83,9 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
         <table className="table table-success table-striped-columns mt-5">
           <thead>
             <tr>
+              <th scope="col">
+                <GiMedicines className="w-100" color="rgba(49, 49, 49, 1)" style={{ minHeight: "50px" }} />
+              </th>
               <th scope="col">
                 <PiSunHorizonLight className="w-100" color="rgba(49, 49, 49, 1)" style={{ minHeight: "50px" }} />
               </th>

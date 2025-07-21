@@ -16,9 +16,16 @@ class PrescriptionCommentaryController {
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error.message))
     }
+    
+    static deleteById(req, res) {
+        PrescriptionCommentaryModel.deleteById(req.body.commentaryId, req.body.prescriptionId)
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error.message))
+    }
 }
 
 prescriptionCommentaryRouter.post('/getAllbyPrescId', PrescriptionCommentaryController.getAllbyPrescId);
 prescriptionCommentaryRouter.post('/create', PrescriptionCommentaryController.create);
+prescriptionCommentaryRouter.post('/deleteById', PrescriptionCommentaryController.deleteById);
 
 export default prescriptionCommentaryRouter

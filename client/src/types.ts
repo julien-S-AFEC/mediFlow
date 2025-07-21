@@ -1,10 +1,10 @@
 export interface User extends Permissions {
-  user_id: string;
+  user_id: number;
   username: string;
   user_email: string;
   user_password: string;
   user_status: string;
-  role_id: string;
+  role_id: number;
   permissions: string;
 }
 

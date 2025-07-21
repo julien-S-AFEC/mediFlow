@@ -8,7 +8,7 @@ class PrescriptionModel {
                 (content, prescription_id)
                 VALUES
                 (?, ?)
-                `, ['[{"col1": "", "col2": "", "col3": "", "col4": ""}]', prescriptionId])
+                `, ['[{"col1": "", "col2": "", "col3": "", "col4": "", "col5": ""}]', prescriptionId])
             .then((rows, fields) => {
                 con.release()
                 return JSON.stringify(rows[0])

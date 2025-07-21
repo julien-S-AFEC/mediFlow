@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Editor from "react-simple-wysiwyg";
 import { IoMdSend } from "react-icons/io";
 import DosageWidget from "../dosage/dosageWidget.tsx";
+import { RxCross1 } from "react-icons/rx";
+import {decode} from 'he'
 
 type Iprops = {
   currentPrescription: Prescription;
@@ -15,6 +17,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   const [allCommentaries, setAllCommentaries] = useState<PrescriptionCommentary[]>([]);
   const [commentaryContent, setCommentaryContent] = useState("");
   const editorRef = useRef<HTMLDivElement | null>(null);
+  const isAdmin = currentUser?.role_id === 2
 
   useEffect(() => {
     const el = editorRef.current;
@@ -43,11 +46,33 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         prescriptionId: currentPrescription.id,
-        content: commentaryContent,
+        content: decode(commentaryContent),
         currentUser: currentUser?.username,
       }),
-    });
-    setAllCommentaries((oldValues) => [...oldValues, { content: commentaryContent, created_at: new Date(), created_by: currentUser?.username }]);
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+      })
+      .then(updatedCommentaries => setAllCommentaries(updatedCommentaries))
+  };
+
+  const deleteCommentary = (id?: number) => {
+    fetch("http://localhost:3000/api/prescriptionCommentary/deleteById", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        commentaryId: id,
+        prescriptionId: currentPrescription.id
+      }),
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+      })
+      .then(updatedCommentaries => setAllCommentaries(updatedCommentaries))
   };
 
   useEffect(() => {
@@ -73,18 +98,17 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
       </Link>
       <div className="d-flex flex-column gap-1">
         <h4 className="main-font fw-light text-center">Annotations</h4>
-        <ul className="list-group list-group-flush overflow-y-auto gap-1" style={{ width: "850px", height:"200px" }}>
+        <ul className="list-group list-group-flush overflow-y-auto gap-1" style={{ width: "850px", height: "200px" }}>
           {allCommentaries &&
             allCommentaries.map((commentary) => (
               <li key={commentary.id} className="list-group-item bg-secondary-subtle rounded">
                 <div className="d-flex justify-content-between">
                   <div>{commentary.content}</div>
-                  <div>
-                    <div className="d-flex flex-column align-items-center">
-                      <div>{commentary.created_by}</div>
-                      <div className="main-font fw-light fs-6">{new Date(commentary.created_at).toLocaleString().slice(0, 16)}</div>
-                    </div>
+                  <div className="d-flex flex-column align-items-center">
+                    <div>{commentary.created_by}</div>
+                    <div className="main-font fw-light fs-6">{new Date(commentary.created_at).toLocaleString().slice(0, 16)}</div>
                   </div>
+                  {isAdmin && <button className="btn" onClick={() => deleteCommentary(commentary.id)}><RxCross1 color="red" /></button>}
                 </div>
               </li>
             ))}
@@ -97,7 +121,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
             </button>
           </>
         )}
-        <DosageWidget prescriptionId={currentPrescription.id} permissions={permissions}/>
+        <DosageWidget prescriptionId={currentPrescription.id} permissions={permissions} />
       </div>
     </div>
   );
