@@ -11,6 +11,7 @@ import prescriptionRouter from './prescriptions/prescriptionsController.js'
 import prescriptionCommentaryRouter from './prescriptionCommentary/prescriptionCommentaryController.js'
 import authRouter from './auth/auth.js'
 import session from 'express-session';
+import prescriptionDosageRouter from './prescriptionDosage/prescriptionDosageController.js'
 
 const PORT = 3000
 
@@ -45,6 +46,7 @@ app.use('/api/institutes', instituteRouter)
 app.use('/api/doctors', doctorRouter)
 app.use('/api/prescriptions', prescriptionRouter)
 app.use('/api/prescriptionCommentary', prescriptionCommentaryRouter)
+app.use('/api/prescriptionDosage', prescriptionDosageRouter)
 app.use('/api/auth', authRouter)
 app.use('/uploads', express.static('uploads'));
 app.listen(PORT, () => {

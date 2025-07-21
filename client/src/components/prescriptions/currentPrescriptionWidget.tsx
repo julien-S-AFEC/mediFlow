@@ -37,27 +37,6 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
     setCommentaryContent(e.target.value);
   };
 
-  // const printContent = () => {
-  //   const printWindow = window.open("", "_blank", "width=800,height=600");
-  //   if (printWindow) {
-  //     printWindow.document.write(`
-  //       <html>
-  //         <head>
-  //           <title>Print</title>
-  //           <style>
-  //             body { font-family: sans-serif; padding: 20px; }
-  //           </style>
-  //         </head>
-  //         <body>${document.getElementById("editorContent")?.innerHTML}</body>
-  //       </html>
-  //     `);
-  //     printWindow.document.close();
-  //     printWindow.focus();
-  //     printWindow.print();
-  //     printWindow.close();
-  //   }
-  // };
-
   const storeCommentary = () => {
     fetch("http://localhost:3000/api/prescriptionCommentary/create", {
       method: "POST",
@@ -84,18 +63,17 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
       })
       .then((data) => {
         setAllCommentaries(data);
-        console.log(data);
       });
   }, [currentPrescription]);
 
   return (
     <div className="d-flex gap-5 my-5 align-items-start w-100">
       <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at}>
-        <img className="img img-fluid" style={{ minWidth: "450px" }} key={currentPrescription.id} src={`http://localhost:3000/${currentPrescription.file_path}`} alt="" />
+        <img className="img img-fluid" style={{ minWidth: "150px" }} key={currentPrescription.id} src={`http://localhost:3000/${currentPrescription.file_path}`} alt="" />
       </Link>
       <div className="d-flex flex-column gap-1">
         <h4 className="main-font fw-light text-center">Annotations</h4>
-        <ul className="list-group list-group-flush overflow-y-auto gap-1" style={{ width: "600px" }}>
+        <ul className="list-group list-group-flush overflow-y-auto gap-1" style={{ width: "850px", height:"200px" }}>
           {allCommentaries &&
             allCommentaries.map((commentary) => (
               <li key={commentary.created_at} className="list-group-item bg-secondary-subtle rounded">
@@ -119,7 +97,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
             </button>
           </>
         )}
-        <DosageWidget />
+        <DosageWidget prescriptionId={currentPrescription.id}/>
       </div>
     </div>
   );

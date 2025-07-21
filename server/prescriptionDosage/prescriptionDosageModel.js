@@ -1,33 +1,14 @@
 import { pool } from '../sql/dbConfig.js'
 
 class PrescriptionModel {
-    static async upload(filePath, patientId) {
+    static async create(prescriptionId) {
         const con = await pool.getConnection()
         return con.execute(`INSERT INTO
-                prescriptions
-                (file_path,
-                patient_id)
+                prescription_dosage
+                (content, prescription_id)
                 VALUES
                 (?, ?)
-                `, [filePath, patientId])
-            .then((rows, fields) => {
-                con.release()
-                return rows[0]
-            })
-            .catch(error => {
-                con.release();
-                throw error
-            })
-    }
-
-    static async getAllByPatientId(patientId) {
-        const con = await pool.getConnection()
-        return con.execute(`SELECT *
-            FROM 
-            prescriptions
-            WHERE
-            prescriptions.patient_id=?
-            `, [patientId])
+                `, ['[{"col1": "", "col2": "", "col3": "", "col4": ""}]', prescriptionId])
             .then((rows, fields) => {
                 con.release()
                 return JSON.stringify(rows[0])
@@ -40,16 +21,35 @@ class PrescriptionModel {
 
     static async getById(prescriptionId) {
         const con = await pool.getConnection()
-        return con.execute(`SELECT 
-            prescriptions.file_path
+        return con.execute(`
+            SELECT content
             FROM 
-            prescriptions
+            prescription_dosage
             WHERE
-            prescriptions.id=?
+            prescription_dosage.prescription_id=?
             `, [prescriptionId])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0][0].file_path)
+                return rows[0][0].content
+            })
+            .catch(error => {
+                con.release();
+                throw error
+            })
+    }
+
+    static async store(prescriptionId, content) {
+        const con = await pool.getConnection()
+        return con.execute(`
+            UPDATE 
+            prescription_dosage 
+            SET 
+            content = ?
+            WHERE (prescription_id = ?);
+            `, [JSON.stringify(content), prescriptionId])
+            .then((rows, fields) => {
+                con.release()
+                return rows[0]
             })
             .catch(error => {
                 con.release();

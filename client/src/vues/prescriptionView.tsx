@@ -19,7 +19,7 @@ const PrescriptionView: React.FC = () => {
                     return res.json()
                 }
             })
-            .then(data => { console.log(JSON.parse(data)); setPath(JSON.parse(data)) })
+            .then(data => { setPath(JSON.parse(data)) })
             .catch(error => console.log(error))
     }, [])
 

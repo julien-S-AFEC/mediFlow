@@ -5,7 +5,7 @@ class PrescriptionCommentaryModel {
         const con = await pool.getConnection()
         return con.execute(`
             SELECT
-            content, created_at
+            content, created_at, created_by
             FROM prescription_commentary
             WHERE
             prescription_commentary.prescription_id=?

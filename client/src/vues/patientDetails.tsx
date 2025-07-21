@@ -125,7 +125,7 @@ const PatientDetails: React.FC = () => {
     }
   }, []);
 
-  const handleUpload = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleUpload = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!file) return alert("Please select an image.");
 
@@ -133,12 +133,21 @@ const PatientDetails: React.FC = () => {
     formData.append("prescription", file);
     formData.append("patientId", String(params.patientId));
 
-    fetch("http://localhost:3000/api/prescriptions/upload", {
+    const uploadRes = await fetch("http://localhost:3000/api/prescriptions/upload", {
       method: "POST",
       body: formData,
     })
-      .then(() => setRefresh((oldValue) => !oldValue))
-      .catch(() => alert("Upload failed"));
+    if (!uploadRes.ok) throw new Error("Upload failed");
+
+    const data = await uploadRes.json();
+    const id = data.insertId;
+
+    fetch("http://localhost:3000/api/prescriptionDosage/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prescriptionId: id }),
+    })
+    .then(() => setRefresh(v => !v))
   };
 
   return (

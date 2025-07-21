@@ -1,0 +1,7 @@
+input,
+input:focus,
+input:active {
+  border: none;
+  outline: none;     /* removes the focus ring */
+  box-shadow: none;  /* removes Bootstrap's blue glow */
+}

@@ -30,7 +30,7 @@ const App = () => {
               </NeedLogginRoute>
             }
           ></Route>
-          
+
           <Route
             path="/patients"
             element={
@@ -52,9 +52,9 @@ const App = () => {
           <Route
             path="/patientDetails/:patientId/prescriptionView/:fileId"
             element={
-              <NeedLogginRoute>
+              // <NeedLogginRoute>
                 <PrescriptionView />
-              </NeedLogginRoute>
+              // </NeedLogginRoute>
             }
           ></Route>
 
