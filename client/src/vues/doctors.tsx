@@ -5,7 +5,7 @@ import Header from "../components/header";
 import { AiOutlineEdit } from "react-icons/ai";
 import CreateDoctor from "../components/doctors/createDoctor";
 import UpdateDoctorCredentials from "../components/doctors/updateDoctorCredentials";
-import { LuCirclePlus } from "react-icons/lu";
+import { IoPersonAddOutline } from "react-icons/io5";
 
 const Doctors: React.FC = () => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -51,11 +51,11 @@ const Doctors: React.FC = () => {
         <h2 className="text-center">Doctors</h2>
         {permissions?.create_patient ? 
           <div className="btn text-nowrap" onClick={() => setCreateDoctorVisible((oldValue) => !oldValue)}>
-            <LuCirclePlus color="blue" style={{ width: "35px", height: "auto" }} />
+            <IoPersonAddOutline color="blue" style={{ width: "35px", height: "auto" }} />
           </div>
           : null
         }
-        <div className="row gap-4 justify-content-center">
+        <div className="row gap-4 justify-content-center mt-3">
           {doctors &&
             doctors.map((doctor) => {
               return (

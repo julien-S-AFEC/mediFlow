@@ -52,27 +52,27 @@ const UpdateDoctorCredentials: React.FC<Iprops> = ({ doctor, visHandler, refresh
               }}
             >
               <div className="row align-items-center">
-                <div className="col-6 pt-3">
+                <div className="col-12 col-lg-6 pt-3">
                   <label className="form-label">Firstname</label>
                   <input type="text" className="form-control" placeholder="Robert" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
                 </div>
-                <div className="col-6 pt-3">
+                <div className="col-12 col-lg-6 pt-3">
                   <label className="form-label">Secondname</label>
                   <input type="text" className="form-control" placeholder="Duchamp" value={secondname} onChange={(e) => setSecondname(e.target.value)} />
                 </div>
-                <div className="col-6 pt-3">
+                <div className="col-12 col-lg-6 pt-3">
                   <label className="form-label">Institute</label>
                   <input type="text" className="form-control" placeholder="Centre clinical ..." value={institute} onChange={(e) => setinstitute(e.target.value)} />
                 </div>
-                <div className="col-6 pt-3">
+                <div className="col-12 col-lg-6 pt-3">
                   <label className="form-label">Address</label>
                   <input type="text" className="form-control" placeholder="1 rue ..." value={address} onChange={(e) => setAddress(e.target.value)} />
                 </div>
-                <div className="col-6 pt-3">
+                <div className="col-12 col-lg-6 pt-3">
                   <label className="form-label">Phone number</label>
                   <input type="text" className="form-control" placeholder="0658741..." value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
                 </div>
-                <div className="col-6 pt-3">
+                <div className="col-12 col-lg-6 pt-3">
                   <label className="form-label">Email</label>
                   <input type="text" className="form-control" placeholder="robert.duchamp@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>

@@ -2,23 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Patient } from "../../types.ts";
 import { useNavigate } from "react-router-dom";
 import Loading from "../loading.tsx";
-import { filterPatient, 
-  sortByFirstname, 
-  sortBySecondname, 
-  sortByGender, 
-  sortByBirthDate, 
-  sortByAddress, 
-  sortByEmail, 
-  sortByInsuranceNumber, 
-  sortByInstituteName, 
-  sortById } from "../../utils.tsx";
+import { filterPatient, sortByFirstname, sortBySecondname, sortByGender, sortByBirthDate, sortByAddress, sortByEmail, sortByInsuranceNumber, sortByInstituteName, sortById } from "../../utils.tsx";
 
 type Iprops = {
   patients: Patient[];
   search: string;
 };
 
-const DashboardTable: React.FC<Iprops> = ({ patients, search }) => {
+const PatientTable: React.FC<Iprops> = ({ patients, search }) => {
   const navigate = useNavigate();
   const [filteredPatients, setFilteredPatients] = useState<Patient[]>(patients);
   const [sortByIdAscending, setSortByIdAscending] = useState<boolean>(true);
@@ -30,9 +21,11 @@ const DashboardTable: React.FC<Iprops> = ({ patients, search }) => {
   const [sortByEmailAscending, setSortByEmailAscending] = useState<boolean>(true);
   const [sortByInsurranceAscending, setSortByInsurranceAscending] = useState<boolean>(true);
   const [sortByInstituteNameAscending, setSortByInstituteNameAscending] = useState<boolean>(true);
+  const [mobile, setMobile] = useState<boolean>(false);
 
   useEffect(() => {
     setFilteredPatients(patients);
+    setMobile(window.screen.width < 950);
   }, [patients]);
 
   return (
@@ -40,41 +33,82 @@ const DashboardTable: React.FC<Iprops> = ({ patients, search }) => {
       <table className="table mt-5">
         <thead>
           <tr>
-            <th className="main-font fw-light text-nowrap" scope="col" style={{cursor: "pointer"}} onClick={() => sortById(filteredPatients, setFilteredPatients, sortByIdAscending, setSortByIdAscending)}>
-              id
-            </th>
-            <th className="main-font fw-light text-nowrap" scope="col" style={{cursor: "pointer"}} onClick={() => sortByFirstname(filteredPatients, setFilteredPatients, sortByFirstnameAscending, setSortByFirstnameAscending)}>
+            {!mobile && (
+              <th
+                className="main-font fw-light text-nowrap"
+                scope="col"
+                style={{ cursor: "pointer" }}
+                onClick={() => sortById(filteredPatients, setFilteredPatients, sortByIdAscending, setSortByIdAscending)}
+              >
+                id
+              </th>
+            )}
+            <th
+              className="main-font fw-light text-nowrap"
+              scope="col"
+              style={{ cursor: "pointer" }}
+              onClick={() => sortByFirstname(filteredPatients, setFilteredPatients, sortByFirstnameAscending, setSortByFirstnameAscending)}
+            >
               Firstname
             </th>
-            <th className="main-font fw-light text-nowrap" scope="col" style={{cursor: "pointer"}} onClick={() => sortBySecondname(filteredPatients, setFilteredPatients, sortBySecondnameAscending, setSortBySecondnameAscending)}>
+            <th
+              className="main-font fw-light text-nowrap"
+              scope="col"
+              style={{ cursor: "pointer" }}
+              onClick={() => sortBySecondname(filteredPatients, setFilteredPatients, sortBySecondnameAscending, setSortBySecondnameAscending)}
+            >
               Lastname
             </th>
-            <th className="main-font fw-light text-nowrap" scope="col" style={{cursor: "pointer"}} onClick={() => sortByGender(filteredPatients, setFilteredPatients, sortByGenderAscending, setSortByGenderAscending)}>
+            <th
+              className="main-font fw-light text-nowrap"
+              scope="col"
+              style={{ cursor: "pointer" }}
+              onClick={() => sortByGender(filteredPatients, setFilteredPatients, sortByGenderAscending, setSortByGenderAscending)}
+            >
               Gender
             </th>
-            <th className="main-font fw-light text-nowrap" scope="col" style={{cursor: "pointer"}} onClick={() => sortByBirthDate(filteredPatients, setFilteredPatients, sortByBirthdateAscending, setSortByBirthdateAscending)}>
+            <th
+              className="main-font fw-light text-nowrap"
+              scope="col"
+              style={{ cursor: "pointer" }}
+              onClick={() => sortByBirthDate(filteredPatients, setFilteredPatients, sortByBirthdateAscending, setSortByBirthdateAscending)}
+            >
               Birth date
             </th>
-            <th className="main-font fw-light text-nowrap" scope="col" style={{cursor: "pointer"}} onClick={() => sortByAddress(filteredPatients, setFilteredPatients, sortByAddressAscending, setSortByAddressAscending)}>
-              Adress
-            </th>
-            <th className="main-font fw-light text-nowrap" scope="col" style={{cursor: "pointer"}} onClick={() => sortByEmail(filteredPatients, setFilteredPatients, sortByEmailAscending, setSortByEmailAscending)}>
-              Email
-            </th>
-            <th
-              className="main-font fw-light text-nowrap"
-              scope="col"
-              onClick={() => sortByInsuranceNumber(filteredPatients, setFilteredPatients, sortByInsurranceAscending, setSortByInsurranceAscending)}
-            >
-              Insurrance number
-            </th>
-            <th
-              className="main-font fw-light text-nowrap"
-              scope="col"
-              onClick={() => sortByInstituteName(filteredPatients, setFilteredPatients, sortByInstituteNameAscending, setSortByInstituteNameAscending)}
-            >
-              Institute
-            </th>
+            {!mobile && (
+              <>
+                <th
+                  className="main-font fw-light text-nowrap"
+                  scope="col"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => sortByAddress(filteredPatients, setFilteredPatients, sortByAddressAscending, setSortByAddressAscending)}
+                >
+                  Adress
+                </th>
+                <th
+                  className="main-font fw-light text-nowrap"
+                  scope="col"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => sortByEmail(filteredPatients, setFilteredPatients, sortByEmailAscending, setSortByEmailAscending)}
+                >
+                  Email
+                </th>
+                <th
+                  className="main-font fw-light text-nowrap"
+                  scope="col"
+                  onClick={() => sortByInsuranceNumber(filteredPatients, setFilteredPatients, sortByInsurranceAscending, setSortByInsurranceAscending)}
+                >
+                  Insurrance number
+                </th>
+                <th
+                  className="main-font fw-light text-nowrap"
+                  scope="col"
+                  onClick={() => sortByInstituteName(filteredPatients, setFilteredPatients, sortByInstituteNameAscending, setSortByInstituteNameAscending)}
+                >
+                  Institute
+                </th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -84,15 +118,19 @@ const DashboardTable: React.FC<Iprops> = ({ patients, search }) => {
               .filter((p) => (search ? filterPatient(search, p) : p))
               .map((patient) => (
                 <tr key={patient.patient_id} onClick={() => navigate(`/patientDetails/${patient.patient_id}`)} style={{ cursor: "pointer" }}>
-                  <th scope="row">{patient.patient_id}</th>
+                  {!mobile && <th scope="row">{patient.patient_id}</th>}
                   <td className="text-nowrap">{patient.patient_firstname}</td>
                   <td className="text-nowrap">{patient.patient_secondname}</td>
                   <td className="text-nowrap">{patient.gender}</td>
                   <td className="text-nowrap">{new Date(patient.birth_date).toLocaleDateString()}</td>
-                  <td className="text-nowrap">{patient.address}</td>
-                  <td className="text-nowrap">{patient.email}</td>
-                  <td className="text-nowrap">{patient.insurance_number}</td>
-                  <td className="text-nowrap">{patient.institute_name || "Not provided"}</td>
+                  {!mobile && (
+                    <>
+                      <td className="text-nowrap">{patient.address}</td>
+                      <td className="text-nowrap">{patient.email}</td>
+                      <td className="text-nowrap">{patient.insurance_number}</td>
+                      <td className="text-nowrap">{patient.institute_name || "Not provided"}</td>
+                    </>
+                  )}
                 </tr>
               ))
           ) : (
@@ -104,4 +142,4 @@ const DashboardTable: React.FC<Iprops> = ({ patients, search }) => {
   );
 };
 
-export default DashboardTable;
+export default PatientTable;

@@ -47,11 +47,11 @@ const CreateInstitute: React.FC<Iprops> = ({ visibilityToggler, refreshDashboard
               }}
             >
               <div className="row align-items-center">
-                <div className="col-6 pt-3">
+                <div className="col-12 col-lg-6 pt-3">
                   <label className="form-label">Name</label>
                   <input type="text" required className="form-control" placeholder="EHPAD du clos fleuri ..." value={instituteName} onChange={(e) => setInstituteName(e.target.value)} />
                 </div>
-                <div className="col-6 pt-3">
+                <div className="col-12 col-lg-6 pt-3">
                   <label className="form-label">Phone number</label>
                   <input type="text" className="form-control" placeholder="00668877..." value={institutePhone} onChange={(e) => setInstitutePhone(e.target.value)} />
                 </div>

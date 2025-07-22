@@ -5,7 +5,8 @@ import Header from "../components/header";
 import { AiOutlineEdit } from "react-icons/ai";
 import UpdateInstituteCredentials from "../components/institutes/updateInstituteModal";
 import CreateInstitute from "../components/institutes/createInstitute";
-import { LuCirclePlus } from "react-icons/lu";
+import { BsHouseAdd } from "react-icons/bs";
+import Footer from "../components/footer";
 
 const Institutes: React.FC = () => {
   const [institutes, setInstitutes] = useState<Institute[]>([]);
@@ -49,34 +50,35 @@ const Institutes: React.FC = () => {
       <div className="container-fluid">
         {Boolean(permissions?.create_patient) && (
           <div className="btn text-nowrap" onClick={() => setCreateInstituteVisible((oldValue) => !oldValue)}>
-            <LuCirclePlus color="blue" style={{ width: "35px", height: "auto" }} />
+            <BsHouseAdd color="blue" size={30} />
           </div>
         )}
-        <div className="row gap-4 justify-content-center mt-5">
+        <div className="row gap-4 justify-content-center mt-3">
           {institutes &&
             institutes.map((institute) => {
               return (
-                <div key={institute.inst_id} className="border rounded-3 col-3 p-3 shadow">
+                <div key={institute.inst_id} className="border rounded-3 col-xl-3 col-lg-4 col-md-5 p-3 shadow main-font">
                   {Boolean(permissions?.create_patient) &&
                     <div className="d-flex justify-content-end mb-2">
                       <AiOutlineEdit onClick={() => setModifyVis(institute)} />
                     </div>}
                   <div className="d-flex justify-content-between">
                     <div>Name</div>
-                    <div className="main-font">{institute.institute_name || "Not provided"}</div>
+                    <div className="fw-light">{institute.institute_name || "Not provided"}</div>
                   </div>
                   <div className="d-flex justify-content-between">
                     <div>Address</div>
-                    <div className="main-font fw-light">{institute.institute_address || "Not provided"}</div>
+                    <div className="fw-light">{institute.institute_address || "Not provided"}</div>
                   </div>
                   <div className="d-flex justify-content-between">
                     <div>Phone number</div>
-                    <div className="main-font fw-light">{institute.institute_phone_number || "Not provided"}</div>
+                    <div className="fw-light">{institute.institute_phone_number || "Not provided"}</div>
                   </div>
                 </div>
               );
             })}
         </div>
+        <Footer />
       </div>
       {createInstituteVisible && <CreateInstitute visibilityToggler={setCreateInstituteVisible} refreshDashboardHandler={setRefresh} />}
       {modifyInstituteVis && <UpdateInstituteCredentials institute={clickedInstitute} visHandler={setModifyInstituteVis} refreshHandler={setRefresh} />}

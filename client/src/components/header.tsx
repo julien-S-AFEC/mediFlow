@@ -51,44 +51,44 @@ const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis=false }) =>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/dashboard">
+              <Link className="nav-link main-font" to="/dashboard">
                 Dashboard
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/patients">
+              <Link className="nav-link main-font" to="/patients">
                 Patients
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/institutes">
+              <Link className="nav-link main-font" to="/institutes">
                 Institutes
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/doctors">
+              <Link className="nav-link main-font" to="/doctors">
                 Doctors
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/archivedPatients">
+              <Link className="nav-link main-font" to="/archivedPatients">
                 Archived patients
               </Link>
             </li>
             {isAdmin && (
               <li className="nav-item">
-                <Link className="nav-link" to="/userManagement">
+                <Link className="nav-link main-font" to="/userManagement">
                   Manage users
                 </Link>
               </li>
             )}
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link main-font" href="#">
                 About
               </a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/" onClick={logOut}>
+              <Link className="nav-link main-font" to="/" onClick={logOut}>
                 Log out
               </Link>
             </li>

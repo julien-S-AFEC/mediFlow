@@ -5,7 +5,7 @@ const Connexion: React.FC = () => {
   const [scaled, setIsScalled] = useState<string>("translateY(-50%) scale(100%)");
 
   const adaptBG = useCallback((): void => {
-    setIsScalled(window.innerWidth >= 900 ? "translateY(-50%) scale(100%)" : "");
+    setIsScalled(window.innerWidth >= 900 ? "translateY(-40%) scale(100%)" : "");
   }, [])
 
   useEffect(() => {
@@ -18,9 +18,9 @@ const Connexion: React.FC = () => {
   }, []);
 
   return (
-    <div className="row align-items-center justify-content-center">
+    <div className="d-flex flex-column align-items-center justify-content-center">
       <div className="col-12">
-        <img src="/img/connexion_back.jpg" alt="connexion_back_img" className='position-absolute m-0 p-0' style={{ width: "100vw", zIndex: -1, transform: scaled }} />
+        <img src="/img/connexion_back_mobile.jpg" alt="connexion_back_img" className='img img-fluid position-absolute m-0 p-0' style={{ width: "100vw", zIndex: -1, transform: scaled }} />
       </div>
       <div className="col-12 mt-3 text-center justify-items-center align-items-center">
         <img src="/logos/logo_bordered.png" alt="mediflow-logo" style={{ width: "5rem" }} />

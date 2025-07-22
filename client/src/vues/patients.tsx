@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Patient as PatientType, Permissions } from "../types.ts";
-import DashboardTable from "../components/patients/patientsTable.tsx";
+import PatientsTable from "../components/patients/patientsTable.tsx";
 import Header from "../components/header.tsx";
 import CreatePatient from "../components/patients/createPatient.tsx";
 
@@ -35,17 +35,17 @@ const Patient: React.FC = () => {
 
   return (
     <>
-      <Header search={search} searchHandler={setSearch} searchVis={true}/>
+      <Header search={search} searchHandler={setSearch} searchVis={true} />
       <div className="d-flex flex-column">
         <div className="d-flex mx-2 gap-2">
           {Boolean(permissions?.create_patient) && (
-            <div className="btn btn-primary text-nowrap" onClick={() => setCreatePatientVisible((oldValue) => !oldValue)}>
+            <div className="btn btn-outline-primary rounded-3" onClick={() => setCreatePatientVisible((oldValue) => !oldValue)}>
               Create Patient
             </div>
           )}
         </div>
         {createPatientVisible && <CreatePatient visibilityToggler={setCreatePatientVisible} refreshDashboardHandler={setRefreshDashboard} />}
-        <DashboardTable patients={patients} search={search}/>
+        <PatientsTable patients={patients} search={search} />
       </div>
     </>
   );

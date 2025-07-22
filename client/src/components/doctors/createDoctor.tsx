@@ -55,11 +55,11 @@ const CreateDoctor: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHan
               }}
             >
               <div className="row align-items-center">
-                <div className="col-6 pt-3">
+                <div className="col-12 col-lg-6 pt-3">
                   <label className="form-label">First name</label>
                   <input type="text" required className="form-control" placeholder="Robert" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
                 </div>
-                <div className="col-6 pt-3">
+                <div className="col-12 col-lg-6 pt-3">
                   <label className="form-label">Second name</label>
                   <input type="text" className="form-control" placeholder="Duchamp" value={secondName} onChange={(e) => setSecondName(e.target.value)} />
                 </div>
