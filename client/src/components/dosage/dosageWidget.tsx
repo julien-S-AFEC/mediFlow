@@ -8,6 +8,8 @@ import { GiMedicines } from "react-icons/gi";
 import { PiMoonThin } from "react-icons/pi";
 import { LuCakeSlice } from "react-icons/lu";
 import { Permissions } from "../../types";
+import { useReactToPrint } from "react-to-print";
+import { useRef } from "react";
 
 type Iprops = {
   prescriptionId: number;
@@ -16,6 +18,8 @@ type Iprops = {
 
 const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
   const [allRowsContent, setAllRowsContent] = useState<object[]>([]);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
 
   useEffect(() => {
     fetch("http://localhost:3000/api/prescriptionDosage/getById", {
@@ -32,6 +36,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
       })
       .then((data) => {
         setAllRowsContent(data);
+        console.log(data)
       });
   }, [prescriptionId]);
 
@@ -58,28 +63,9 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
     });
   };
 
-  const printContent = () => {
-    const printWindow = window.open("", "_blank", "width=800,height=600");
-    if (printWindow) {
-      printWindow.document.write(`
-          <html>
-            <head>
-              <title>Print</title>
-
-            </head>
-            <body>${document.getElementById("dosageContent")?.innerHTML}</body>
-          </html>
-        `);
-      printWindow.document.close();
-      printWindow.focus();
-      printWindow.print();
-      printWindow.close();
-    }
-  };
-
   return (
     <form action="#" className="d-flex flex-column align-items-center justify-content-center">
-      <div id="dosageContent">
+      <div ref={contentRef}>
         <table className="table table-success table-striped-columns mt-5">
           <thead>
             <tr>
@@ -118,7 +104,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
             <button onClick={storeDosage} className="btn btn-primary mt-5">
               Save
             </button>
-            <button onClick={printContent} className="btn btn-warning mt-5">
+            <button onClick={reactToPrintFn} className="btn btn-warning mt-5">
               <PiPrinterThin size={30} />
             </button>
           </div>

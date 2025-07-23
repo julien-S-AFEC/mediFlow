@@ -20,10 +20,10 @@ const DoctorDetailsWidget: React.FC<Iprops> = ({ doctor, patientId, permissions,
       {!toggleUpdateDoctor && (
         <div>
           <div className="d-flex align-items-center gap-3">
-            <h4 className="maint-font fw-normal text-center">Doctor</h4>
+            <h4 className="maint-font fw-normal text-center main-font">Doctor</h4>
             {Boolean(permissions?.create_patient) && <CiEdit onClick={() => setToggleUpdateDoctor(true)} />}
           </div>
-          <div className="p-3 rounded-3 border border-dark shadow">
+          <div className="p-3 rounded-3 main-font">
             {Boolean(doctor.length) &&
               Object.entries(doctor[doctor.length - 1]).map(([prop, attr]) => {
                 return (

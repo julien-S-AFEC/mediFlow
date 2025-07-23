@@ -8,7 +8,7 @@ type Iprops = {
 };
 
 const AllPrescriptionsWidget: React.FC<Iprops> = ({ prescriptions, currentPrescriptionHandler }) => {
-  const [selectedPrescriptionId, setSelectedPrescriptionId] = useState<string | null>(null);
+  const [selectedPrescriptionId, setSelectedPrescriptionId] = useState<number | null>(null);
 
   const selectPrescription = (prescription: Prescription) => {
     setSelectedPrescriptionId(prescription.id);

@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Doctor, Institute, Patient, Permissions, Prescription, User } from "../types";
 import { Link, useParams } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-import { CgDetailsMore } from "react-icons/cg";
+import { IoDocumentTextOutline } from "react-icons/io5";
 import PatientDetailsWidget from "../components/patients/patientDetailsWidget.tsx";
 import DoctorDetailsWidget from "../components/doctors/doctorDetailsWidget.tsx";
 import InstituteDetailsWidget from "../components/institutes/instituteDetailsWidget.tsx";
@@ -24,6 +23,7 @@ const PatientDetails: React.FC = () => {
   const [refresh, setRefresh] = useState<boolean>(false);
   const [file, setUploadFile] = useState<File>();
   const [pageReady, setPageReady] = useState<boolean>(false);
+  const [addFileDisable, setAddFileDisable] = useState<boolean>(true);
 
   useEffect(() => {
     fetch("http://localhost:3000/api/patients/getPatientFromId", {
@@ -122,6 +122,7 @@ const PatientDetails: React.FC = () => {
     e.preventDefault();
     if (e.target.files) {
       setUploadFile(e.target.files[0]);
+      setAddFileDisable(false);
     }
   }, []);
 
@@ -136,9 +137,9 @@ const PatientDetails: React.FC = () => {
     const uploadRes = await fetch("http://localhost:3000/api/prescriptions/upload", {
       method: "POST",
       body: formData,
-    })
+    });
     if (!uploadRes.ok) alert("Upload failed, wrong file type.");
-    
+
     const data = await uploadRes.json();
     const id = data.insertId;
 
@@ -146,8 +147,10 @@ const PatientDetails: React.FC = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prescriptionId: id }),
-    })
-    .then(() => setRefresh(v => !v))
+    }).then(() => {
+      setRefresh((v) => !v);
+      setAddFileDisable(true);
+    });
   };
 
   return (
@@ -159,36 +162,33 @@ const PatientDetails: React.FC = () => {
             <div className="row">
               <div className="row">
                 <div className="col-lg-1">
-                  <div className="d-flex flex-column gap-2">
-                    <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                      <CgDetailsMore />
+                  <div className="d-flex flex-column align-items-center gap-2">
+                    <button className="btn btn-outline-secondary w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+                      <IoDocumentTextOutline size={30} />
                     </button>
                     <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex={-1} id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                       <div className="offcanvas-header">
-                        <h5 className="offcanvas-title" id="offcanvasScrollingLabel">
-                          Offcanvas with body scrolling
-                        </h5>
                         <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                       </div>
-                      <div className="offcanvas-body">
+                      <div className="offcanvas-body d-flex flex-column gap-4">
                         {patient && <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />}
                         {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
                         {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}{" "}
                       </div>
                     </div>
                     {patient?.active ? <ConfirmArchiveModal patient={patient} /> : null}
-                    <Link to="/dashboard" className="btn btn-primary">
+                    <Link to="/dashboard" className="btn btn-primary w-100">
                       Back
                     </Link>
                     {allPrescriptions && <AllPrescriptionsWidget prescriptions={allPrescriptions} currentPrescriptionHandler={setCurrentPrescription} />}
                   </div>
                 </div>
-                <div className="col-lg-11 d-flex flex-column justify-content-center align-items-center">
+                <div className="col-lg-11 d-flex flex-column justify-content-center align-items-center main-font">
                   {Boolean(permissions?.create_prescription) && (
                     <div className="d-flex gap-3 py-3 align-items-center">
-                      <form className="d-flex flex-column justify-content-center align-items-center gap-3">
-                        <input type="file" accept="image/*" onChange={handleSubmit} />
-                        <button className="btn btn-primary" type="submit" onClick={handleUpload}>
+                      <form className="d-flex flex-column justify-content-center align-items-center gap-3 p-4 rounded-4 shadow">
+                        <input id="fileInput" type="file" accept="image/*" onChange={handleSubmit} />
+                        <button className="btn btn-outline-primary" type="submit" disabled={addFileDisable} onClick={handleUpload}>
                           Add prescription
                         </button>
                       </form>
