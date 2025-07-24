@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import DosageRow from "./dosageRow";
-import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
+import { HiBarsArrowDown } from "react-icons/hi2";
+import { HiBarsArrowUp } from "react-icons/hi2";
 import { PiPrinterThin } from "react-icons/pi";
 import { AiOutlineSun } from "react-icons/ai";
 import { PiSunHorizonLight } from "react-icons/pi";
+import { TfiSave } from "react-icons/tfi";
 import { GiMedicines } from "react-icons/gi";
 import { PiMoonThin } from "react-icons/pi";
 import { LuCakeSlice } from "react-icons/lu";
@@ -36,7 +38,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
       })
       .then((data) => {
         setAllRowsContent(data);
-        console.log(data)
+        console.log(data);
       });
   }, [prescriptionId]);
 
@@ -97,15 +99,15 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
       {Boolean(permissions?.create_prescription_commentary) && (
         <>
           <div className="d-flex gap-3">
-            <CiCirclePlus color="blue" size={50} onClick={addRow} />
-            <CiCircleMinus color="red" size={50} onClick={removeRow} />
+            <HiBarsArrowDown color="#247cffff" size={30} onClick={addRow} />
+            <HiBarsArrowUp color="red" size={30} onClick={removeRow} />
           </div>
           <div className="d-flex gap-3">
-            <button onClick={storeDosage} className="btn btn-primary mt-5">
-              Save
+            <button onClick={storeDosage} className="btn mt-5">
+              <TfiSave color="blue" size={30} />
             </button>
-            <button onClick={reactToPrintFn} className="btn btn-warning mt-5">
-              <PiPrinterThin size={30} />
+            <button onClick={reactToPrintFn} className="btn mt-5">
+              <PiPrinterThin size={40} color="#c0cc17ff" />
             </button>
           </div>
         </>

@@ -7,7 +7,6 @@ const prescriptionRouter = Router()
 
 class PrescriptionController {
     static upload(req, res) {
-        console.log(req.file)
         PrescriptionModel.upload(req.file.path, req.body.patientId)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error.message))

@@ -1,0 +1,12 @@
+.card-hover:hover {
+  border: 0.05rem solid rgb(102, 102, 102) !important;
+  transform: scale(105%);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.card-hover {
+  border: none;
+  transform: scale(100%);
+  transition: 0.3s;
+}

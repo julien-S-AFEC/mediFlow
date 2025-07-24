@@ -17,7 +17,7 @@ const AllPrescriptionsWidget: React.FC<Iprops> = ({ prescriptions, currentPrescr
 
   return (
     <>
-      <div className="d-flex flex-column gap-3 overflow-y-auto lightScrollbar" style={{ maxHeight: "500px" }}>
+      <div className="d-flex flex-row flex-md-column gap-3 overflow-y-auto overflow-x-auto lightScrollbar" style={{ maxHeight: "500px", maxWidth: "300px" }}>
         {prescriptions.map((prescription) => {
           const isSelected = prescription.id === selectedPrescriptionId;
           return (

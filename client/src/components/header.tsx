@@ -83,11 +83,6 @@ const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis=false }) =>
               </li>
             )}
             <li className="nav-item">
-              <a className="nav-link main-font" href="#">
-                About
-              </a>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link main-font" to="/" onClick={logOut}>
                 Log out
               </Link>

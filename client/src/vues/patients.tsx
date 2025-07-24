@@ -3,6 +3,7 @@ import { Patient as PatientType, Permissions } from "../types.ts";
 import PatientsTable from "../components/patients/patientsTable.tsx";
 import Header from "../components/header.tsx";
 import CreatePatient from "../components/patients/createPatient.tsx";
+import { GoPersonAdd } from "react-icons/go";
 
 const Patient: React.FC = () => {
   const [permissions, setPermissions] = useState<Permissions>();
@@ -29,7 +30,7 @@ const Patient: React.FC = () => {
         }
       })
       .then((data) => {
-        setPatients(JSON.parse(data));
+        setPatients(JSON.parse(data).reverse());
       });
   }, [refreshDashboard]);
 
@@ -37,13 +38,11 @@ const Patient: React.FC = () => {
     <>
       <Header search={search} searchHandler={setSearch} searchVis={true} />
       <div className="d-flex flex-column">
-        <div className="d-flex mx-2 gap-2">
-          {Boolean(permissions?.create_patient) && (
-            <div className="btn btn-outline-primary rounded-3" onClick={() => setCreatePatientVisible((oldValue) => !oldValue)}>
-              Create Patient
-            </div>
-          )}
-        </div>
+        {Boolean(permissions?.create_patient) && (
+          <div className="btn" onClick={() => setCreatePatientVisible((oldValue) => !oldValue)}>
+            <GoPersonAdd size={40} />
+          </div>
+        )}
         {createPatientVisible && <CreatePatient visibilityToggler={setCreatePatientVisible} refreshDashboardHandler={setRefreshDashboard} />}
         <PatientsTable patients={patients} search={search} />
       </div>

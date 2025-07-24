@@ -21,9 +21,21 @@ body {
   background-color: #6187da;
 }
 
+.bg-green {
+  background-color: #61da85;
+}
+
 #fileInput::file-selector-button {
   font-family: quicksand;
   padding: 0.4rem 0.8rem 0.4rem 0.8rem;
   border: 0.1em rgb(80, 80, 80) solid;
   border-radius: 9px;
+}
+
+.btn-green {
+  background-color: #50b970 !important;
+}
+
+.bg-light-blue {
+  background-color: #5da9b3 !important;
 }

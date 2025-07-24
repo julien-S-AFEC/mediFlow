@@ -7,6 +7,7 @@ import UpdateInstituteCredentials from "../components/institutes/updateInstitute
 import CreateInstitute from "../components/institutes/createInstitute";
 import { BsHouseAdd } from "react-icons/bs";
 import Footer from "../components/footer";
+import './institutes.css'
 
 const Institutes: React.FC = () => {
   const [institutes, setInstitutes] = useState<Institute[]>([]);
@@ -42,29 +43,30 @@ const Institutes: React.FC = () => {
   const setModifyVis = useCallback((inst: Institute) => {
     setClickedInstitute(inst);
     setModifyInstituteVis(true);
-  }, [])
+  }, []);
 
   return (
     <>
       <Header />
-      <div className="container-fluid">
+      <div className="d-flex flex-column gap-2">
+        <h2 className="text-center main-font">Institutes</h2>
         {Boolean(permissions?.create_patient) && (
           <div className="btn text-nowrap" onClick={() => setCreateInstituteVisible((oldValue) => !oldValue)}>
             <BsHouseAdd color="blue" size={30} />
           </div>
         )}
-        <div className="row gap-4 justify-content-center mt-3">
+        <div className="row gap-4 justify-content-center mt-3 mx-3 mx-lg-0">
           {institutes &&
             institutes.map((institute) => {
               return (
-                <div key={institute.inst_id} className="border rounded-3 col-xl-3 col-lg-4 col-md-5 p-3 shadow main-font">
-                  {Boolean(permissions?.create_patient) &&
+                <div key={institute.inst_id} className="border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow main-font card-hover">
+                  {Boolean(permissions?.create_patient) && (
                     <div className="d-flex justify-content-end mb-2">
                       <AiOutlineEdit onClick={() => setModifyVis(institute)} />
-                    </div>}
-                  <div className="d-flex justify-content-between">
-                    <div>Name</div>
-                    <div className="fw-light">{institute.institute_name || "Not provided"}</div>
+                    </div>
+                  )}
+                  <div className="d-flex justify-content-center mb-2">
+                    <div>{institute.institute_name || "Not provided"}</div>
                   </div>
                   <div className="d-flex justify-content-between">
                     <div>Address</div>
@@ -82,7 +84,6 @@ const Institutes: React.FC = () => {
       </div>
       {createInstituteVisible && <CreateInstitute visibilityToggler={setCreateInstituteVisible} refreshDashboardHandler={setRefresh} />}
       {modifyInstituteVis && <UpdateInstituteCredentials institute={clickedInstitute} visHandler={setModifyInstituteVis} refreshHandler={setRefresh} />}
-
     </>
   );
 };

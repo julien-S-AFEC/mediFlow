@@ -6,6 +6,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import CreateDoctor from "../components/doctors/createDoctor";
 import UpdateDoctorCredentials from "../components/doctors/updateDoctorCredentials";
 import { IoPersonAddOutline } from "react-icons/io5";
+import Footer from "../components/footer";
 
 const Doctors: React.FC = () => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -23,7 +24,8 @@ const Doctors: React.FC = () => {
         }
       })
       .then((data) => {
-        setPermissions(JSON.parse(data))});
+        setPermissions(JSON.parse(data));
+      });
   }, []);
 
   useEffect(() => {
@@ -42,30 +44,30 @@ const Doctors: React.FC = () => {
   const setModifyVis = useCallback((doc: Doctor) => {
     setClickedDoctor(doc);
     setModifyDoctorVis(true);
-  }, [])
+  }, []);
 
   return (
     <>
       <Header />
-      <div className="container-fluid">
-        <h2 className="text-center">Doctors</h2>
-        {permissions?.create_patient ? 
-          <div className="btn text-nowrap" onClick={() => setCreateDoctorVisible((oldValue) => !oldValue)}>
-            <IoPersonAddOutline color="blue" style={{ width: "35px", height: "auto" }} />
+      <div className="d-flex flex-column gap-2">
+        <h2 className="text-center main-font">Doctors</h2>
+        {permissions?.create_patient ? (
+          <div className="btn" onClick={() => setCreateDoctorVisible((oldValue) => !oldValue)}>
+            <IoPersonAddOutline color="blue" size={30} />
           </div>
-          : null
-        }
-        <div className="row gap-4 justify-content-center mt-3">
+        ) : null}
+        <div className="row gap-4 justify-content-center mt-3 mx-3 mx-lg-0">
           {doctors &&
             doctors.map((doctor) => {
               return (
-                <div key={doctor.doctor_id} className="border rounded-3 col-xl-3 col-lg-4 col-md-5 p-3 shadow">
-                  {Boolean(permissions?.create_patient) &&
-                  <div className="d-flex justify-content-end mb-2">
-                    <AiOutlineEdit onClick={() => setModifyVis(doctor)} />
-                  </div>}
+                <div key={doctor.doctor_id} className="border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow">
+                  {Boolean(permissions?.create_patient) && (
+                    <div className="d-flex justify-content-end mb-2">
+                      <AiOutlineEdit onClick={() => setModifyVis(doctor)} />
+                    </div>
+                  )}
 
-                  <div className="d-flex justify-content-between gap-3">
+                  <div className="d-flex justify-content-center mb-2 gap-3">
                     <div className="main-font">{doctor.doctor_firstname + " " + doctor.doctor_secondname || "Not provided"}</div>
                   </div>
                   <div className="d-flex justify-content-between gap-3">
@@ -88,6 +90,7 @@ const Doctors: React.FC = () => {
               );
             })}
         </div>
+        <Footer />
       </div>
       {modifyDoctorVis && <UpdateDoctorCredentials doctor={clickedDoctor} visHandler={setModifyDoctorVis} refreshHandler={setRefresh} />}
       {createDoctorVisible && <CreateDoctor visibilityToggler={setCreateDoctorVisible} refreshDashboardHandler={setRefresh} />}

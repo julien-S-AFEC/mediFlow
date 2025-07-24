@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Doctor, Institute, Patient, Permissions, Prescription, User } from "../types";
 import { Link, useParams } from "react-router-dom";
-import { IoDocumentTextOutline } from "react-icons/io5";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { BsFileEarmarkPerson } from "react-icons/bs";
 import PatientDetailsWidget from "../components/patients/patientDetailsWidget.tsx";
 import DoctorDetailsWidget from "../components/doctors/doctorDetailsWidget.tsx";
 import InstituteDetailsWidget from "../components/institutes/instituteDetailsWidget.tsx";
@@ -10,6 +11,7 @@ import ConfirmArchiveModal from "../components/confirmArchiveModal.tsx";
 import CurrentPrescriptionWidget from "../components/prescriptions/currentPrescriptionWidget.tsx";
 import AllPrescriptionsWidget from "../components/prescriptions/allPrescriptionsWidget.tsx";
 import Loading from "../components/loading.tsx";
+import Footer from "../components/footer.tsx";
 
 const PatientDetails: React.FC = () => {
   const params = useParams();
@@ -158,28 +160,30 @@ const PatientDetails: React.FC = () => {
       {pageReady ? (
         <>
           <Header />
-          <div className="container-fluid">
+          <div className="container-fluid align-items-center ">
             <div className="row">
-              <div className="row">
+              <div className="row  m-0">
                 <div className="col-lg-1">
                   <div className="d-flex flex-column align-items-center gap-2">
-                    <button className="btn btn-outline-secondary w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                      <IoDocumentTextOutline size={30} />
-                    </button>
-                    <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex={-1} id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-                      <div className="offcanvas-header">
-                        <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <div className="d-flex flex-row flex-md-column align-items-center">
+                      <Link to="/patients" className="btn w-100">
+                        <IoIosArrowRoundBack size={40} />
+                      </Link>
+                      <button className="btn w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+                        <BsFileEarmarkPerson color="#1f7bd1ff" size={30} />
+                      </button>
+                      <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex={-1} id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                        <div className="offcanvas-header">
+                          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div className="offcanvas-body d-flex flex-column gap-4">
+                          {patient && <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />}
+                          {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
+                          {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}{" "}
+                        </div>
                       </div>
-                      <div className="offcanvas-body d-flex flex-column gap-4">
-                        {patient && <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />}
-                        {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
-                        {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}{" "}
-                      </div>
+                      {patient?.active ? <ConfirmArchiveModal patient={patient} /> : null}
                     </div>
-                    {patient?.active ? <ConfirmArchiveModal patient={patient} /> : null}
-                    <Link to="/dashboard" className="btn btn-primary w-100">
-                      Back
-                    </Link>
                     {allPrescriptions && <AllPrescriptionsWidget prescriptions={allPrescriptions} currentPrescriptionHandler={setCurrentPrescription} />}
                   </div>
                 </div>
@@ -187,27 +191,36 @@ const PatientDetails: React.FC = () => {
                   {Boolean(permissions?.create_prescription) && (
                     <div className="d-flex gap-3 py-3 align-items-center">
                       <form className="d-flex flex-column justify-content-center align-items-center gap-3 p-4 rounded-4 shadow">
-                        <input id="fileInput" type="file" accept="image/*" onChange={handleSubmit} />
-                        <button className="btn btn-outline-primary" type="submit" disabled={addFileDisable} onClick={handleUpload}>
-                          Add prescription
-                        </button>
+                        <label
+                          htmlFor="fileInput"
+                          style={{
+                            display: "inline-block",
+                            padding: "1rem 3rem",
+                            backgroundColor: "transparent",
+                            color: "black",
+                            borderRadius: "5px",
+                            border: ".17em #5a80d1ff dotted",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Upload Prescription
+                        </label>
+                        <input id="fileInput" type="file" accept="image/*" onChange={handleSubmit} style={{ display: "none" }} />{" "}
+                        {!addFileDisable && (
+                          <button className="btn bg-light-blue text-light" type="submit" onClick={handleUpload}>
+                            Add prescription
+                          </button>
+                        )}
                       </form>
                     </div>
                   )}
                   {currentPrescription ? <CurrentPrescriptionWidget currentPrescription={currentPrescription} permissions={permissions} currentUser={currentUser} /> : null}
                 </div>
               </div>
-
-              <div className="col-lg-1">
-                {patient ? (
-                  <div className="d-flex justify-content-center align-items-center my-3"></div>
-                ) : (
-                  <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
-                    <div className="spinner-border text-primary" role="status" aria-label="Loading..."></div>
-                  </div>
-                )}
-              </div>
             </div>
+          </div>
+          <div className="mt-3">
+            <Footer />
           </div>
         </>
       ) : (

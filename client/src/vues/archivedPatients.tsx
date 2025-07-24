@@ -22,11 +22,9 @@ const Dashboard: React.FC = () => {
     <>
       <Header />
       <div className="container-fluid">
-        <div className="d-flex flex-column align-items-center">
-          <h2 className="main-font fw-light">Archived patients</h2>
+          <h2 className="main-font fw-light text-center">Archived patients</h2>
           <ArchivedPatientTable refreshState={refreshDashboard} refreshHandler={setRefreshDashboard} permissions={permissions} />
         </div>
-      </div>
     </>
   );
 };
