@@ -1,12 +1,13 @@
-.card-hover:hover {
-  border: 0.05rem solid rgb(102, 102, 102) !important;
-  transform: scale(105%);
-  transition: 0.3s;
+.icon {
+  width: 1.6rem;
+  height: auto;
+  color: rgb(56, 56, 56);
   cursor: pointer;
+  transform: scale(100%);
 }
 
-.card-hover {
-  border: none;
-  transform: scale(100%);
+.icon:hover {
+  color: rgb(0, 119, 255);
   transition: 0.3s;
+  transform: scale(110%);
 }

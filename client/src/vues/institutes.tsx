@@ -8,6 +8,8 @@ import CreateInstitute from "../components/institutes/createInstitute";
 import { BsHouseAdd } from "react-icons/bs";
 import Footer from "../components/footer";
 import './institutes.css'
+import { Link } from "react-router-dom";
+import { CiBoxList } from "react-icons/ci";
 
 const Institutes: React.FC = () => {
   const [institutes, setInstitutes] = useState<Institute[]>([]);
@@ -59,12 +61,15 @@ const Institutes: React.FC = () => {
           {institutes &&
             institutes.map((institute) => {
               return (
-                <div key={institute.inst_id} className="border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow main-font card-hover">
+                <div className="col-5 border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow main-font">
                   {Boolean(permissions?.create_patient) && (
                     <div className="d-flex justify-content-end mb-2">
-                      <AiOutlineEdit onClick={() => setModifyVis(institute)} />
+                      <AiOutlineEdit className="icon" onClick={() => setModifyVis(institute)}/>
                     </div>
                   )}
+                  <Link to={`/instituteDetails/${institute.inst_id}`} key={institute.inst_id} className="d-flex justify-content-end mb-2 text-decoration-none">
+                    <CiBoxList className="icon"/>
+                  </Link>
                   <div className="d-flex justify-content-center mb-2">
                     <div>{institute.institute_name || "Not provided"}</div>
                   </div>

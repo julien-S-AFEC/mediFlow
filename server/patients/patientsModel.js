@@ -40,6 +40,32 @@ class PatientModel {
             })
     }
 
+    static async getPatientFromInstId(id) {
+        const con = await pool.getConnection()
+        return con.execute(`SELECT 
+                    patient_id, 
+                    patient_firstname, 
+                    patient_secondname, 
+                    gender, 
+                    birth_date, 
+                    address, 
+                    email, 
+                    insurance_number, 
+                    created_at,
+                    active
+                    FROM 
+                    patients 
+                    WHERE patients.institute_id=?`, [id])
+            .then((rows, fields) => {
+                con.release()
+                return rows[0]
+            })
+            .catch(error => {
+                con.release();
+                throw error
+            })
+    }
+
     static async createPatient(
         firstName,
         secondName,

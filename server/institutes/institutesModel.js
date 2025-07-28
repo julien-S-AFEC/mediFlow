@@ -43,6 +43,26 @@ class InstituteModel {
             })
     }
 
+    static async getFromId(id) {
+        const con = await pool.getConnection()
+        return con.execute(`SELECT 
+                    institute_name,
+                    institute_address,
+                    institute_phone_number
+                    FROM 
+                    institutes
+                    WHERE
+                    institutes.inst_id=?`, [id])
+            .then((rows, fields) => {
+                con.release()
+                return rows[0][0]
+            })
+            .catch(error => {
+                con.release();
+                throw error
+            })
+    }
+
     static async updateInstituteCredentialsFromId(name, addres, phoneNumber, id) {
         const con = await pool.getConnection()
         return con.execute(`UPDATE 

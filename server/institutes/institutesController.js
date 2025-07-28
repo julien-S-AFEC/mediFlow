@@ -16,6 +16,12 @@ class InstituteController {
             .catch(error => res.status(500).json(error))
     }
 
+    static getFromId(req, res) {
+        InstituteModel.getFromId(req.body.instituteId)
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error))
+    }
+
     static updateInstituteCredentialsFromId(req, res) {
         InstituteModel.updateInstituteCredentialsFromId(
             req.body.name,
@@ -36,6 +42,7 @@ class InstituteController {
 
 instituteRouter.get('/getAll', InstituteController.getAll)
 instituteRouter.post('/getInstituteFromPatientId', InstituteController.getInstituteFromPatientId)
+instituteRouter.post('/getFromId', InstituteController.getFromId)
 instituteRouter.put('/updateInstituteCredentialsFromId', InstituteController.updateInstituteCredentialsFromId)
 instituteRouter.post('/createInstitute', InstituteController.createInstitute)
 

@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import NeedLogginRoute from "./vues/needLoggedRoute";
 import Connexion from "./vues/connexion";
 import Register from "./vues/register";
@@ -7,6 +6,7 @@ import Dashboard from "./vues/dashboard";
 import Patients from "./vues/patients";
 import PatientDetails from "./vues/patientDetails";
 import Institutes from "./vues/institutes";
+import InstituteDetails from "./vues/instituteDetails";
 import Doctors from "./vues/doctors";
 import ArchivedPatients from "./vues/archivedPatients";
 import PrescriptionView from "./vues/prescriptionView";
@@ -52,9 +52,9 @@ const App = () => {
           <Route
             path="/patientDetails/:patientId/prescriptionView/:fileId"
             element={
-              // <NeedLogginRoute>
+              <NeedLogginRoute>
                 <PrescriptionView />
-              // </NeedLogginRoute>
+              </NeedLogginRoute>
             }
           ></Route>
 
@@ -63,6 +63,15 @@ const App = () => {
             element={
               <NeedLogginRoute>
                 <Institutes />
+              </NeedLogginRoute>
+            }
+          ></Route>
+
+          <Route
+            path="/instituteDetails/:instituteId"
+            element={
+              <NeedLogginRoute>
+                <InstituteDetails />
               </NeedLogginRoute>
             }
           ></Route>

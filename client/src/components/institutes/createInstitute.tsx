@@ -37,7 +37,6 @@ const CreateInstitute: React.FC<Iprops> = ({ visibilityToggler, refreshDashboard
             <h5 className="modal-title">Create New Institute</h5>
             <button type="button" className="btn-close" onClick={() => visibilityToggler((v) => !v)} aria-label="Close" />
           </div>
-
           <div className="modal-body">
             <form
               onSubmit={(e) => {

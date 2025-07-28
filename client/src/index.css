@@ -39,3 +39,8 @@ body {
 .bg-light-blue {
   background-color: #5da9b3 !important;
 }
+
+.custom-tooltip {
+  color: red !important;
+  background-color: red !important;
+}

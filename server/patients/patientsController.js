@@ -16,6 +16,12 @@ class PatientsController {
             .catch(error => res.status(500).json(error))
     }
 
+    static getPatientFromInstId(req, res) {
+        PatientsModel.getPatientFromInstId(req.body.instituteId)
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error))
+    }
+
     static createPatient(req, res) {
         PatientsModel.createPatient(
             req.body.firstName || null,
@@ -93,6 +99,7 @@ class PatientsController {
 
 patientsRouter.get('/getAll', PatientsController.getAll)
 patientsRouter.post('/getPatientFromId', PatientsController.getPatientFromId)
+patientsRouter.post('/getPatientFromInstId', PatientsController.getPatientFromInstId)
 patientsRouter.post('/createPatient', PatientsController.createPatient)
 patientsRouter.put('/updatePatient', PatientsController.updatePatient)
 patientsRouter.put('/updateInstituteFromId', PatientsController.updateInstituteFromId)
