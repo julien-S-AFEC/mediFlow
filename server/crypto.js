@@ -6,42 +6,112 @@ const specialCharacters = [
 ];
 
 
-export const encrypt = (text, key, rounds) => {
-    let result = ''
-    const reversedKey = key.replaceAll(' ', '').replaceAll('-', '').replaceAll(':', '').replaceAll('0', '1').split("").reverse().join("");
-    console.log(reversedKey)
-    let i = 0
+const allowedName = [
+    'patient_firstname', 'patient_secondname', 'gender', 'birth_date', 'address', 'email', 'insurance_number',
+]
 
-    for (const letter of text) {
-        if (i === rounds) {
-            i = 0
-        }
+/**
+ * 
+ * @param {Object} fields 
+ * @param {string} key 
+ * @param {number} rounds 
+ * @returns 
+ */
+export const encrypt = (fields, key, rounds) => {
+    console.log('encrypt', typeof key)
+    let encryptedObject = {}
 
-        // An integer code + a special character as a separator.
-        result += (letter.charCodeAt(0) * reversedKey[i])  + specialCharacters[Math.floor(Math.random() * specialCharacters.length)]
-        i++
-    }
-    return result
-}
-
-export const decrypt = (text, key, rounds) => {
-    let result = ''
-    let buffer = ''
-    const reversedKey = key.replaceAll(' ', '').replaceAll('-', '').replaceAll(':', '').replaceAll('0', '1').split("").reverse().join("");
-    let i = 0
-
-    for (const char of text) {
-        if (i === rounds) {
-            i = 0
-        }
-
-        if (specialCharacters.includes(char)) {
-            result += String.fromCharCode(buffer / reversedKey[i])
-            buffer = ''
-            i === rounds ? i = 0 : i++
+    for (const [name, field] of Object.entries(fields)) {
+        if (!allowedName.includes(name) || field == null) {
+            encryptedObject[name] = field
             continue
         }
-        buffer += char
+        let result = ''
+        const reversedKey =  key.replaceAll(' ', '').replaceAll('-', '').replaceAll(':', '').replaceAll('0', '1').split("").reverse().join("")
+
+        if (rounds > reversedKey.length || rounds < reversedKey.length) {
+            rounds = reversedKey.length
+        }
+        let i = 0
+
+        for (const letter of field) {
+            if (i === rounds) {
+                i = 0
+            }
+            // I'm using a special character as a separator.
+            result += (letter.charCodeAt(0) + Number(reversedKey[i])) + specialCharacters[Math.floor(Math.random() * specialCharacters.length)];
+            i++
+        }
+        encryptedObject[name] = result
     }
-    return result
+    return encryptedObject
 }
+
+export const decrypt = (cryptedObject, key, rounds) => {
+
+    try {
+        let decryptedObject = {};
+        const reversedKey = key
+            .replaceAll(' ', '')
+            .replaceAll('-', '')
+            .replaceAll(':', '')
+            .replaceAll('0', '1')
+            .split('')
+            .reverse()
+            .join('');
+
+        if (rounds > reversedKey.length || rounds < reversedKey.length) {
+            rounds = reversedKey.length
+        }
+
+        for (const [name, field] of Object.entries(cryptedObject)) {
+            if (!allowedName.includes(name) || field == null) {
+                decryptedObject[name] = field
+                continue
+            }
+
+            let result = '';
+            let buffer = '';
+            let i = 0;
+
+            for (const char of field) {
+                if (specialCharacters.includes(char)) {
+                    if (buffer !== '') {
+                        const charCode = Number(buffer) - Number(reversedKey[i]);
+                        result += String.fromCharCode(charCode);
+                        buffer = '';
+                        i++;
+
+                        if (i === rounds) {
+                            i = 0;
+                        }
+                    }
+                } else {
+                    buffer += char;
+                }
+            }
+            decryptedObject[name] = result;
+        }
+
+        return decryptedObject;
+    }
+    catch (error) {
+        console.log(error)
+    }
+};
+
+
+const a = {
+  patient_firstname: 'aze',
+  patient_secondname: 'aze',
+  gender: 'Male',
+  birth_date: '2025-08-01',
+  address: '',
+  email: '',
+  insurance_number: '',
+  institute: '',
+  doctor: '',
+  created_at: '01-08-2025 13:36:30'
+}
+
+console.log(encrypt(a, a.created_at, 5))

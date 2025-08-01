@@ -122,7 +122,7 @@ const PatientTable: React.FC<Iprops> = ({ patients, search }) => {
                   <td className="text-nowrap">{patient.patient_firstname}</td>
                   <td className="text-nowrap">{patient.patient_secondname}</td>
                   <td className="text-nowrap">{patient.gender}</td>
-                  <td className="text-nowrap">{new Date(patient.birth_date).toLocaleDateString()}</td>
+                  <td className="text-nowrap">{patient.birth_date}</td>
                   {!mobile && (
                     <>
                       <td className="text-nowrap">{patient.address}</td>

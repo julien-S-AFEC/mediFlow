@@ -7,18 +7,6 @@ class PatientModel {
         return con.execute(`SELECT * FROM patients LEFT JOIN institutes ON patients.institute_id = institutes.inst_id WHERE 1`, [])
             .then((rows, fields) => {
                 con.release()
-                const result = rows[0]
-                for (const patient of result) {
-
-                    for (const [field, value] in Object.entries(patient)) {
-                    console.log(field)
-
-                        if (field === "insurance_number") {
-                            value = decrypt(field.insurance_number, field.created_at, 5)
-                        }
-                    }
-                }
-                // // result.map(patient => patient.map(field => field.insurance_number ? decrypt(field.insurance_number, field.created_at, 5): insurance_number))
                 return rows[0]
             })
             .catch(error => {
@@ -117,8 +105,8 @@ class PatientModel {
         email,
         insurance,
         institute,
-        doctor) {
-
+        doctor,
+        createdAt) {
         const con = await pool.getConnection()
         return con.execute(`INSERT INTO patients 
                     (
@@ -129,8 +117,9 @@ class PatientModel {
                     address, 
                     email, 
                     insurance_number, 
-                    institute_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [
+                    institute_id,
+                    created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
             firstName,
             secondName,
             gender,
@@ -138,7 +127,8 @@ class PatientModel {
             address,
             email,
             insurance,
-            institute
+            institute,
+            createdAt
         ])
             .then((rows, fields) => {
                 con.release()

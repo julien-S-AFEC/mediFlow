@@ -5,7 +5,6 @@ const prescriptionCommentaryRouter = Router()
 
 class PrescriptionCommentaryController {
     static getAllbyPrescId(req, res) {
-        console.log(req.body.prescriptionId)
         PrescriptionCommentaryModel.getAllbyPrescId(req.body.prescriptionId)
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error.message))

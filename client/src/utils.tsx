@@ -11,7 +11,6 @@ export const snakeCaseToPretty = (word: string): string => {
 };
 
 export const filterPatient = (search: string, patient: Patient) => {
-  console.log(patient.patient_firstname.slice(0, 1).toUpperCase() + patient.patient_firstname.slice(1));
   if (
     patient.patient_firstname.includes(search) ||
     patient.patient_firstname.includes(search.slice(0, 1).toUpperCase() + search.slice(1)) ||

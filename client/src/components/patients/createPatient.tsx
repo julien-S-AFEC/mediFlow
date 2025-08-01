@@ -50,16 +50,16 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
-        firstName: firstNameText,
-        secondName: secondNameText,
+        patient_firstname: firstNameText,
+        patient_secondname: secondNameText,
         gender: genderText,
-        birthDate: birthDateText,
+        birth_date: birthDateText,
         address: addressText,
         email: emailText,
-        insurance: insuranceText,
+        insurance_number: insuranceText,
         institute: instituteText,
         doctor: doctorText,
-        createdAt: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }).replaceAll('/', '-').replace(',', '')
+        created_at: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }).replaceAll('/', '-').replace(',', '')
       }),
     }).then(() => {
       setFirstNameText("");

@@ -1,62 +1,92 @@
 import PatientsModel from "./patientsModel.js"
 import { Router } from "express"
-import { encrypt } from "../crypto.js"
+import { encryptData } from "../middlewares/encryption.js"
+import { decrypt, encrypt } from "../crypto.js"
 
 const patientsRouter = Router()
 
 class PatientsController {
     static getAll(req, res) {
         PatientsModel.getAll()
-            .then(data => res.status(200).json(data))
-            .catch(error => res.status(500).json(error))
+            .then(data => {
+                const decryptedData = data.map(user => {
+                    return decrypt(user, user.created_at, 5);
+                });
+
+                res.status(200).json(decryptedData);
+            })
+            .catch(error => res.status(500).json(error));
     }
 
     static getPatientFromId(req, res) {
         PatientsModel.getPatientFromId(req.body.patientId)
-            .then(data => res.status(200).json(data))
+            .then(data => res.status(200).json(decrypt(data, data.created_at, 5)))
             .catch(error => res.status(500).json(error))
     }
 
     static getPatientFromInstId(req, res) {
         PatientsModel.getPatientFromInstId(req.body.instituteId)
-            .then(data => res.status(200).json(data))
+            .then(data => {
+                const decryptedData = data.map(user => {
+                    return decrypt(user, user.created_at, 5);
+                });
+
+                res.status(200).json(decryptedData);
+            })
             .catch(error => res.status(500).json(error))
     }
 
     static getPatientFromDoctorId(req, res) {
         PatientsModel.getPatientFromDoctorId(req.body.doctorId)
-            .then(data => res.status(200).json(data))
+            .then(data => {
+                const decryptedData = data.map(user => {
+                    return decrypt(user, user.created_at, 5);
+                });
+
+                res.status(200).json(decryptedData);
+            })
             .catch(error => res.status(500).json(error))
     }
 
     static createPatient(req, res) {
         PatientsModel.createPatient(
-            req.body.firstName || null,
-            req.body.secondName || null,
+            req.body.patient_firstname || null,
+            req.body.patient_secondname || null,
             req.body.gender || null,
-            req.body.birthDate || null,
+            req.body.birth_date || null,
             req.body.address || null,
             req.body.email || null,
-            req.body.insurance ? encrypt(req.body.insurance, req.body.createdAt, 5) : null,
+            req.body.insurance_number || null,
             req.body.institute || null,
             req.body.doctor || null,
-            req.body.createdAt
+            req.body.created_at
         )
             .then(data => res.status(200).json(data))
-            .catch(error => res.status(500).json(error))
+            .catch(error => { console.log(error); res.status(500).json(error) })
     }
 
-    static updatePatient(req, res) {
+    static async updatePatient(req, res) {
+        const patient = await PatientsModel.getPatientFromId(req.body.patientId)
+        const encryptecData = encrypt({
+            patient_firstname: req.body.firstName,
+            patient_secondname:req.body.secondName,
+            gender: req.body.gender,
+            birth_date: req.body.birthDate,
+            address: req.body.address,
+            email: req.body.email,
+            insurance_number: req.body.insurance
+        }, patient.created_at, 5)
+
         PatientsModel.updatePatient(
             req.body.patientId,
-            req.body.firstName,
-            req.body.secondName,
-            req.body.gender,
-            req.body.birthDate,
-            req.body.address,
-            req.body.email,
-            encrypt(req.body.insurance, req.body.created_at, 5),
-            req.body.created_at)
+            encryptecData.patient_firstname,
+            encryptecData.patient_secondname,
+            encryptecData.gender,
+            encryptecData.birth_date,
+            encryptecData.address,
+            encryptecData.email,
+            encryptecData.insurance_number
+        )
             .then(data => { res.status(200).json(data) })
             .catch(error => {
                 res.status(500).json({ message: error.message });
@@ -110,7 +140,7 @@ patientsRouter.get('/getAll', PatientsController.getAll)
 patientsRouter.post('/getPatientFromId', PatientsController.getPatientFromId)
 patientsRouter.post('/getPatientFromInstId', PatientsController.getPatientFromInstId)
 patientsRouter.post('/getPatientFromDoctorId', PatientsController.getPatientFromDoctorId)
-patientsRouter.post('/createPatient', PatientsController.createPatient)
+patientsRouter.post('/createPatient', encryptData, PatientsController.createPatient)
 patientsRouter.put('/updatePatient', PatientsController.updatePatient)
 patientsRouter.put('/updateInstituteFromId', PatientsController.updateInstituteFromId)
 patientsRouter.put('/updateDoctorFromId', PatientsController.updateDoctorFromId)

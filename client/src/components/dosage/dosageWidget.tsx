@@ -39,7 +39,6 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
       })
       .then((data) => {
         setAllRowsContent(data);
-        console.log(data);
       });
   }, [prescriptionId]);
 

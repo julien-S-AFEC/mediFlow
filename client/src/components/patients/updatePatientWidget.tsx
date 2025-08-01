@@ -29,6 +29,7 @@ const UpdatePatientWidget: React.FC<Iprops> = ({ patientId, patient, visibilityT
             setErrorMessage("First name, second name and gender are required.")
             return
         }
+
         fetch("http://localhost:3000/api/patients/updatePatient", {
             method: "PUT",
             headers: { "Content-type": "application/json" },
@@ -37,7 +38,7 @@ const UpdatePatientWidget: React.FC<Iprops> = ({ patientId, patient, visibilityT
                 firstName: firstNameText,
                 secondName: secondNameText,
                 gender: genderText,
-                birthDate: birthDateText + " 00:00:00",
+                birthDate: birthDateText,
                 address: addressText,
                 email: emailText,
                 insurance: insuranceText
