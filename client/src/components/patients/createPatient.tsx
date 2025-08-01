@@ -59,6 +59,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
         insurance: insuranceText,
         institute: instituteText,
         doctor: doctorText,
+        createdAt: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }).replaceAll('/', '-').replace(',', '')
       }),
     }).then(() => {
       setFirstNameText("");

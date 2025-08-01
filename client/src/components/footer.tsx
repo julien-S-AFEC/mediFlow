@@ -6,7 +6,7 @@ type Iprops = {
 
 const Footer: React.FC<Iprops> = ({ stickyBot = false }) => {
   return (
-    <footer className={`bg-light py-4 border-top shadow-sm w-100 mt-auto ${stickyBot ? "position-absolute bottom-0" : ""}`}>
+    <footer className={`bg-light py-4 mt-5 border-top shadow-sm w-100 mt-auto ${stickyBot ? "position-absolute bottom-0" : ""}`}>
       <div className="container text-center">
         <div className="text-muted main-font" style={{ fontSize: "1rem" }}>
           MediFlow,

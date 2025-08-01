@@ -30,7 +30,7 @@ const Patient: React.FC = () => {
         }
       })
       .then((data) => {
-        setPatients(JSON.parse(data).reverse());
+        setPatients(data.reverse());
       });
   }, [refreshDashboard]);
 

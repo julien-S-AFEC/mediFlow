@@ -18,7 +18,7 @@ class DoctorModel {
         return con.execute("SELECT * FROM doctors WHERE doctors.doctor_id=?", [id])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0])
+                return rows[0]
             })
             .catch(error => {
                 con.release();

@@ -26,7 +26,7 @@ const ConfirmArchiveModal: React.FC<Iprops> = ({ patient }) => {
 
   return (
     <>
-      <button type="button" className="btn w-100" onClick={() => setShow(true)}>
+      <button type="button" className="btn w-100" onClick={() => setShow(true)} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Archive patient">
         <GoArchive color="red" size={30}/>
       </button>
 

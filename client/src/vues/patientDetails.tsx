@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Doctor, Institute, Patient, Permissions, Prescription, User } from "../types";
 import { Link, useParams } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { HiOutlineUpload } from "react-icons/hi";
 import { BsFileEarmarkPerson } from "react-icons/bs";
+import { Tooltip } from 'react-tooltip'
 import PatientDetailsWidget from "../components/patients/patientDetailsWidget.tsx";
 import DoctorDetailsWidget from "../components/doctors/doctorDetailsWidget.tsx";
 import InstituteDetailsWidget from "../components/institutes/instituteDetailsWidget.tsx";
@@ -39,7 +41,7 @@ const PatientDetails: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => setPatient(JSON.parse(data)))
+      .then((data) => setPatient(data))
       .catch((error) => {
         throw error;
       });
@@ -170,7 +172,7 @@ const PatientDetails: React.FC = () => {
                         <IoIosArrowRoundBack size={40} />
                       </Link>
                       <button className="btn w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                        <BsFileEarmarkPerson color="#1f7bd1ff" size={30} />
+                        <BsFileEarmarkPerson color="#1f7bd1ff" size={30} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient details" />
                       </button>
                       <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex={-1} id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                         <div className="offcanvas-header">
@@ -190,7 +192,7 @@ const PatientDetails: React.FC = () => {
                 <div className="col-lg-11 d-flex flex-column justify-content-center align-items-center main-font">
                   {Boolean(permissions?.create_prescription) && (
                     <div className="d-flex gap-3 py-3 align-items-center">
-                      <form className="d-flex flex-column justify-content-center align-items-center gap-3 p-4 rounded-4 shadow">
+                      <form className="d-flex flex-column justify-content-center align-items-center gap-2 p-4 rounded-4 shadow">
                         <label
                           htmlFor="fileInput"
                           style={{
@@ -203,13 +205,16 @@ const PatientDetails: React.FC = () => {
                             cursor: "pointer",
                           }}
                         >
-                          Upload Prescription
+                          <div className="d-flex gap-2 align-items-center"> <HiOutlineUpload size={30}/> Upload Prescription</div>
                         </label>
                         <input id="fileInput" type="file" accept="image/*" onChange={handleSubmit} style={{ display: "none" }} />{" "}
                         {!addFileDisable && (
-                          <button className="btn bg-light-blue text-light" type="submit" onClick={handleUpload}>
-                            Add prescription
-                          </button>
+                          <>
+                            <div>{file.name}</div>
+                            <button className="btn bg-light-blue text-light" type="submit" onClick={handleUpload}>
+                              Add prescription
+                            </button>
+                          </>
                         )}
                       </form>
                     </div>

@@ -1,3 +1,4 @@
+import { decrypt } from '../crypto.js'
 import { pool } from '../sql/dbConfig.js'
 
 class PatientModel {
@@ -6,7 +7,19 @@ class PatientModel {
         return con.execute(`SELECT * FROM patients LEFT JOIN institutes ON patients.institute_id = institutes.inst_id WHERE 1`, [])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0])
+                const result = rows[0]
+                for (const patient of result) {
+
+                    for (const [field, value] in Object.entries(patient)) {
+                    console.log(field)
+
+                        if (field === "insurance_number") {
+                            value = decrypt(field.insurance_number, field.created_at, 5)
+                        }
+                    }
+                }
+                // // result.map(patient => patient.map(field => field.insurance_number ? decrypt(field.insurance_number, field.created_at, 5): insurance_number))
+                return rows[0]
             })
             .catch(error => {
                 con.release();
@@ -32,7 +45,7 @@ class PatientModel {
                     WHERE patients.patient_id=?`, [id])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0][0])
+                return rows[0][0]
             })
             .catch(error => {
                 con.release();
@@ -56,6 +69,35 @@ class PatientModel {
                     FROM 
                     patients 
                     WHERE patients.institute_id=?`, [id])
+            .then((rows, fields) => {
+                con.release()
+                return rows[0]
+            })
+            .catch(error => {
+                con.release();
+                throw error
+            })
+    }
+
+    static async getPatientFromDoctorId(id) {
+        const con = await pool.getConnection()
+        return con.execute(`SELECT 
+                    patients.patient_id, 
+                    patient_firstname, 
+                    patient_secondname, 
+                    gender, 
+                    birth_date, 
+                    address, 
+                    email, 
+                    insurance_number, 
+                    created_at,
+                    active
+                   FROM medi_flow.doctor_relation
+                   LEFT JOIN
+                   patients
+                   ON
+                   patients.patient_id = doctor_relation.patient_id
+                   WHERE doctor_relation.doctor_id=?`, [id])
             .then((rows, fields) => {
                 con.release()
                 return rows[0]

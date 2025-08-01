@@ -20,6 +20,7 @@ type Iprops = {
 
 const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
   const [allRowsContent, setAllRowsContent] = useState<object[]>([]);
+  const [modified, setModified] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
@@ -62,7 +63,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
         prescriptionId: prescriptionId,
         content: allRowsContent,
       }),
-    });
+    }).then(() => setModified(false));
   };
 
   return (
@@ -91,7 +92,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
           <tbody>
             {allRowsContent &&
               allRowsContent.map((_, i) => {
-                return <DosageRow key={i} content={allRowsContent} contentHandler={setAllRowsContent} index={i} />;
+                return <DosageRow key={i} content={allRowsContent} contentHandler={setAllRowsContent} index={i} changeHandler={setModified} />;
               })}
           </tbody>
         </table>
@@ -99,16 +100,23 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
       {Boolean(permissions?.create_prescription_commentary) && (
         <>
           <div className="d-flex gap-3">
-            <HiBarsArrowDown color="#247cffff" size={30} onClick={addRow} />
-            <HiBarsArrowUp color="red" size={30} onClick={removeRow} />
+            <HiBarsArrowDown color="#247cffff" size={30} onClick={addRow} style={{ cursor: "pointer" }} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Add a row" />
+            <HiBarsArrowUp color="red" size={30} onClick={removeRow} style={{ cursor: "pointer" }} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Remove the last row" />
           </div>
           <div className="d-flex gap-3">
             <button onClick={storeDosage} className="btn mt-5">
-              <TfiSave color="blue" size={30} />
+              <div className="position-relative">
+                <TfiSave color="blue" size={30}></TfiSave>
+                {modified && (
+                  <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                    <span className="visually-hidden">New alerts</span>
+                  </span>
+                )}
+              </div>
             </button>
-            <button onClick={reactToPrintFn} className="btn mt-5">
+            <div onClick={reactToPrintFn} className="btn mt-5" style={{ cursor: "pointer" }}>
               <PiPrinterThin size={40} color="#c0cc17ff" />
-            </button>
+            </div>
           </div>
         </>
       )}

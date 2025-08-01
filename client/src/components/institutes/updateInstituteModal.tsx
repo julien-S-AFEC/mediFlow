@@ -35,7 +35,7 @@ const UpdateInstituteCredentials: React.FC<Iprops> = ({ institute, visHandler, r
       <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content" style={{ backgroundColor: "#d8e7d8" }}>
           <div className="modal-header">
-            <h5 className="modal-title">Update Patient</h5>
+            <h5 className="modal-title">Update Institute</h5>
             <button type="button" className="btn-close" onClick={() => visHandler((v) => !v)} aria-label="Close" />
           </div>
 

@@ -54,21 +54,21 @@ const Institutes: React.FC = () => {
         <h2 className="text-center main-font">Institutes</h2>
         {Boolean(permissions?.create_patient) && (
           <div className="btn text-nowrap" onClick={() => setCreateInstituteVisible((oldValue) => !oldValue)}>
-            <BsHouseAdd color="blue" size={30} />
+            <BsHouseAdd color="blue" size={30}  data-tooltip-id="mediFlowTooltip" data-tooltip-content="Create a new institute"/>
           </div>
         )}
         <div className="row gap-4 justify-content-center mt-3 mx-3 mx-lg-0">
           {institutes &&
-            institutes.map((institute) => {
+            institutes.map((institute, index) => {
               return (
-                <div className="col-5 border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow main-font">
+                <div key={index} className="col-5 border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow main-font">
                   {Boolean(permissions?.create_patient) && (
                     <div className="d-flex justify-content-end mb-2">
-                      <AiOutlineEdit className="icon" onClick={() => setModifyVis(institute)}/>
+                      <AiOutlineEdit className="icon" onClick={() => setModifyVis(institute)}  data-tooltip-id="mediFlowTooltip" data-tooltip-content="Update the institute"/ >
                     </div>
                   )}
                   <Link to={`/instituteDetails/${institute.inst_id}`} key={institute.inst_id} className="d-flex justify-content-end mb-2 text-decoration-none">
-                    <CiBoxList className="icon"/>
+                    <CiBoxList className="icon"  data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patients related to this institute"/>
                   </Link>
                   <div className="d-flex justify-content-center mb-2">
                     <div>{institute.institute_name || "Not provided"}</div>

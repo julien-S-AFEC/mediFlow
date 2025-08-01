@@ -27,7 +27,7 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
         }
       })
       .then((data) => {
-        setPatients(JSON.parse(data));
+        setPatients(data);
       });
   }, [refreshState]);
 
@@ -122,7 +122,7 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
                 )}
                 <td>
                   {Boolean(permissions?.create_patient) && (
-                    <button className="bg-transparent border-0" onClick={() => unArchivePatient(patient.patient_id)}>
+                    <button className="bg-transparent border-0" onClick={() => unArchivePatient(patient.patient_id)}  data-tooltip-id="mediFlowTooltip" data-tooltip-content="Unarchive the patient">
                       <LuUndo />
                     </button>
                   )}

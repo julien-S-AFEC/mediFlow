@@ -100,9 +100,12 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   return (
     <div className="container p-0 m-0">
       <div className="d-flex flex-column flex-md-row gap-3">
-        <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at}>
-          <img className="img img-fluid" key={currentPrescription.id} src={`http://localhost:3000/${currentPrescription.file_path}`} alt="prescription-img" />
-        </Link>
+        <div className="d-flex flex-column gap-3">
+          <div>{`Created at: ${new Date(currentPrescription.created_at).toLocaleString()}`}</div>
+          <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at}>
+            <img className="img img-fluid" key={currentPrescription.id} src={`http://localhost:3000/${currentPrescription.file_path}`} alt="prescription-img" />
+          </Link>
+        </div>
         <div className="d-flex flex-column ">
           <h4 className="main-font fw-light text-center">Annotations</h4>
           <ul className="list-group list-group-flush overflow-y-auto gap-1 shadow" style={{ height: "270px" }}>

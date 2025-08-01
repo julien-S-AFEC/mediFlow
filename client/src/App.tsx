@@ -12,10 +12,13 @@ import ArchivedPatients from "./vues/archivedPatients";
 import PrescriptionView from "./vues/prescriptionView";
 import UserManagement from "./vues/userManagement";
 import Error404 from "./vues/error404";
+import DoctorDetails from "./vues/doctorDetails";
+import { Tooltip } from "react-tooltip";
 
 const App = () => {
   return (
     <div className="container-fluid p-0 m-0">
+      <Tooltip id="mediFlowTooltip" variant="info" delayShow={500} border={"19px"} opacity={90}/>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Connexion />}></Route>
@@ -81,6 +84,15 @@ const App = () => {
             element={
               <NeedLogginRoute>
                 <Doctors />
+              </NeedLogginRoute>
+            }
+          ></Route>
+
+          <Route
+            path="/doctorDetails/:doctorId"
+            element={
+              <NeedLogginRoute>
+                <DoctorDetails />
               </NeedLogginRoute>
             }
           ></Route>

@@ -27,7 +27,7 @@ class UsersController {
             })
 
             .catch(error => {
-                res.status(500).json({ message: error.message })
+                res.status(500).json({ message: "The email is not found or the password is incorrect." })
             })
     }
 

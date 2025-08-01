@@ -7,6 +7,8 @@ import CreateDoctor from "../components/doctors/createDoctor";
 import UpdateDoctorCredentials from "../components/doctors/updateDoctorCredentials";
 import { IoPersonAddOutline } from "react-icons/io5";
 import Footer from "../components/footer";
+import { Link } from "react-router-dom";
+import { CiBoxList } from "react-icons/ci";
 
 const Doctors: React.FC = () => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -58,14 +60,17 @@ const Doctors: React.FC = () => {
         ) : null}
         <div className="row gap-4 justify-content-center mt-3 mx-3 mx-lg-0">
           {doctors &&
-            doctors.map((doctor) => {
+            doctors.map((doctor, index) => {
               return (
                 <div key={doctor.doctor_id} className="border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow">
                   {Boolean(permissions?.create_patient) && (
                     <div className="d-flex justify-content-end mb-2">
-                      <AiOutlineEdit onClick={() => setModifyVis(doctor)} />
+                      <AiOutlineEdit onClick={() => setModifyVis(doctor)} size={25}  data-tooltip-id="mediFlowTooltip" data-tooltip-content="Update doctor"/>
                     </div>
                   )}
+                  <Link to={`/doctorDetails/${doctor.doctor_id}`} key={index} className="d-flex justify-content-end mb-2 text-decoration-none">
+                    <CiBoxList className="icon"  data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient related to this doctor"/>
+                  </Link>
 
                   <div className="d-flex justify-content-center mb-2 gap-3">
                     <div className="main-font">{doctor.doctor_firstname + " " + doctor.doctor_secondname || "Not provided"}</div>

@@ -5,9 +5,10 @@ type Iprops = {
   content: object;
   contentHandler: Dispatch<SetStateAction<object[]>>;
   index: number;
+  changeHandler: Dispatch<SetStateAction<boolean>>;
 };
 
-const DosageRow: React.FC<Iprops> = ({ content, contentHandler, index }) => {
+const DosageRow: React.FC<Iprops> = ({ content, contentHandler, index, changeHandler }) => {
   return (
     <tr>
       <td>
@@ -16,7 +17,10 @@ const DosageRow: React.FC<Iprops> = ({ content, contentHandler, index }) => {
           style={{ outline: "none !important", boxShadow: "none !important" }}
           className="bg-transparent border border-none w-100 m-0 p-0"
           value={content[index].col1}
-          onChange={(e) => contentHandler((oldContent) => oldContent.map((content, i) => (i === index ? { ...content, col1: e.target.value } : content)))}
+          onChange={(e) => {
+            contentHandler((oldContent) => oldContent.map((content, i) => (i === index ? { ...content, col1: e.target.value } : content)));
+            changeHandler(true);
+          }}
         />
       </td>
       <td>
@@ -24,7 +28,10 @@ const DosageRow: React.FC<Iprops> = ({ content, contentHandler, index }) => {
           type="text"
           className="bg-transparent border border-none w-100 m-0 p-0"
           value={content[index].col2}
-          onChange={(e) => contentHandler((oldContent) => oldContent.map((content, i) => (i === index ? { ...content, col2: e.target.value } : content)))}
+          onChange={(e) => {
+            contentHandler((oldContent) => oldContent.map((content, i) => (i === index ? { ...content, col2: e.target.value } : content)));
+            changeHandler(true);
+          }}
         />
       </td>
       <td>
@@ -32,7 +39,10 @@ const DosageRow: React.FC<Iprops> = ({ content, contentHandler, index }) => {
           type="text"
           className="bg-transparent border border-none w-100 m-0 p-0"
           value={content[index].col3}
-          onChange={(e) => contentHandler((oldContent) => oldContent.map((content, i) => (i === index ? { ...content, col3: e.target.value } : content)))}
+          onChange={(e) => {
+            contentHandler((oldContent) => oldContent.map((content, i) => (i === index ? { ...content, col3: e.target.value } : content)));
+            changeHandler(true);
+          }}
         />
       </td>
       <td>
@@ -40,7 +50,10 @@ const DosageRow: React.FC<Iprops> = ({ content, contentHandler, index }) => {
           type="text"
           className="bg-transparent border border-none w-100 m-0 p-0"
           value={content[index].col4}
-          onChange={(e) => contentHandler((oldContent) => oldContent.map((content, i) => (i === index ? { ...content, col4: e.target.value } : content)))}
+          onChange={(e) => {
+            contentHandler((oldContent) => oldContent.map((content, i) => (i === index ? { ...content, col4: e.target.value } : content)));
+            changeHandler(true);
+          }}
         />
       </td>
       <td>
@@ -48,7 +61,10 @@ const DosageRow: React.FC<Iprops> = ({ content, contentHandler, index }) => {
           type="text"
           className="bg-transparent border border-none w-100 m-0 p-0"
           value={content[index].col5}
-          onChange={(e) => contentHandler((oldContent) => oldContent.map((content, i) => (i === index ? { ...content, col5: e.target.value } : content)))}
+          onChange={(e) => {
+            contentHandler((oldContent) => oldContent.map((content, i) => (i === index ? { ...content, col5: e.target.value } : content)));
+            changeHandler(true);
+          }}
         />
       </td>
     </tr>

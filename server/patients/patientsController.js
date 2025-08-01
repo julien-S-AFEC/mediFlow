@@ -1,5 +1,6 @@
 import PatientsModel from "./patientsModel.js"
 import { Router } from "express"
+import { encrypt } from "../crypto.js"
 
 const patientsRouter = Router()
 
@@ -22,6 +23,12 @@ class PatientsController {
             .catch(error => res.status(500).json(error))
     }
 
+    static getPatientFromDoctorId(req, res) {
+        PatientsModel.getPatientFromDoctorId(req.body.doctorId)
+            .then(data => res.status(200).json(data))
+            .catch(error => res.status(500).json(error))
+    }
+
     static createPatient(req, res) {
         PatientsModel.createPatient(
             req.body.firstName || null,
@@ -30,9 +37,10 @@ class PatientsController {
             req.body.birthDate || null,
             req.body.address || null,
             req.body.email || null,
-            req.body.insurance || null,
+            req.body.insurance ? encrypt(req.body.insurance, req.body.createdAt, 5) : null,
             req.body.institute || null,
-            req.body.doctor || null
+            req.body.doctor || null,
+            req.body.createdAt
         )
             .then(data => res.status(200).json(data))
             .catch(error => res.status(500).json(error))
@@ -47,7 +55,8 @@ class PatientsController {
             req.body.birthDate,
             req.body.address,
             req.body.email,
-            req.body.insurance)
+            encrypt(req.body.insurance, req.body.created_at, 5),
+            req.body.created_at)
             .then(data => { res.status(200).json(data) })
             .catch(error => {
                 res.status(500).json({ message: error.message });
@@ -100,6 +109,7 @@ class PatientsController {
 patientsRouter.get('/getAll', PatientsController.getAll)
 patientsRouter.post('/getPatientFromId', PatientsController.getPatientFromId)
 patientsRouter.post('/getPatientFromInstId', PatientsController.getPatientFromInstId)
+patientsRouter.post('/getPatientFromDoctorId', PatientsController.getPatientFromDoctorId)
 patientsRouter.post('/createPatient', PatientsController.createPatient)
 patientsRouter.put('/updatePatient', PatientsController.updatePatient)
 patientsRouter.put('/updateInstituteFromId', PatientsController.updateInstituteFromId)
