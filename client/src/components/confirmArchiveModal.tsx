@@ -15,6 +15,7 @@ const ConfirmArchiveModal: React.FC<Iprops> = ({ patient }) => {
     fetch("http://localhost:3000/api/patients/archivePatientFromId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         patientId: patient?.patient_id,
       }),

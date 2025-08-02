@@ -21,6 +21,7 @@ const ConnexionWidget = () => {
 
   const tryToLog = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+
     fetch('http://localhost:3000/api/users/connectUser', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
@@ -28,19 +29,18 @@ const ConnexionWidget = () => {
       body: JSON.stringify({ "email": email, "password": password })
     })
       .then(res => {
-        if (!res.ok) {
-          return res.json()
-            .then(err => {
-              setErrorText(err.message)
-              setErrorOpacity('100')
-            })
-        }
-        else {
+        if (res.ok) {
           navigate('/dashboard')
         }
+        else {
+          return res.json()
+        }
       })
-      .catch(error => {
-        console.log(error)
+      .then(err => {
+        if (err) {
+          setErrorOpacity('100')
+          setErrorText(err.message)
+        }
       })
   }
 
@@ -67,7 +67,7 @@ const ConnexionWidget = () => {
             <div className="d-flex flex-column w-75">
               <label htmlFor="passwordInput" className="main-font fw-light">Password</label>
             </div>
-            <input type="password" value={password} onChange={changePasswordTxt} className="form-control w-75" id="passwordInput"/>
+            <input type="password" value={password} onChange={changePasswordTxt} className="form-control w-75" id="passwordInput" />
             <button className="btn btn-primary mt-2" onClick={tryToLog}>Connect</button>
           </form>
           <div className="d-flex w-100 pt-3 justify-content-end">

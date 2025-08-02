@@ -15,6 +15,7 @@ const InstituteDetails = () => {
     fetch("http://localhost:3000/api/institutes/getFromId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({ instituteId: instituteId }),
     })
       .then((res) => {
@@ -27,6 +28,7 @@ const InstituteDetails = () => {
     fetch("http://localhost:3000/api/patients/getPatientFromInstId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({ instituteId: instituteId }),
     })
       .then((res) => {

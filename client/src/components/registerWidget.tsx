@@ -47,6 +47,7 @@ const RegisterWidget = () => {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({ "name": name, "password": password, "email": email })
         })
             .then(res => {

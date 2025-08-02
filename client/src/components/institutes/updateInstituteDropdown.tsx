@@ -15,6 +15,7 @@ const UpdateInstituteWidget: React.FC<Iprops> = ({ visHandler, patientId, refres
     fetch("http://localhost:3000/api/institutes/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
     })
       .then((res) => {
         if (res.ok) {
@@ -30,6 +31,7 @@ const UpdateInstituteWidget: React.FC<Iprops> = ({ visHandler, patientId, refres
     fetch("http://localhost:3000/api/patients/updateInstituteFromId", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         instituteId: instituteText,
         patientId: patientId,

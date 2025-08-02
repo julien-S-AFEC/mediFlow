@@ -15,6 +15,7 @@ const UpdateDoctorWidget: React.FC<Iprops> = ({ patientId, visibilityToggler, re
     fetch("http://localhost:3000/api/doctors/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
     })
       .then((res) => {
         if (res.ok) {
@@ -30,6 +31,7 @@ const UpdateDoctorWidget: React.FC<Iprops> = ({ patientId, visibilityToggler, re
     fetch("http://localhost:3000/api/patients/updateDoctorFromId", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         doctorId: doctorId,
         patientId: patientId,

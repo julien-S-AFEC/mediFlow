@@ -33,11 +33,11 @@ class UserModel {
         return con.execute(`SELECT username, user_email, user_password, role_id, user_id FROM users WHERE user_email = ?`, [email])
             .then((rows, fields) => {
                 con.release();
-                if (!rows) {
+                if (!rows[0].length) {
                     throw new Error("The user is not found")
                 }
                 if (bcrypt.compareSync(password, rows[0][0].user_password)) {
-                    return JSON.stringify(rows[0])
+                    return rows[0]
                 }
                 else { throw new Error("The password doesnt match") }
             })

@@ -1,5 +1,6 @@
 import PrescriptionCommentaryModel from "./prescriptionCommentaryModel.js"
 import { Router } from "express"
+import { jwtValidation } from "../middlewares/jwt.js";
 
 const prescriptionCommentaryRouter = Router()
 
@@ -23,8 +24,8 @@ class PrescriptionCommentaryController {
     }
 }
 
-prescriptionCommentaryRouter.post('/getAllbyPrescId', PrescriptionCommentaryController.getAllbyPrescId);
-prescriptionCommentaryRouter.post('/create', PrescriptionCommentaryController.create);
-prescriptionCommentaryRouter.post('/deleteById', PrescriptionCommentaryController.deleteById);
+prescriptionCommentaryRouter.post('/getAllbyPrescId', jwtValidation, PrescriptionCommentaryController.getAllbyPrescId);
+prescriptionCommentaryRouter.post('/create', jwtValidation, PrescriptionCommentaryController.create);
+prescriptionCommentaryRouter.post('/deleteById', jwtValidation, PrescriptionCommentaryController.deleteById);
 
 export default prescriptionCommentaryRouter

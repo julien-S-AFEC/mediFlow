@@ -1,6 +1,8 @@
 import PrescriptionModel from "./prescriptionModel.js"
 import { Router } from "express"
 import { configurationStorage } from "../multerConf.js"
+import { jwtValidation } from "../middlewares/jwt.js";
+
 const multer = configurationStorage()
 
 const prescriptionRouter = Router()
@@ -25,8 +27,8 @@ class PrescriptionController {
     }
 }
 
-prescriptionRouter.post('/upload', multer.single('prescription'), PrescriptionController.upload);
-prescriptionRouter.post('/getAllByPatientId', PrescriptionController.getAllByPatientId);
-prescriptionRouter.post('/getById', PrescriptionController.getById);
+prescriptionRouter.post('/upload', jwtValidation, multer.single('prescription'), PrescriptionController.upload);
+prescriptionRouter.post('/getAllByPatientId', jwtValidation, PrescriptionController.getAllByPatientId);
+prescriptionRouter.post('/getById', jwtValidation, PrescriptionController.getById);
 
 export default prescriptionRouter

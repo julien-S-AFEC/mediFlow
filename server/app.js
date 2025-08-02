@@ -12,8 +12,11 @@ import prescriptionCommentaryRouter from './prescriptionCommentary/prescriptionC
 import authRouter from './auth/auth.js'
 import session from 'express-session';
 import prescriptionDosageRouter from './prescriptionDosage/prescriptionDosageController.js'
+import dotenv from 'dotenv';
 
-const PORT = 3000
+dotenv.config()
+
+const PORT = process.env.PORT;
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

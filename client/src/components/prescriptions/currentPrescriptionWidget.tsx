@@ -23,6 +23,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
     fetch("http://localhost:3000/api/prescriptionCommentary/create", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         prescriptionId: currentPrescription.id,
         content: decode(commentaryContent),
@@ -68,6 +69,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
     fetch("http://localhost:3000/api/prescriptionCommentary/deleteById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         commentaryId: id,
         prescriptionId: currentPrescription.id,
@@ -85,6 +87,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
     fetch("http://localhost:3000/api/prescriptionCommentary/getAllbyPrescId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({ prescriptionId: currentPrescription.id }),
     })
       .then((res) => {

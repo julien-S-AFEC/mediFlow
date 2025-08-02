@@ -14,6 +14,7 @@ const CreateInstitute: React.FC<Iprops> = ({ visibilityToggler, refreshDashboard
     fetch("http://localhost:3000/api/institutes/createInstitute", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         instName: instituteName,
         instPhone: instituteAdress,

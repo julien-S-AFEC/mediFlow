@@ -28,6 +28,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
     fetch("http://localhost:3000/api/prescriptionDosage/getById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         prescriptionId: prescriptionId,
       }),
@@ -58,6 +59,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
     fetch("http://localhost:3000/api/prescriptionDosage/store", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         prescriptionId: prescriptionId,
         content: allRowsContent,

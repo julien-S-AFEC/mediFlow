@@ -17,6 +17,7 @@ const CreateDoctor: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHan
     fetch("http://localhost:3000/api/doctors/createDoctor", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         firstname: firstname,
         secondName: secondName,

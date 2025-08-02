@@ -1,5 +1,7 @@
 import UserModel from "./usersModel.js"
 import { Router } from "express"
+import jsonwebtoken from 'jsonwebtoken'
+import { jwtValidation } from "../middlewares/jwt.js";
 
 const usersRouter = Router()
 const userModel = new UserModel()
@@ -17,17 +19,21 @@ class UsersController {
     connectUser(req, res) {
         userModel.connectUser(req.body.email, req.body.password)
             .then(data => {
-                const credentials = JSON.parse(data)[0]
+                const token = jsonwebtoken.sign({ userName: data[0].username, userRole: data[0].role_id, userId: data[0].user_id }, process.env.JWT_SECRET, { expiresIn: '4h' });
+
+                const credentials = data[0]
                 req.session.user = {
                     username: credentials.username,
                     role_id: credentials.role_id,
-                    user_id: credentials.user_id
+                    user_id: credentials.user_id,
+                    jwt: `Bearer ${token}`
                 }
-                res.status(200).json(data)
+                res.status(200).json({ user: data[0], jwtToken: token })
             })
 
             .catch(error => {
-                res.status(500).json({ message: "The email is not found or the password is incorrect." })
+                console.log(error.message)
+                res.status(500).json({ message: error.message || 'Erreur inconnue' })
             })
     }
 
@@ -82,11 +88,11 @@ class UsersController {
 
 const userController = new UsersController()
 
-usersRouter.get('/getAllWithPermissions', userController.getAllWithPermissions)
+usersRouter.get('/getAllWithPermissions', jwtValidation, userController.getAllWithPermissions)
 usersRouter.post('/connectUser', userController.connectUser)
 usersRouter.post('/registerUser', userController.registerUser)
-usersRouter.post('/getUserById', userController.getUserById)
-usersRouter.get('/getCurrentUserPermissions', userController.getCurrentUserPermissions)
-usersRouter.post('/updatePermissionFromName', userController.updatePermissionFromName)
+usersRouter.post('/getUserById', jwtValidation, userController.getUserById)
+usersRouter.get('/getCurrentUserPermissions', jwtValidation, userController.getCurrentUserPermissions)
+usersRouter.post('/updatePermissionFromName', jwtValidation, userController.updatePermissionFromName)
 
 export default usersRouter

@@ -40,7 +40,7 @@ const Patient: React.FC = () => {
       <div className="d-flex flex-column">
         {Boolean(permissions?.create_patient) && (
           <div className="btn" onClick={() => setCreatePatientVisible((oldValue) => !oldValue)}>
-            <GoPersonAdd size={40} />
+            <GoPersonAdd size={40} color="blue"/>
           </div>
         )}
         {createPatientVisible && <CreatePatient visibilityToggler={setCreatePatientVisible} refreshDashboardHandler={setRefreshDashboard} />}

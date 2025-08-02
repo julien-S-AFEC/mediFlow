@@ -1,6 +1,6 @@
 import PrescriptionDosageModel from "./PrescriptionDosageModel.js"
 import { Router } from "express"
-import { configurationStorage } from "../multerConf.js"
+import { jwtValidation } from "../middlewares/jwt.js";
 
 const prescriptionDosageRouter = Router()
 
@@ -25,8 +25,8 @@ class prescriptionDosageController {
     }
 }
 
-prescriptionDosageRouter.post('/create', prescriptionDosageController.create);
-prescriptionDosageRouter.post('/getById', prescriptionDosageController.getById);
-prescriptionDosageRouter.put('/store', prescriptionDosageController.store);
+prescriptionDosageRouter.post('/create', jwtValidation, prescriptionDosageController.create);
+prescriptionDosageRouter.post('/getById', jwtValidation, prescriptionDosageController.getById);
+prescriptionDosageRouter.put('/store', jwtValidation, prescriptionDosageController.store);
 
 export default prescriptionDosageRouter

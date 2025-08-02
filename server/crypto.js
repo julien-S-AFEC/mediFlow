@@ -99,19 +99,3 @@ export const decrypt = (cryptedObject, key, rounds) => {
         console.log(error)
     }
 };
-
-
-const a = {
-  patient_firstname: 'aze',
-  patient_secondname: 'aze',
-  gender: 'Male',
-  birth_date: '2025-08-01',
-  address: '',
-  email: '',
-  insurance_number: '',
-  institute: '',
-  doctor: '',
-  created_at: '01-08-2025 13:36:30'
-}
-
-console.log(encrypt(a, a.created_at, 5))

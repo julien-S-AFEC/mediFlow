@@ -24,6 +24,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
     fetch("http://localhost:3000/api/institutes/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
     })
       .then(res => {
         if (res.ok) {
@@ -35,6 +36,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
     fetch("http://localhost:3000/api/doctors/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
     })
       .then(res => {
         if (res.ok) {
@@ -49,6 +51,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
     fetch("http://localhost:3000/api/patients/createPatient", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         patient_firstname: firstNameText,
         patient_secondname: secondNameText,

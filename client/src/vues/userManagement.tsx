@@ -9,6 +9,7 @@ const UserManagement = () => {
     fetch("http://localhost:3000/api/users/getAllWithPermissions", {
       method: "GET",
       headers: { "Content-type": "application/json" },
+      credentials: 'include'
     })
       .then((res) => {
         if (res.ok) {
@@ -25,6 +26,7 @@ const UserManagement = () => {
     fetch("http://localhost:3000/api/users/updatePermissionFromName", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         permissionId: permissionId,
         field: field,

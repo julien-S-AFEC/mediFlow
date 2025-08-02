@@ -19,6 +19,7 @@ const UpdateDoctorCredentials: React.FC<Iprops> = ({ doctor, visHandler, refresh
     fetch("http://localhost:3000/api/doctors/updateDoctorCredentialsFromId", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         firstname: firstname,
         secondname: secondname,

@@ -2,6 +2,7 @@ import PatientsModel from "./patientsModel.js"
 import { Router } from "express"
 import { encryptData } from "../middlewares/encryption.js"
 import { decrypt, encrypt } from "../crypto.js"
+import { jwtValidation } from "../middlewares/jwt.js";
 
 const patientsRouter = Router()
 
@@ -69,7 +70,7 @@ class PatientsController {
         const patient = await PatientsModel.getPatientFromId(req.body.patientId)
         const encryptecData = encrypt({
             patient_firstname: req.body.firstName,
-            patient_secondname:req.body.secondName,
+            patient_secondname: req.body.secondName,
             gender: req.body.gender,
             birth_date: req.body.birthDate,
             address: req.body.address,
@@ -136,15 +137,15 @@ class PatientsController {
     }
 }
 
-patientsRouter.get('/getAll', PatientsController.getAll)
-patientsRouter.post('/getPatientFromId', PatientsController.getPatientFromId)
-patientsRouter.post('/getPatientFromInstId', PatientsController.getPatientFromInstId)
-patientsRouter.post('/getPatientFromDoctorId', PatientsController.getPatientFromDoctorId)
-patientsRouter.post('/createPatient', encryptData, PatientsController.createPatient)
-patientsRouter.put('/updatePatient', PatientsController.updatePatient)
-patientsRouter.put('/updateInstituteFromId', PatientsController.updateInstituteFromId)
-patientsRouter.put('/updateDoctorFromId', PatientsController.updateDoctorFromId)
-patientsRouter.post('/archivePatientFromId', PatientsController.archivePatientFromId)
-patientsRouter.post('/unArchivePatientFromId', PatientsController.unArchivePatientFromId)
+patientsRouter.get('/getAll', jwtValidation, PatientsController.getAll)
+patientsRouter.post('/getPatientFromId', jwtValidation, PatientsController.getPatientFromId)
+patientsRouter.post('/getPatientFromInstId', jwtValidation, PatientsController.getPatientFromInstId)
+patientsRouter.post('/getPatientFromDoctorId', jwtValidation, PatientsController.getPatientFromDoctorId)
+patientsRouter.post('/createPatient', jwtValidation, encryptData, PatientsController.createPatient)
+patientsRouter.put('/updatePatient', jwtValidation, PatientsController.updatePatient)
+patientsRouter.put('/updateInstituteFromId', jwtValidation, PatientsController.updateInstituteFromId)
+patientsRouter.put('/updateDoctorFromId', jwtValidation, PatientsController.updateDoctorFromId)
+patientsRouter.post('/archivePatientFromId', jwtValidation, PatientsController.archivePatientFromId)
+patientsRouter.post('/unArchivePatientFromId', jwtValidation, PatientsController.unArchivePatientFromId)
 
 export default patientsRouter

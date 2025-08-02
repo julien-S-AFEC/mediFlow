@@ -140,6 +140,7 @@ const PatientDetails: React.FC = () => {
 
     const uploadRes = await fetch("http://localhost:3000/api/prescriptions/upload", {
       method: "POST",
+      credentials: 'include',
       body: formData,
     });
     if (!uploadRes.ok) alert("Upload failed, wrong file type.");
@@ -150,6 +151,7 @@ const PatientDetails: React.FC = () => {
     fetch("http://localhost:3000/api/prescriptionDosage/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({ prescriptionId: id }),
     }).then(() => {
       setRefresh((v) => !v);

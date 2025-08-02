@@ -20,7 +20,11 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/patients/getAll", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch("http://localhost:3000/api/patients/getAll", {
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-type": "application/json" }
+    })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -35,6 +39,7 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
     fetch("http://localhost:3000/api/patients/unArchivePatientFromId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({
         patientId: patientId,
       }),
@@ -122,7 +127,7 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
                 )}
                 <td>
                   {Boolean(permissions?.create_patient) && (
-                    <button className="bg-transparent border-0" onClick={() => unArchivePatient(patient.patient_id)}  data-tooltip-id="mediFlowTooltip" data-tooltip-content="Unarchive the patient">
+                    <button className="bg-transparent border-0" onClick={() => unArchivePatient(patient.patient_id)} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Unarchive the patient">
                       <LuUndo />
                     </button>
                   )}
