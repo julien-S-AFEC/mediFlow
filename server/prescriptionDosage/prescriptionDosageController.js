@@ -1,7 +1,6 @@
 import PrescriptionDosageModel from "./PrescriptionDosageModel.js"
 
 
-
 export const create = (req, res) => {
     PrescriptionDosageModel.create(req.body.prescriptionId, JSON.stringify([{"col1": "", "col2": "", "col3": "", "col4": "", "col5": ""}]))
         .then(data => res.status(200).json(data))
