@@ -1,7 +1,7 @@
-import { pool } from '../sql/dbConfig.js'
+import { pool } from '../config/db.js'
 
-class InstituteModel {
-    static async getAll() {
+const InstituteModel = {
+    getAll: async () => {
         const con = await pool.getConnection()
         return con.execute(`SELECT 
             inst_id, 
@@ -12,15 +12,15 @@ class InstituteModel {
             WHERE 1`, [])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0])
+                return rows[0]
             })
             .catch(error => {
                 con.release();
                 throw error
             })
-    }
+    },
 
-    static async getInstituteFromPatientId(id) {
+    getInstituteFromPatientId: async (id) => {
         const con = await pool.getConnection()
         return con.execute(`SELECT 
                     institute_name,
@@ -35,15 +35,15 @@ class InstituteModel {
                     WHERE patient_id=?`, [id])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0][0])
+                return rows[0][0]
             })
             .catch(error => {
                 con.release();
                 throw error
             })
-    }
+    },
 
-    static async getFromId(id) {
+    getFromId: async (id) => {
         const con = await pool.getConnection()
         return con.execute(`SELECT 
                     institute_name,
@@ -61,9 +61,9 @@ class InstituteModel {
                 con.release();
                 throw error
             })
-    }
+    },
 
-    static async updateInstituteCredentialsFromId(name, addres, phoneNumber, id) {
+    updateInstituteCredentialsFromId: async (name, addres, phoneNumber, id) => {
         const con = await pool.getConnection()
         return con.execute(`UPDATE 
                 institutes 
@@ -76,15 +76,15 @@ class InstituteModel {
                 `, [name, addres, phoneNumber, id])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0])
+                return rows[0]
             })
             .catch(error => {
                 con.release();
                 throw error
             })
-    }
+    },
 
-    static async createInstitute(instName, instPhone, instAdress) {
+    createInstitute: async (instName, instPhone, instAdress) => {
         const con = await pool.getConnection()
         return con.execute(`INSERT INTO 
                 institutes
@@ -97,7 +97,7 @@ class InstituteModel {
                 `, [instName, instPhone, instAdress])
             .then((rows, fields) => {
                 con.release()
-                return JSON.stringify(rows[0])
+                return rows[0]
             })
             .catch(error => {
                 con.release();

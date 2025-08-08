@@ -23,7 +23,7 @@ const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis=false }) =>
           return res.json();
         }
       })
-      .then((data) => setIsAdmin(JSON.parse(data)))
+      .then((data) => setIsAdmin(data))
       .catch((error) => {
         console.log(error);
       });

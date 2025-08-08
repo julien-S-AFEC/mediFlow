@@ -31,7 +31,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
           return res.json()
         }
       })
-      .then((data) => setInstitute(JSON.parse(data)));
+      .then((data) => setInstitute(data));
 
     fetch("http://localhost:3000/api/doctors/getAll", {
       method: "GET",
@@ -43,7 +43,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
           return res.json()
         }
       })
-      .then(data => { setDoctors(JSON.parse(data)) });
+      .then(data => { setDoctors(data) });
   }, []);
 
   const createPatient = (): void => {
@@ -62,7 +62,10 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
         insurance_number: insuranceText,
         institute: instituteText,
         doctor: doctorText,
-        created_at: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }).replaceAll('/', '-').replace(',', '')
+        created_at: new Date()
+          .toLocaleString("fr-FR", { timeZone: "UTC" })
+          .replace(/\//g, '-')
+          .replace(',', '')
       }),
     }).then(() => {
       setFirstNameText("");

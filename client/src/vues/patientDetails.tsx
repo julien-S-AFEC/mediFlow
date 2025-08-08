@@ -23,7 +23,7 @@ const PatientDetails: React.FC = () => {
   const [permissions, setPermissions] = useState<Permissions>();
   const [currentPrescription, setCurrentPrescription] = useState<Prescription>();
   const [currentUser, setCurrentUser] = useState<User>();
-  const [allPrescriptions, setAllPrescriptions] = useState<Prescription[]>();
+  const [allPrescriptions, setAllPrescriptions] = useState<Prescription[]>([]);
   const [refresh, setRefresh] = useState<boolean>(false);
   const [file, setUploadFile] = useState<File>();
   const [pageReady, setPageReady] = useState<boolean>(false);
@@ -58,7 +58,7 @@ const PatientDetails: React.FC = () => {
         }
       })
       .then((doctor) => {
-        setDoctor(JSON.parse(doctor));
+        setDoctor(doctor);
       })
       .catch((error) => {
         throw error;
@@ -75,7 +75,7 @@ const PatientDetails: React.FC = () => {
           return res.json();
         }
       })
-      .then((institute) => setInstitute(JSON.parse(institute)))
+      .then((institute) => setInstitute(institute))
       .catch((error) => {
         throw error;
       });
@@ -86,7 +86,7 @@ const PatientDetails: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => setPermissions(JSON.parse(data)))
+      .then((data) => setPermissions(data))
       .catch((error) => {
         throw error;
       });
@@ -110,15 +110,16 @@ const PatientDetails: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => {
-        const reversedPresc = JSON.parse(data).reverse();
-        setCurrentPrescription(reversedPresc[0]);
-        setAllPrescriptions(reversedPresc);
+      .then(data => {
+        if (data) {
+          const reversedPresc = data.reverse();
+          setCurrentPrescription(reversedPresc[0]);
+          setAllPrescriptions(reversedPresc);
+        }
         setPageReady(true);
       })
-
       .catch((error) => {
-        throw error;
+        alert(error);
       });
   }, [refresh]);
 
@@ -143,7 +144,10 @@ const PatientDetails: React.FC = () => {
       credentials: 'include',
       body: formData,
     });
-    if (!uploadRes.ok) alert("Upload failed, wrong file type.");
+    if (!uploadRes.ok) {
+      alert("Upload failed, wrong file type.")
+      return
+    };
 
     const data = await uploadRes.json();
     const id = data.insertId;
@@ -207,7 +211,7 @@ const PatientDetails: React.FC = () => {
                             cursor: "pointer",
                           }}
                         >
-                          <div className="d-flex gap-2 align-items-center"> <HiOutlineUpload size={30}/> Upload Prescription</div>
+                          <div className="d-flex gap-2 align-items-center"> <HiOutlineUpload size={30} /> Upload Prescription</div>
                         </label>
                         <input id="fileInput" type="file" accept="image/*" onChange={handleSubmit} style={{ display: "none" }} />{" "}
                         {!addFileDisable && (

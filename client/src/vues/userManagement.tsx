@@ -17,7 +17,7 @@ const UserManagement = () => {
         }
       })
       .then((data) => {
-        setUsers(JSON.parse(data));
+        setUsers(data);
       })
       .catch((error) => console.log(error));
   }, []);

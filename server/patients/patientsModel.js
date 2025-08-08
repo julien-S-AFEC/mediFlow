@@ -1,23 +1,18 @@
-import { decrypt } from '../crypto.js'
-import { pool } from '../sql/dbConfig.js'
+import { pool } from '../config/db.js'
 
-class PatientModel {
-    static async getAll() {
-        const con = await pool.getConnection()
-        return con.execute(`SELECT * FROM patients LEFT JOIN institutes ON patients.institute_id = institutes.inst_id WHERE 1`, [])
+const PatientModel = {
+    getAll: async () => {
+        return pool.execute(`SELECT * FROM patients LEFT JOIN institutes ON patients.institute_id = institutes.inst_id WHERE 1`, [])
             .then((rows, fields) => {
-                con.release()
                 return rows[0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async getPatientFromId(id) {
-        const con = await pool.getConnection()
-        return con.execute(`SELECT 
+    getPatientFromId: async (id) => {
+        return pool.execute(`SELECT 
                     patient_id, 
                     patient_firstname, 
                     patient_secondname, 
@@ -32,18 +27,15 @@ class PatientModel {
                     patients 
                     WHERE patients.patient_id=?`, [id])
             .then((rows, fields) => {
-                con.release()
                 return rows[0][0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async getPatientFromInstId(id) {
-        const con = await pool.getConnection()
-        return con.execute(`SELECT 
+    getPatientFromInstId: async (id) => {
+        return pool.execute(`SELECT 
                     patient_id, 
                     patient_firstname, 
                     patient_secondname, 
@@ -58,18 +50,15 @@ class PatientModel {
                     patients 
                     WHERE patients.institute_id=?`, [id])
             .then((rows, fields) => {
-                con.release()
                 return rows[0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async getPatientFromDoctorId(id) {
-        const con = await pool.getConnection()
-        return con.execute(`SELECT 
+    getPatientFromDoctorId: async (id) => {
+        return pool.execute(`SELECT 
                     patients.patient_id, 
                     patient_firstname, 
                     patient_secondname, 
@@ -80,23 +69,22 @@ class PatientModel {
                     insurance_number, 
                     created_at,
                     active
-                   FROM medi_flow.doctor_relation
+                   FROM doctor_relation
                    LEFT JOIN
                    patients
                    ON
                    patients.patient_id = doctor_relation.patient_id
                    WHERE doctor_relation.doctor_id=?`, [id])
             .then((rows, fields) => {
-                con.release()
                 return rows[0]
             })
             .catch(error => {
-                con.release();
+
                 throw error
             })
-    }
+    },
 
-    static async createPatient(
+    createPatient: async (
         firstName,
         secondName,
         gender,
@@ -106,9 +94,8 @@ class PatientModel {
         insurance,
         institute,
         doctor,
-        createdAt) {
-        const con = await pool.getConnection()
-        return con.execute(`INSERT INTO patients 
+        createdAt) => {
+        return pool.execute(`INSERT INTO patients 
                     (
                     patient_firstname, 
                     patient_secondname, 
@@ -131,33 +118,29 @@ class PatientModel {
             createdAt
         ])
             .then((rows, fields) => {
-                con.release()
                 if (doctor) {
-                    this.createDoctorRelationTable(doctor, rows[0].insertId)
+                    PatientModel.createDoctorRelationTable(doctor, rows[0].insertId)
                 }
-                return this.getPatientFromId(rows[0].insertId)
+                return PatientModel.getPatientFromId(rows[0].insertId)
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async createDoctorRelationTable(doctoId, patientId) {
-        const con = await pool.getConnection()
-        return con.execute(`INSERT INTO doctor_relation 
+    createDoctorRelationTable: async (doctoId, patientId) => {
+        return pool.execute(`INSERT INTO doctor_relation 
                     (doctor_id, patient_id) VALUES (?, ?)`, [doctoId, patientId])
             .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0])
+
+                return rows[0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async updatePatient(
+    updatePatient: async (
         patientId,
         firstName,
         secondName,
@@ -165,9 +148,8 @@ class PatientModel {
         birthDate,
         address,
         email,
-        insurance) {
-        const con = await pool.getConnection()
-        return con.execute(`UPDATE 
+        insurance) => {
+        return pool.execute(`UPDATE 
                 patients 
                 SET
                 patient_firstname=?,
@@ -188,18 +170,15 @@ class PatientModel {
             patientId
         ])
             .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0][0])
+                return rows[0][0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async updateInstituteFromId(instituteId, patientId) {
-        const con = await pool.getConnection()
-        return con.execute(`UPDATE 
+    updateInstituteFromId: async (instituteId, patientId) => {
+        return pool.execute(`UPDATE 
                 patients 
                 SET
                 patients.institute_id=?
@@ -207,18 +186,15 @@ class PatientModel {
                 patients.patient_id=?
                 `, [instituteId, patientId])
             .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0][0])
+                return rows[0][0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async updateDoctorFromId(patientId, doctorId) {
-        const con = await pool.getConnection()
-        return con.execute(`INSERT INTO 
+    updateDoctorFromId: (patientId, doctorId) => {
+        return pool.execute(`INSERT INTO 
                 doctor_relation 
                 (doctor_id,
                 patient_id,
@@ -228,18 +204,15 @@ class PatientModel {
                 (?, ?, NOW())
                 `, [doctorId, patientId])
             .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0])
+                return rows[0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async archivePatientFromId(patientId) {
-        const con = await pool.getConnection()
-        return con.execute(`UPDATE
+    archivePatientFromId: async (patientId) => {
+        return pool.execute(`UPDATE
                 patients
                 SET
                 active=0
@@ -247,18 +220,15 @@ class PatientModel {
                 patients.patient_id=?
                 `, [patientId])
             .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0])
+                return rows[0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async unArchivePatientFromId(patientId) {
-        const con = await pool.getConnection()
-        return con.execute(`UPDATE
+    unArchivePatientFromId: async (patientId) => {
+        return pool.execute(`UPDATE
                 patients
                 SET
                 active=1
@@ -266,11 +236,9 @@ class PatientModel {
                 patients.patient_id=?
                 `, [patientId])
             .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0])
+                return rows[0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
     }

@@ -26,7 +26,7 @@ const Institutes: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => setPermissions(JSON.parse(data)));
+      .then((data) => setPermissions(data));
   }, []);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Institutes: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => setInstitutes(JSON.parse(data)));
+      .then((data) => setInstitutes(data));
   }, [refresh]);
 
   const setModifyVis = useCallback((inst: Institute) => {

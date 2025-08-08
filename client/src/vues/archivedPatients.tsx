@@ -14,7 +14,7 @@ const Dashboard: React.FC = () => {
           return res.json();
         }
       })
-      .then(data => setPermissions(JSON.parse(data)))
+      .then(data => setPermissions(data))
 
   }, []);
 

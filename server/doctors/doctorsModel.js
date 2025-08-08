@@ -1,34 +1,27 @@
-import { pool } from '../sql/dbConfig.js'
+import { pool } from '../config/db.js'
 
-class DoctorModel {
-    static async getAll() {
-        const con = await pool.getConnection()
-        return con.execute("SELECT * FROM doctors WHERE 1", [])
+const DoctorModel = {
+    getAll: async () => {
+        return pool.execute("SELECT * FROM doctors WHERE 1", [])
             .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0])
-            })
-            .catch(error => {
-                con.release();
-                throw error
-            })
-    }
-    static async getDoctorFromId(id) {
-        const con = await pool.getConnection()
-        return con.execute("SELECT * FROM doctors WHERE doctors.doctor_id=?", [id])
-            .then((rows, fields) => {
-                con.release()
                 return rows[0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
+    getDoctorFromId: async (id) => {
+        return pool.execute("SELECT * FROM doctors WHERE doctors.doctor_id=?", [id])
+            .then((rows, fields) => {
+                return rows[0]
+            })
+            .catch(error => {
+                throw error
+            })
+    },
 
-    static async getDoctorFromPatientId(id) {
-        const con = await pool.getConnection()
-        return con.execute(`SELECT 
+    getDoctorFromPatientId: async (id) => {
+        return pool.execute(`SELECT 
                     doctor_firstname,
                     doctor_secondname,
                     doctor_institute,
@@ -39,25 +32,22 @@ class DoctorModel {
                     ON doctor_relation.doctor_id=doctors.doctor_id 
                     WHERE patient_id=?`, [id])
             .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0])
+                return rows[0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async createDoctor(
+    createDoctor: async (
         firstname,
         secondName,
         address,
         email,
         phone,
         institute
-    ) {
-        const con = await pool.getConnection()
-        return con.execute(`INSERT INTO doctors 
+    ) => {
+        return pool.execute(`INSERT INTO doctors 
                     (
                     doctor_firstname, 
                     doctor_secondname, 
@@ -74,16 +64,14 @@ class DoctorModel {
             institute
         ])
             .then((rows, fields) => {
-                con.release()
                 return rows[0]
             })
             .catch(error => {
-                con.release()
-                    ; throw error
+                throw error
             })
-    }
+    },
 
-    static async updateDoctorCredentialsFromId(
+    updateDoctorCredentialsFromId: (
         firstname,
         secondname,
         institute,
@@ -91,9 +79,8 @@ class DoctorModel {
         phoneNumber,
         email,
         doctorId
-    ) {
-        const con = await pool.getConnection()
-        return con.execute(`UPDATE doctors
+    ) => {
+        return pool.execute(`UPDATE doctors
                     SET
                     doctor_firstname=?, 
                     doctor_secondname=?, 
@@ -113,11 +100,9 @@ class DoctorModel {
             doctorId
         ])
             .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0])
+                return rows[0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
     }

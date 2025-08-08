@@ -1,5 +1,5 @@
 import { Router } from 'express'
-const authRouter = Router()
+const sessionRouter = Router()
 
 const isConnected = (req, res) => {
     if (req.session?.user) {
@@ -38,9 +38,9 @@ const logOut = (req, res) => {
     ]
 }
 
-authRouter.get('/isConnected', isConnected)
-authRouter.get('/getCurrentUser', getCurrentUser)
-authRouter.get('/isAdmin', isAdmin)
-authRouter.get('/logOut', logOut)
+sessionRouter.get('/isConnected', isConnected)
+sessionRouter.get('/getCurrentUser', getCurrentUser)
+sessionRouter.get('/isAdmin', isAdmin)
+sessionRouter.get('/logOut', logOut)
 
-export default authRouter
+export default sessionRouter

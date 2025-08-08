@@ -1,9 +1,8 @@
-import { pool } from '../sql/dbConfig.js'
+import { pool } from '../config/db.js'
 
-class PrescriptionModel {
-    static async upload(filePath, patientId) {
-        const con = await pool.getConnection()
-        return con.execute(`INSERT INTO
+const PrescriptionModel = {
+    upload: async (filePath, patientId) => {
+        return pool.execute(`INSERT INTO
                 prescriptions
                 (file_path,
                 patient_id)
@@ -11,36 +10,30 @@ class PrescriptionModel {
                 (?, ?)
                 `, [filePath, patientId])
             .then((rows, fields) => {
-                con.release()
                 return rows[0]
             })
             .catch(error => {
-                con.release();
                 throw error
             })
-    }
+    },
 
-    static async getAllByPatientId(patientId) {
-        const con = await pool.getConnection()
-        return con.execute(`SELECT *
+    getAllByPatientId: async (patientId) => {
+        try {
+            const result = await pool.execute(`SELECT *
             FROM 
             prescriptions
             WHERE
             prescriptions.patient_id=?
             `, [patientId])
-            .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0])
-            })
-            .catch(error => {
-                con.release();
-                throw error
-            })
-    }
+            return result[0]
+        }
+        catch (error) {
+            throw Error(`Cannot get the prescriptions: ${error}`)
+        }
+    },
 
-    static async getById(prescriptionId) {
-        const con = await pool.getConnection()
-        return con.execute(`SELECT 
+    getById: async (prescriptionId) => {
+        return pool.execute(`SELECT 
             prescriptions.file_path
             FROM 
             prescriptions
@@ -48,11 +41,9 @@ class PrescriptionModel {
             prescriptions.id=?
             `, [prescriptionId])
             .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0][0].file_path)
+                return rows[0][0].file_path
             })
             .catch(error => {
-                con.release();
                 throw error
             })
     }

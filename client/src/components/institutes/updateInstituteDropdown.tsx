@@ -23,7 +23,7 @@ const UpdateInstituteWidget: React.FC<Iprops> = ({ visHandler, patientId, refres
         }
       })
       .then((data) => {
-        setInstitutes(JSON.parse(data));
+        setInstitutes(data);
       });
   }, []);
 

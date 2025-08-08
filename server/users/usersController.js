@@ -1,98 +1,99 @@
 import UserModel from "./usersModel.js"
-import { Router } from "express"
-import jsonwebtoken from 'jsonwebtoken'
-import { jwtValidation } from "../middlewares/jwt.js";
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
-const usersRouter = Router()
-const userModel = new UserModel()
+export const getAllWithPermissions = (req, res) => {
+    UserModel.getAllWithPermissions()
+        .then(data => { res.status(200).json(data) })
 
-class UsersController {
-    getAllWithPermissions(req, res) {
-        userModel.getAllWithPermissions()
-            .then(data => { res.status(200).json(data) })
+        .catch(error => {
+            res.status(409).json({ message: error.message });
+        });
+}
 
-            .catch(error => {
-                res.status(409).json({ message: error.message });
-            });
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body
+        const result = await UserModel.login(email, password)
+
+        if (result.status === 'failed') {
+            return res.status(result.statusCode).json(result.message)
+        }
+        const match = await bcrypt.compare(password, result.user.user_password)
+        if (!match) {
+            return res.status(401).json("The password is incorrect.")
+        }
+        const token = jwt.sign({ userName: result.user.username, userRole: result.user.role_id, userId: result.user.user_id }, process.env.JWT_SECRET, { expiresIn: '4h' });
+
+        req.session.user = {
+            username: result.user.username,
+            role_id: result.user.role_id,
+            user_id: result.user.user_id,
+            user_email: result.user.user_email,
+            jwt: `Bearer ${token}`
+        }
+
+        return res.status(200).json({status: "success", user: result.user})
     }
-
-    connectUser(req, res) {
-        userModel.connectUser(req.body.email, req.body.password)
-            .then(data => {
-                const token = jsonwebtoken.sign({ userName: data[0].username, userRole: data[0].role_id, userId: data[0].user_id }, process.env.JWT_SECRET, { expiresIn: '4h' });
-
-                const credentials = data[0]
-                req.session.user = {
-                    username: credentials.username,
-                    role_id: credentials.role_id,
-                    user_id: credentials.user_id,
-                    jwt: `Bearer ${token}`
-                }
-                res.status(200).json({ user: data[0], jwtToken: token })
-            })
-
-            .catch(error => {
-                console.log(error.message)
-                res.status(500).json({ message: error.message || 'Erreur inconnue' })
-            })
-    }
-
-    registerUser(req, res) {
-        userModel.registerUser(req.body.name, req.body.email, req.body.password)
-            .then(userId => {
-                return userModel.getUserById(userId);
-            })
-            .then(userCredentials => {
-                if (userCredentials) {
-                    const credentials = JSON.parse(userCredentials)[0]
-                    req.session.user = {
-                        username: credentials.username,
-                        role_id: credentials.role_id,
-                        user_id: credentials.user_id
-                    };
-                }
-                res.status(200).json(userCredentials);
-            })
-            .catch(error => {
-                res.status(500).json({ message: error.message });
-            });
-    }
-
-    getUserById(req, res) {
-        userModel.getUserById(req.body.userId)
-            .then(data => { res.status(200).json(data) })
-
-            .catch(error => {
-                res.status(409).json({ message: error.message });
-            });
-    }
-
-    getCurrentUserPermissions(req, res) {
-        userModel.getCurrentUserPermissions(req.session.user.user_id)
-            .then(data => { res.status(200).json(data) })
-
-            .catch(error => {
-                res.status(500).json({ message: error.message });
-            });
-    }
-
-    updatePermissionFromName(req, res) {
-        userModel.updatePermissionFromName(req.body.permissionId, req.body.field, req.body.value)
-            .then(data => { res.status(200).json(data) })
-
-            .catch(error => {
-                res.status(500).json({ message: error.message });
-            });
+    catch (error) {
+        return res.status(500).json(error.message)
     }
 }
 
-const userController = new UsersController()
+export const registerUser = async (req, res) => {
+    try {
+        const { name, email, password } = req.body
+        const hashedPass = bcrypt.hashSync(password, parseInt(process.env.SALT_ROUNDS))
+        const result = await UserModel.registerUser(name, email, hashedPass)
 
-usersRouter.get('/getAllWithPermissions', jwtValidation, userController.getAllWithPermissions)
-usersRouter.post('/connectUser', userController.connectUser)
-usersRouter.post('/registerUser', userController.registerUser)
-usersRouter.post('/getUserById', jwtValidation, userController.getUserById)
-usersRouter.get('/getCurrentUserPermissions', jwtValidation, userController.getCurrentUserPermissions)
-usersRouter.post('/updatePermissionFromName', jwtValidation, userController.updatePermissionFromName)
+        if (result.status === 'failed') {
+            return res.status(result.statusCode).json(result.message)
+        }
+        const token = jwt.sign({ userName: result.user.username, userRole: result.user.role_id, userId: result.user.user_id }, process.env.JWT_SECRET, { expiresIn: '4h' });
 
-export default usersRouter
+        req.session.user = {
+            username: result.user.username,
+            role_id: result.user.role_id,
+            user_id: result.user.user_id,
+            user_email: result.user.user_email,
+            jwt: `Bearer ${token}`
+        };
+        return res.status(200).json(result)
+    }
+    catch (error) {
+        return res.status(500).json(error.message)
+    }
+}
+
+export const getUserById = (req, res) => {
+    UserModel.getUserById(req.body.userId)
+        .then(data => { 
+            delete data.user_password
+            res.status(200).json(data) })
+
+        .catch(error => {
+            res.status(409).json({ message: error.message });
+        });
+}
+
+export const getCurrentUserPermissions = (req, res) => {
+    if (!req.session && req.session.user) {
+        res.status(500).json({ message: "The session cannot be found." });
+    }
+    UserModel.getCurrentUserPermissions(req.session.user.user_id)
+        .then(data => { res.status(200).json(data) })
+
+        .catch(error => {
+            res.status(500).json({ message: `Cannot get the user permissions: ${error.message}` });
+        });
+}
+
+export const updatePermissionFromName = (req, res) => {
+    const { permissionId, field, value } = req.body
+    UserModel.updatePermissionFromName(permissionId, field, value)
+        .then(data => { res.status(200).json("Modification successfully done.") })
+
+        .catch(error => {
+            res.status(500).json({ message: error.message });
+        });
+}

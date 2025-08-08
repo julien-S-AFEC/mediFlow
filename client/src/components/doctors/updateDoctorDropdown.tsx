@@ -23,7 +23,7 @@ const UpdateDoctorWidget: React.FC<Iprops> = ({ patientId, visibilityToggler, re
         }
       })
       .then((data) => {
-        setDoctors(JSON.parse(data));
+        setDoctors(data);
       });
   }, []);
 

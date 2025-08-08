@@ -1,60 +1,68 @@
-import { pool } from '../sql/dbConfig.js'
+import { pool } from '../config/db.js'
 
-class PrescriptionModel {
-    static async create(prescriptionId) {
-        const con = await pool.getConnection()
-        return con.execute(`INSERT INTO
+const PrescriptionModel = {
+    create: async (prescriptionId, content) => {
+        try {
+            const [rows] = await pool.execute(
+                `INSERT INTO
                 prescription_dosage
                 (content, prescription_id)
-                VALUES
+            VALUES
                 (?, ?)
-                `, ['[{"col1": "", "col2": "", "col3": "", "col4": "", "col5": ""}]', prescriptionId])
-            .then((rows, fields) => {
-                con.release()
-                return JSON.stringify(rows[0])
-            })
-            .catch(error => {
-                con.release();
-                throw error
-            })
-    }
+            `,
+                [content, prescriptionId]);
 
-    static async getById(prescriptionId) {
-        const con = await pool.getConnection()
-        return con.execute(`
-            SELECT content
+            if (rows.affectedRows === 0) {
+                throw new Error("The prescription cannot be inserted.");
+            }
+            return rows[0]
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error.message);
+        }
+    },
+
+    getById: async (prescriptionId) => {
+        try {
+            const [rows] = await pool.execute(`
+            SELECT 
+            content
             FROM 
             prescription_dosage
             WHERE
             prescription_dosage.prescription_id=?
             `, [prescriptionId])
-            .then((rows, fields) => {
-                con.release()
-                return rows[0][0].content
-            })
-            .catch(error => {
-                con.release();
-                throw error
-            })
-    }
 
-    static async store(prescriptionId, content) {
-        const con = await pool.getConnection()
-        return con.execute(`
+            if (!rows.length) {
+                throw new Error("The prescription is not found.")
+            }
+            return rows[0].content
+        }
+        catch (error) {
+            throw new Error(error.message)
+        }
+    },
+
+    store: async (prescriptionId, content) => {
+        try {
+            const [rows] = await pool.execute(`
             UPDATE 
             prescription_dosage 
             SET 
             content = ?
             WHERE (prescription_id = ?);
-            `, [JSON.stringify(content), prescriptionId])
-            .then((rows, fields) => {
-                con.release()
-                return rows[0]
-            })
-            .catch(error => {
-                con.release();
-                throw error
-            })
+            `, [content, prescriptionId])
+
+            if (!rows.affectedRows) {
+                throw new Error("The prescription is not found.")
+            }
+            return {status: 'Accepted'}
+        }
+
+        catch (error) {
+            throw new Error(error.message)
+        }
     }
 }
 

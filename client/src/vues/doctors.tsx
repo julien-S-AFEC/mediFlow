@@ -25,8 +25,8 @@ const Doctors: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => {
-        setPermissions(JSON.parse(data));
+      .then(data => {
+        setPermissions(data);
       });
   }, []);
 
@@ -41,7 +41,7 @@ const Doctors: React.FC = () => {
           return res.json();
         }
       })
-      .then((data) => setDoctors(JSON.parse(data)));
+      .then((data) => setDoctors(data));
   }, [refresh]);
 
   const setModifyVis = useCallback((doc: Doctor) => {
@@ -66,11 +66,11 @@ const Doctors: React.FC = () => {
                 <div key={doctor.doctor_id} className="border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow">
                   {Boolean(permissions?.create_patient) && (
                     <div className="d-flex justify-content-end mb-2">
-                      <AiOutlineEdit onClick={() => setModifyVis(doctor)} size={25}  data-tooltip-id="mediFlowTooltip" data-tooltip-content="Update doctor"/>
+                      <AiOutlineEdit onClick={() => setModifyVis(doctor)} size={25} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Update doctor" />
                     </div>
                   )}
                   <Link to={`/doctorDetails/${doctor.doctor_id}`} key={index} className="d-flex justify-content-end mb-2 text-decoration-none">
-                    <CiBoxList className="icon"  data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient related to this doctor"/>
+                    <CiBoxList className="icon" data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient related to this doctor" />
                   </Link>
 
                   <div className="d-flex justify-content-center mb-2 gap-3">
