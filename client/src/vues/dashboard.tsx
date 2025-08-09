@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [iconSize, setIconSize] = useState<number>(100);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/auth/getCurrentUser", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
+    fetch("https://mediflow-vgtc.onrender.com/api/auth/getCurrentUser", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
       .then((res) => {
         if (res.ok) {
           return res.json();

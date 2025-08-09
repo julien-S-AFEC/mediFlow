@@ -20,7 +20,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   const isAdmin = currentUser?.role_id === 2;
 
   const storeCommentary = useCallback(() => {
-    fetch("http://localhost:3000/api/prescriptionCommentary/create", {
+    fetch("https://mediflow-vgtc.onrender.com/api/prescriptionCommentary/create", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -66,7 +66,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   const deleteCommentary = (id?: number) => {
-    fetch("http://localhost:3000/api/prescriptionCommentary/deleteById", {
+    fetch("https://mediflow-vgtc.onrender.com/api/prescriptionCommentary/deleteById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -84,7 +84,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/prescriptionCommentary/getAllbyPrescId", {
+    fetch("https://mediflow-vgtc.onrender.com/api/prescriptionCommentary/getAllbyPrescId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -106,7 +106,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
         <div className="d-flex flex-column gap-3">
           <div>{`Created at: ${new Date(currentPrescription.created_at).toLocaleString()}`}</div>
           <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at}>
-            <img className="img img-fluid" key={currentPrescription.id} src={`http://localhost:3000/${currentPrescription.file_path}`} alt="prescription-img" />
+            <img className="img img-fluid" key={currentPrescription.id} src={`https://mediflow-vgtc.onrender.com/${currentPrescription.file_path}`} alt="prescription-img" />
           </Link>
         </div>
         <div className="d-flex flex-column ">
