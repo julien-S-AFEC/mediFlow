@@ -41,9 +41,6 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
-})
 
 app.use('/api/users', usersRouter)
 app.use('/api/patients', patientsRouter)
@@ -54,6 +51,10 @@ app.use('/api/prescriptionCommentary', prescriptionCommentaryRouter)
 app.use('/api/prescriptionDosage', prescriptionDosageRouter)
 app.use('/api/auth', sessionRouter)
 app.use('/uploads', express.static('uploads'));
+
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`App running on port: ${PORT}`)
