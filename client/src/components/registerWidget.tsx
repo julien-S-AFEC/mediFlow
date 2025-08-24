@@ -54,7 +54,7 @@ const RegisterWidget = () => {
                     return res.json()
                         .then(err => {
                             setErrorOpacity('100')
-                            setErrorText(err.message)
+                            setErrorText(err)
                         })
                 }
                 else {

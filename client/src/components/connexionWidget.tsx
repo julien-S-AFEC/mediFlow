@@ -72,6 +72,7 @@ const ConnexionWidget = () => {
           </form>
           <div className="d-flex w-100 pt-3 justify-content-end">
             <Link to='/register' className="mx-2 text text-decoration-underline main-font fw-light">I dont have an account</Link>
+            <Link to='/passLost' className="mx-2 text text-decoration-underline main-font fw-light">I dont remember my password</Link>
           </div>
         </div>
       </div>

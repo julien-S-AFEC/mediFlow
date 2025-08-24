@@ -14,6 +14,9 @@ import UserManagement from "./vues/userManagement";
 import Error404 from "./vues/error404";
 import DoctorDetails from "./vues/doctorDetails";
 import { Tooltip } from "react-tooltip";
+import PassLost from "./vues/passLost";
+import ResetPassword from "./vues/resetPassword";
+import Settings from "./vues/settings";
 
 const App = () => {
   return (
@@ -23,7 +26,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Connexion />}></Route>
           <Route path="/connexion" element={<Connexion />}></Route>
+          <Route path="/passLost" element={<PassLost />}></Route>
+          <Route path="/resetPassword" element={<ResetPassword />}></Route>
           <Route path="/register" element={<Register />}></Route>
+          <Route path="/settings" element={<Settings />}></Route>
 
           <Route
             path="/dashboard"

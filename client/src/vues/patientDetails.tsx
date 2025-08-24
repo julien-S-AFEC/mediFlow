@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { HiOutlineUpload } from "react-icons/hi";
 import { BsFileEarmarkPerson } from "react-icons/bs";
-import { Tooltip } from 'react-tooltip'
 import PatientDetailsWidget from "../components/patients/patientDetailsWidget.tsx";
 import DoctorDetailsWidget from "../components/doctors/doctorDetailsWidget.tsx";
 import InstituteDetailsWidget from "../components/institutes/instituteDetailsWidget.tsx";
