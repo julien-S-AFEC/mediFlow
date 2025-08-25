@@ -7,7 +7,7 @@ type Iprops = {
   searchVis?: boolean;
 };
 
-const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis=false }) => {
+const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis = false }) => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const logOut = useCallback(() => {
@@ -82,6 +82,11 @@ const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis=false }) =>
                 </Link>
               </li>
             )}
+            <li className="nav-item">
+              <Link className="nav-link main-font" to="/settings">
+                Settings
+              </Link>
+            </li>
             <li className="nav-item">
               <Link className="nav-link main-font" to="/" onClick={logOut}>
                 Log out

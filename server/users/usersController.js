@@ -16,6 +16,7 @@ export const login = async (req, res) => {
     try {
         const { email, password } = req.body
         const result = await UserModel.login(email, password)
+        console.log('result ->', result)
 
         if (result.status === 'failed') {
             return res.status(result.statusCode).json(result.message)
@@ -31,6 +32,9 @@ export const login = async (req, res) => {
             role_id: result.user.role_id,
             user_id: result.user.user_id,
             user_email: result.user.user_email,
+            create_patient: result.user.create_patient,
+            create_prescription: result.user.create_prescription,
+            create_prescription_commentary: result.user.create_prescription_commentary,
             jwt: `Bearer ${token}`
         }
 
@@ -65,6 +69,7 @@ export const registerUser = async (req, res) => {
 
         if (result.status === 'failed') {
             return res.status(result.statusCode).json(result.message)
+        }
 
         const token = jwt.sign({ userName: result.user.username, userRole: result.user.role_id, userId: result.user.user_id }, process.env.JWT_SECRET, { expiresIn: '4h' });
         req.session.user = {
@@ -72,17 +77,21 @@ export const registerUser = async (req, res) => {
             role_id: result.user.role_id,
             user_id: result.user.user_id,
             user_email: result.user.user_email,
+            create_patient: result.create_patient,
+            create_prescription: result.create_prescription,
+            create_prescription_commentary: result.create_prescription_commentary,
             jwt: `Bearer ${token}`
         };
-        const link = `https://mediflow-vgtc.onrender.com/api/user/verifyEmail/${token}`;
+        //Standby until i get the smtp validation from Brevo.
+        // const link = `https://mediflow-vgtc.onrender.com/api/user/verifyEmail/${token}`;
 
-        await sendEmail({
-            to: result.user.user_email,
-            subject: 'Account verification.',
-            html: `<p>Hello ${result.user.username},</p>
-         <p> Thank you for signing up. Click on the link below to check your account:</p>
-         <a href="${link}">${link}</a>`
-        });
+        // await sendEmail({
+        //     to: result.user.user_email,
+        //     subject: 'Account verification.',
+        //     html: `<p>Hello ${result.user.username},</p>
+        //  <p> Thank you for signing up. Click on the link below to check your account:</p>
+        //  <a href="${link}">${link}</a>`
+        // });
 
         return res.status(200).json(result)
     }
@@ -135,9 +144,47 @@ export const getCurrentUserPermissions = (req, res) => {
 export const updatePermissionFromName = (req, res) => {
     const { permissionId, field, value } = req.body
     UserModel.updatePermissionFromName(permissionId, field, value)
-        .then(data => { res.status(200).json("Modification successfully done.") })
+        .then(data => { 
+            req.session.user[field] = value
+            res.status(200).json("Modification successfully done.") 
+        })
+
+        .catch(error => {
+            res.status(500).json({ message: error.message });
+        })
+}
+
+export const changeNameFromId = (req, res) => {
+    UserModel.changeNameFromId(req.body.userId, req.body.newName)
+        .then(data => {
+            req.session.user.username = req.body.newName
+            res.status(200).json(data)
+        })
 
         .catch(error => {
             res.status(500).json({ message: error.message });
         });
+}
+
+export const changeEmailFromId = (req, res) => {
+    UserModel.changeEmailFromId(req.body.userId, req.body.newEmail)
+        .then(data => {
+            req.session.user.user_email = req.body.newName
+            res.status(200).json(data)
+        })
+
+        .catch(error => {
+            res.status(500).json({ message: error.message });
+        });
+}
+
+export const changePasswordFromId = (req, res) => {
+    UserModel.changePasswordFromId(req.body.userId, bcrypt.hashSync(req.body.newPassword, parseInt(process.env.SALT_ROUNDS)))
+        .then(data => {
+            res.status(200).json(data)
+        })
+
+        .catch(error => {
+            res.status(500).json({ message: error.message })
+        })
 }

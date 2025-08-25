@@ -76,6 +76,9 @@ const PassLost: React.FC = () => {
                         <div className="d-flex flex-column w-75">
                         </div>
                         <button type="submit" className="btn btn-primary mt-2">Reset my password</button>
+                        <div className="d-flex w-100 pt-3 justify-content-end">
+                            <Link to='/connexion' className="mx-2 text text-decoration-underline main-font fw-light">Connexion</Link>
+                        </div>
                     </form>
                 </>
                 :

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 
 const ResetPassword: React.FC = () => {
     const [scaled, setIsScalled] = useState<string>("translateY(-50%) scale(100%)");
