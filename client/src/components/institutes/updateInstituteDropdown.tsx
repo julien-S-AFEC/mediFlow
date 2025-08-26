@@ -12,7 +12,7 @@ const UpdateInstituteWidget: React.FC<Iprops> = ({ visHandler, patientId, refres
   const [instituteText, setInstituteText] = useState<string>("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/institutes/getAll", {
+    fetch("https://mediflow-vgtc.onrender.com/api/institutes/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -28,7 +28,7 @@ const UpdateInstituteWidget: React.FC<Iprops> = ({ visHandler, patientId, refres
   }, []);
 
   const updatePatientInstitute = () => {
-    fetch("http://localhost:3000/api/patients/updateInstituteFromId", {
+    fetch("https://mediflow-vgtc.onrender.com/api/patients/updateInstituteFromId", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

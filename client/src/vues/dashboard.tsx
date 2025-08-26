@@ -5,6 +5,7 @@ import { LuUsersRound } from "react-icons/lu";
 import { FaHouseMedicalFlag } from "react-icons/fa6";
 import { FaUserDoctor } from "react-icons/fa6";
 import { RiArchiveStackLine } from "react-icons/ri";
+import { CiSettings } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { User } from "../types";
@@ -14,7 +15,7 @@ const Dashboard = () => {
   const [iconSize, setIconSize] = useState<number>(100);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/auth/getCurrentUser", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
+    fetch("https://mediflow-vgtc.onrender.com/api/auth/getCurrentUser", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -52,6 +53,13 @@ const Dashboard = () => {
           <div className="shadow rounded-4 p-5 pe-auto icon-hovered">
             <Link to="/archivedPatients">
               <RiArchiveStackLine size={iconSize} color="rgba(255, 59, 59, 1)" />
+            </Link>
+          </div>
+        </div>
+        <div className="d-flex gap-4">
+          <div className="shadow rounded-4 py-2 px-5 pe-auto icon-hovered">
+            <Link to="/settings">
+              <CiSettings size={iconSize / 2} color="rgba(89, 129, 241, 1)" />
             </Link>
           </div>
         </div>

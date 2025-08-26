@@ -29,7 +29,22 @@ const UserModel = {
 
     login: async (email, password) => {
         try {
-            const user = await pool.execute(`SELECT username, user_email, user_password, role_id, user_id FROM users WHERE user_email = ?`, [email])
+            const user = await pool.execute(`SELECT 
+                username, 
+                user_email, 
+                user_password, 
+                role_id, 
+                user_id,
+                create_patient,
+                create_prescription,
+                create_prescription_commentary
+                FROM 
+                users 
+                LEFT JOIN
+                permissions
+                ON
+                permissions.permission_id=users.permissions
+                WHERE user_email = ?`, [email])
             if (!user[0].length) {
                 return { status: 'failed', statusCode: 404, message: "The user is not found." }
             }
@@ -77,11 +92,16 @@ const UserModel = {
                 [name, email, password, 1, permissionId])
 
             const createdUser = await UserModel.getUserById(rows.insertId)
-            return { status: 'success', message: "User successfully created.", user: createdUser[0] }
+            return { status: 'success', message: "User successfully created.", user: createdUser }
 
         } catch (error) {
             throw error
         }
+    },
+
+    verifyEmail: async (email) => {
+        const [result] = await pool.execute('UPDATE users SET is_verified = true WHERE email = ?', [email]);
+        return result;
     },
 
     getUserById: async (id) => {
@@ -135,12 +155,63 @@ const UserModel = {
             permissions.permission_id=?
             `, [value, permissionId])
             if (!rows) {
-            throw new Error("Cannot modify the field.")    
+                throw new Error("Cannot modify the field.")
             }
             return rows[0]
         }
         catch (error) {
             throw new Error(error)
+        }
+    },
+
+    changeNameFromId: async (id, newName) => {
+        try {
+            const [rows] = await pool.execute(`
+                UPDATE
+                users
+                SET
+                username=?
+                WHERE
+                users.user_id=?
+                `, [newName, id])
+            return rows
+        }
+        catch (error) {
+            throw new Error(error.message)
+        }
+    },
+
+    changeEmailFromId: async (id, newName) => {
+        try {
+            const [rows] = await pool.execute(`
+                UPDATE
+                users
+                SET
+                user_email=?
+                WHERE
+                users.user_id=?
+                `, [newName, id])
+            return rows
+        }
+        catch (error) {
+            throw new Error(error.message)
+        }
+    },
+
+    changePasswordFromId: async (id, newName) => {
+        try {
+            const [rows] = await pool.execute(`
+                UPDATE
+                users
+                SET
+                user_password=?
+                WHERE
+                users.user_id=?
+                `, [newName, id])
+            return rows
+        }
+        catch (error) {
+            throw new Error(error.message)
         }
     }
 }

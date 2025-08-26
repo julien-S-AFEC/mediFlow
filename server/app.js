@@ -13,11 +13,7 @@ import prescriptionCommentaryRouter from './prescriptionCommentary/prescriptionR
 import sessionRouter from './session/session.js'
 import prescriptionDosageRouter from './prescriptionDosage/prescriptionDosageRoutes.js'
 import session from 'express-session';
-import dotenv from 'dotenv';
-
-dotenv.config()
-
-const PORT = process.env.PORT;
+import test from './utils/mailerTesting.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -25,8 +21,8 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
+  origin: ['http://localhost:5173', 'https://mediflow-vgtc.onrender.com'],
+  credentials: true,
 }));
 
 app.use(express.json())
@@ -41,9 +37,6 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
-})
 
 app.use('/api/users', usersRouter)
 app.use('/api/patients', patientsRouter)
@@ -55,6 +48,11 @@ app.use('/api/prescriptionDosage', prescriptionDosageRouter)
 app.use('/api/auth', sessionRouter)
 app.use('/uploads', express.static('uploads'));
 
-app.listen(PORT, () => {
-    console.log(`App running on port: ${PORT}`)
+// Get all the front routes.
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
+
+app.listen(process.env.PORT, () => {
+    console.log(`App running on port: ${process.env.PORT}`)
 })

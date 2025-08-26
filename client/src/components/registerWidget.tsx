@@ -43,7 +43,7 @@ const RegisterWidget = () => {
             return
         }
 
-        fetch('http://localhost:3000/api/users/registerUser', {
+        fetch('https://mediflow-vgtc.onrender.com/api/users/registerUser', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-type': 'application/json' },
@@ -54,7 +54,7 @@ const RegisterWidget = () => {
                     return res.json()
                         .then(err => {
                             setErrorOpacity('100')
-                            setErrorText(err.message)
+                            setErrorText(err)
                         })
                 }
                 else {

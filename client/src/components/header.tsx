@@ -7,17 +7,17 @@ type Iprops = {
   searchVis?: boolean;
 };
 
-const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis=false }) => {
+const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis = false }) => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const logOut = useCallback(() => {
-    fetch("http://localhost:3000/api/auth/logOut", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" }).catch((error) => {
+    fetch("https://mediflow-vgtc.onrender.com/api/auth/logOut", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" }).catch((error) => {
       console.log(error);
     });
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/auth/isAdmin", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
+    fetch("https://mediflow-vgtc.onrender.com/api/auth/isAdmin", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -82,6 +82,11 @@ const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis=false }) =>
                 </Link>
               </li>
             )}
+            <li className="nav-item">
+              <Link className="nav-link main-font" to="/settings">
+                Settings
+              </Link>
+            </li>
             <li className="nav-item">
               <Link className="nav-link main-font" to="/" onClick={logOut}>
                 Log out
