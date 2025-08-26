@@ -108,18 +108,18 @@ const UserAccount: React.FC = () => {
                         <button className="btn btn-primary" disabled={isPasswordDisabled} onClick={changePassword}>Change password</button>
                     </div>
                     <hr className="w-100" />
-                    <h4 className="main-font">Permissions</h4>
-                    <div className="d-flex gap-3">
-                        <h4 className="main-font">Can create a patient: </h4>
+                    <h4 className="main-font fs-light">Permissions</h4>
+                    <div className="d-flex gap-3 align-items-center">
+                        <div className="main-font">Can create a patient: </div>
                         <div>{currentUser.create_patient ? "True" : "False"}</div>
                     </div>
-                    <div className="d-flex gap-3">
-                        <h4 className="main-font">Can create a prescription: </h4>
+                    <div className="d-flex gap-3 align-items-center">
+                        <div className="main-font">Can create a prescription: </div>
                         <div>{currentUser.create_prescription ? "True" : "False"}</div>
                     </div>
-                    <div className="d-flex gap-3">
-                        <h4 className="main-font">Can create a prescription commentary: </h4>
-                        <div>{Boolean(currentUser.create_prescription_commentary) ? "True" : "False"}</div>
+                    <div className="d-flex gap-3 align-items-center">
+                        <div className="main-font">Can create a prescription commentary: </div>
+                        <div>{currentUser.create_prescription_commentary ? "True" : "False"}</div>
                     </div>
                 </div>
 

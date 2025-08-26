@@ -24,7 +24,7 @@ const Settings: React.FC = () => {
                 <div className="col-2"></div>
                 <div className="col-6 d-flex flex-column justify-content-start align-items-center p-5">
                     {widgetVis === 1 && <div className="d-flex flex-column align-items-center">
-                        <h4 className="main-font">Account</h4>
+                        <h4 className="main-font fs-light">Account</h4>
                         <UserAccount />
                     </div>}
                     {widgetVis === 2 && <DisplayWidget/>}
