@@ -83,7 +83,7 @@ export const registerUser = async (req, res) => {
             jwt: `Bearer ${token}`
         };
         //Standby until i get the smtp validation from Brevo.
-        // const link = `https://mediflow-vgtc.onrender.com/api/user/verifyEmail/${token}`;
+        // const link = `http://localhost:3000/api/user/verifyEmail/${token}`;
 
         // await sendEmail({
         //     to: result.user.user_email,
@@ -102,7 +102,7 @@ export const registerUser = async (req, res) => {
 
 export const sendResetPasswordEmail = async (req, res) => {
     try {
-        const link = `https://mediflow-vgtc.onrender.com/api/user/resetPassword/${token}`;
+        const link = `http://localhost:3000/api/user/resetPassword/${token}`;
 
         await sendEmail({
             to: result.user.user_email,

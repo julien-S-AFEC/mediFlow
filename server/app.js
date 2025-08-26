@@ -21,7 +21,7 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://mediflow-vgtc.onrender.com'],
+  origin: ['http://localhost:5173', 'http://localhost:3000'],
   credentials: true,
 }));
 

@@ -6,7 +6,7 @@ const UserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    fetch("https://mediflow-vgtc.onrender.com/api/users/getAllWithPermissions", {
+    fetch("http://localhost:3000/api/users/getAllWithPermissions", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include'
@@ -23,7 +23,7 @@ const UserManagement = () => {
   }, []);
 
   const handleChange = (permissionId: number, field: string, value: boolean): void => {
-    fetch("https://mediflow-vgtc.onrender.com/api/users/updatePermissionFromName", {
+    fetch("http://localhost:3000/api/users/updatePermissionFromName", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
