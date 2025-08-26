@@ -1,6 +1,6 @@
 import { pool } from '../config/db.js'
 
-const PrescriptionModel = {
+const PrescriptionDosageModel = {
     create: async (prescriptionId, content) => {
         try {
             const [rows] = await pool.execute(
@@ -66,4 +66,4 @@ const PrescriptionModel = {
     }
 }
 
-export default PrescriptionModel
+export default PrescriptionDosageModel

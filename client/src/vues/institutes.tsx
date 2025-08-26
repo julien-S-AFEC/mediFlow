@@ -20,7 +20,7 @@ const Institutes: React.FC = () => {
   const [permissions, setPermissions] = useState<Permissions>();
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch("https://mediflow-vgtc.onrender.com/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -30,7 +30,7 @@ const Institutes: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/institutes/getAll", {
+    fetch("https://mediflow-vgtc.onrender.com/api/institutes/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

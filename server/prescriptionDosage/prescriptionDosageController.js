@@ -1,5 +1,4 @@
-import PrescriptionDosageModel from "./PrescriptionDosageModel.js"
-
+import PrescriptionDosageModel from "./prescriptionDosageModel.js"
 
 
 export const create = (req, res) => {

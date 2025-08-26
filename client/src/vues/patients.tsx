@@ -13,7 +13,7 @@ const Patient: React.FC = () => {
   const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch("https://mediflow-vgtc.onrender.com/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -23,7 +23,7 @@ const Patient: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/patients/getAll", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch("https://mediflow-vgtc.onrender.com/api/patients/getAll", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();

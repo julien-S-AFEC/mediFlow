@@ -1,4 +1,4 @@
-import PrescriptionCommentaryModel from "./prescriptionCommentaryModel.js"
+import PrescriptionCommentaryModel from "./prescriptionCommentarymodel.js"
 
 
 export const getAllbyPrescId = (req, res) => {

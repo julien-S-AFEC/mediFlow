@@ -21,7 +21,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
   const [doctorText, setDoctorText] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/institutes/getAll", {
+    fetch("https://mediflow-vgtc.onrender.com/api/institutes/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -33,7 +33,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
       })
       .then((data) => setInstitute(data));
 
-    fetch("http://localhost:3000/api/doctors/getAll", {
+    fetch("https://mediflow-vgtc.onrender.com/api/doctors/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -48,7 +48,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
 
   const createPatient = (): void => {
 
-    fetch("http://localhost:3000/api/patients/createPatient", {
+    fetch("https://mediflow-vgtc.onrender.com/api/patients/createPatient", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
