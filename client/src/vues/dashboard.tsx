@@ -30,7 +30,6 @@ const Dashboard = () => {
   return (
     <div className="d-flex flex-column min-vh-100">
       <Header />
-      {user && <h3 className="main-font fw-light text-center">Hello {user.username}</h3>}
       <div className="d-flex flex-column align-items-center gap-4 mt-5">
         <div className="d-flex flex-row flex-xl-row gap-4">
           <div className="shadow rounded-4 p-5 pe-auto icon-hovered">
@@ -61,9 +60,12 @@ const Dashboard = () => {
             <Link to="/settings">
               <CiSettings size={iconSize / 2} color="rgba(89, 129, 241, 1)" />
             </Link>
+            
           </div>
+          
         </div>
-        <Footer stickyBot={true}/>
+              {user && <h3 className="main-font fw-light text-center">Hello {user.username}</h3>}
+        <Footer/>
       </div>
     </div>
   );

@@ -10,6 +10,8 @@ const Patient: React.FC = () => {
   const [createPatientVisible, setCreatePatientVisible] = useState<boolean>(false);
   const [refreshDashboard, setRefreshDashboard] = useState<boolean>(false);
   const [patients, setPatients] = useState<PatientType[]>([]);
+  const [searchPatient, setSearchPatient] = useState<string>("");
+  const [filteredPatients, setFilteredPatients] = useState<PatientType[]>([]);
   const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
@@ -31,20 +33,44 @@ const Patient: React.FC = () => {
       })
       .then((data) => {
         setPatients(data.reverse());
+        setFilteredPatients(data.reverse());
       });
   }, [refreshDashboard]);
+
+  const filterPatient = (e) => {
+    const search = e.target.value;
+    const filteredPatients = patients.filter((patient) => {
+      return (
+        patient.patient_firstname.includes(search) ||
+        patient.patient_firstname.includes(search.slice(0, 1).toUpperCase() + search.slice(1)) ||
+        patient.patient_secondname.includes(search) ||
+        patient.patient_secondname.includes(search.slice(0, 1).toUpperCase() + search.slice(1)) ||
+        patient.address?.includes(search) ||
+        patient.address?.includes(search.slice(0, 1).toUpperCase() + search.slice(1))
+      );
+    });
+
+    setFilteredPatients(filteredPatients);
+    setSearchPatient(search);
+  };
 
   return (
     <>
       <Header search={search} searchHandler={setSearch} searchVis={true} />
-      <div className="d-flex flex-column">
+      <div className="container-fluid text-center">
+        <h2 className="text-center main-font mb-3">Patients</h2>
+        <div className="row justify-content-center mb-2">
+          <div className="col-10 col-lg-5">
+            <input type="text" className="form-control m-0" placeholder="Search for a patient" value={searchPatient} onChange={filterPatient} />
+          </div>
+        </div>
         {Boolean(permissions?.create_patient) && (
           <div className="btn" onClick={() => setCreatePatientVisible((oldValue) => !oldValue)}>
-            <GoPersonAdd size={40} color="blue"/>
+            <GoPersonAdd size={40} color="blue" />
           </div>
         )}
         {createPatientVisible && <CreatePatient visibilityToggler={setCreatePatientVisible} refreshDashboardHandler={setRefreshDashboard} />}
-        <PatientsTable patients={patients} search={search} />
+        <PatientsTable patients={filteredPatients} search={search} />
       </div>
     </>
   );

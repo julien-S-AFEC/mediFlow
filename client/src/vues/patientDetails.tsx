@@ -109,7 +109,7 @@ const PatientDetails: React.FC = () => {
           return res.json();
         }
       })
-      .then(data => {
+      .then((data) => {
         if (data) {
           const reversedPresc = data.reverse();
           setCurrentPrescription(reversedPresc[0]);
@@ -140,13 +140,13 @@ const PatientDetails: React.FC = () => {
 
     const uploadRes = await fetch("http://localhost:3000/api/prescriptions/upload", {
       method: "POST",
-      credentials: 'include',
+      credentials: "include",
       body: formData,
     });
     if (!uploadRes.ok) {
-      alert("Upload failed, wrong file type.")
-      return
-    };
+      alert("Upload failed, wrong file type.");
+      return;
+    }
 
     const data = await uploadRes.json();
     const id = data.insertId;
@@ -154,7 +154,7 @@ const PatientDetails: React.FC = () => {
     fetch("http://localhost:3000/api/prescriptionDosage/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: 'include',
+      credentials: "include",
       body: JSON.stringify({ prescriptionId: id }),
     }).then(() => {
       setRefresh((v) => !v);
@@ -195,6 +195,8 @@ const PatientDetails: React.FC = () => {
                   </div>
                 </div>
                 <div className="col-lg-11 d-flex flex-column justify-content-center align-items-center main-font">
+                  <h5 className="main-font fs-light">{patient.patient_firstname} {patient.patient_secondname}</h5>
+                  <div className="main-font fs-light">{patient.gender} {patient.birth_date}</div>
                   {Boolean(permissions?.create_prescription) && (
                     <div className="d-flex gap-3 py-3 align-items-center">
                       <form className="d-flex flex-column justify-content-center align-items-center gap-2 p-4 rounded-4 shadow">
@@ -210,7 +212,10 @@ const PatientDetails: React.FC = () => {
                             cursor: "pointer",
                           }}
                         >
-                          <div className="d-flex gap-2 align-items-center"> <HiOutlineUpload size={30} /> Upload Prescription</div>
+                          <div className="d-flex gap-2 align-items-center">
+                            {" "}
+                            <HiOutlineUpload size={30} /> Upload Prescription
+                          </div>
                         </label>
                         <input id="fileInput" type="file" accept="image/*" onChange={handleSubmit} style={{ display: "none" }} />{" "}
                         {!addFileDisable && (
