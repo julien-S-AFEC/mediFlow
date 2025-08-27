@@ -235,7 +235,7 @@ const PatientDetails: React.FC = () => {
             </div>
           </div>
           <div className="mt-3">
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </>
       ) : (

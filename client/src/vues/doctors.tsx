@@ -120,7 +120,7 @@ const Doctors: React.FC = () => {
         {modifyDoctorVis && <UpdateDoctorCredentials doctor={clickedDoctor} visHandler={setModifyDoctorVis} refreshHandler={setRefresh} />}
         {createDoctorVisible && <CreateDoctor visibilityToggler={setCreateDoctorVisible} refreshDashboardHandler={setRefresh} />}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

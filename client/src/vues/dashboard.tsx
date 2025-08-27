@@ -65,7 +65,7 @@ const Dashboard = () => {
           
         </div>
               {user && <h3 className="main-font fw-light text-center">Hello {user.username}</h3>}
-        <Footer/>
+        {/* <Footer/> */}
       </div>
     </div>
   );

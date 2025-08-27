@@ -4,7 +4,7 @@ import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import usersRouter from './users/useRoutes.js'
+import usersRouter from './users/userRoutes.js'
 import patientsRouter from './patients/patientsRoutes.js'
 import instituteRouter from './institutes/institutesRoute.js'
 import doctorRouter from './doctors/doctorRoutes.js'
@@ -13,7 +13,6 @@ import prescriptionCommentaryRouter from './prescriptionCommentary/prescriptionR
 import sessionRouter from './session/session.js'
 import prescriptionDosageRouter from './prescriptionDosage/prescriptionDosageRoutes.js'
 import session from 'express-session';
-import test from './utils/mailerTesting.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -21,7 +20,7 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: ['http://localhost:5174', 'http://localhost:3000'],
   credentials: true,
 }));
 

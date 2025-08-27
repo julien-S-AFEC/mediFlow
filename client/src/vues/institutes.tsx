@@ -106,7 +106,7 @@ const Institutes: React.FC = () => {
                   );
                 })}
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </div>
         {createInstituteVisible && <CreateInstitute visibilityToggler={setCreateInstituteVisible} refreshDashboardHandler={setRefresh} />}
         {modifyInstituteVis && <UpdateInstituteCredentials institute={clickedInstitute} visHandler={setModifyInstituteVis} refreshHandler={setRefresh} />}

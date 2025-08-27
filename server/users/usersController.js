@@ -83,15 +83,15 @@ export const registerUser = async (req, res) => {
             jwt: `Bearer ${token}`
         };
         //Standby until i get the smtp validation from Brevo.
-        // const link = `http://localhost:3000/api/user/verifyEmail/${token}`;
+        const link = `http://localhost:3000/api/user/verifyEmail/${token}`;
 
-        // await sendEmail({
-        //     to: result.user.user_email,
-        //     subject: 'Account verification.',
-        //     html: `<p>Hello ${result.user.username},</p>
-        //  <p> Thank you for signing up. Click on the link below to check your account:</p>
-        //  <a href="${link}">${link}</a>`
-        // });
+        await sendEmail({
+            to: result.user.user_email,
+            subject: 'Account verification.',
+            html: `<p>Hello ${result.user.username},</p>
+         <p> Thank you for signing up. Click on the link below to check your account:</p>
+         <a href="${link}">${link}</a>`
+        });
 
         return res.status(200).json(result)
     }
