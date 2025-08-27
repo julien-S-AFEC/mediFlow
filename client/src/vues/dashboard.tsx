@@ -28,7 +28,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div id="dashRoot" className="d-flex flex-column min-vh-100">
       <Header />
       <div className="d-flex flex-column align-items-center gap-4 mt-5">
         <div className="d-flex flex-row flex-xl-row gap-4">
