@@ -17,6 +17,7 @@ import { Tooltip } from "react-tooltip";
 import PassLost from "./vues/passLost";
 import ResetPassword from "./vues/resetPassword";
 import Settings from "./vues/settings";
+import EmailVerified from "./vues/emailVerified";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Connexion />}></Route>
           <Route path="/connexion" element={<Connexion />}></Route>
+          <Route path="/emailVerified/:token" element={<EmailVerified />}></Route>
           <Route path="/passLost" element={<PassLost />}></Route>
           <Route path="/resetPassword" element={<ResetPassword />}></Route>
           <Route path="/register" element={<Register />}></Route>

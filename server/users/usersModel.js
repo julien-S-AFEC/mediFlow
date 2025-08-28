@@ -5,7 +5,15 @@ const UserModel = {
     getAllWithPermissions: async () => {
         try {
             const [rows] = await pool.execute(`SELECT 
-                            username, user_email, user_status, role_name, create_patient, create_prescription, create_prescription_commentary, permission_id
+                            username, 
+                            user_email, 
+                            user_status, 
+                            role_name, 
+                            create_patient, 
+                            create_prescription, 
+                            create_prescription_commentary, 
+                            permission_id
+                            is_verified
                             FROM 
                             users
                             LEFT JOIN
@@ -35,6 +43,7 @@ const UserModel = {
                 user_password, 
                 role_id, 
                 user_id,
+                is_verified,
                 create_patient,
                 create_prescription,
                 create_prescription_commentary
@@ -52,6 +61,35 @@ const UserModel = {
         }
         catch (error) {
             throw error
+        }
+    },
+
+    getUserByEmail: async (email) => {
+        try {
+            const [rows] = await pool.execute(`SELECT 
+                username, 
+                user_email, 
+                user_password, 
+                role_id, 
+                user_id,
+                is_verified,
+                create_patient,
+                create_prescription,
+                create_prescription_commentary
+                FROM 
+                users 
+                LEFT JOIN
+                permissions
+                ON
+                permissions.permission_id=users.permissions
+                WHERE user_email = ?`, [email])
+            if (rows.length) {
+                return { status: "success", user: { rows } }
+            }
+            return { status: "failed" }
+        }
+        catch (error) {
+            throw new Error(error.message)
         }
     },
 
@@ -100,7 +138,7 @@ const UserModel = {
     },
 
     verifyEmail: async (email) => {
-        const [result] = await pool.execute('UPDATE users SET is_verified = true WHERE email = ?', [email]);
+        const [result] = await pool.execute('UPDATE users SET is_verified = true WHERE user_email = ?', [email]);
         return result;
     },
 

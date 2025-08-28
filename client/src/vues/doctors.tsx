@@ -6,7 +6,6 @@ import { AiOutlineEdit } from "react-icons/ai";
 import CreateDoctor from "../components/doctors/createDoctor";
 import UpdateDoctorCredentials from "../components/doctors/updateDoctorCredentials";
 import { IoPersonAddOutline } from "react-icons/io5";
-import Footer from "../components/footer";
 import { Link } from "react-router-dom";
 import { CiBoxList } from "react-icons/ci";
 import { FaUserDoctor } from "react-icons/fa6";
@@ -83,7 +82,7 @@ const Doctors: React.FC = () => {
                 .map((doctor, index) => {
                   return (
                     <div key={doctor.doctor_id} className="border rounded-3 col-md-5 p-3 shadow mb-2">
-                      <FaUserDoctor size={200} style={{ position: "absolute", opacity: "5%" }} color="blue" />
+                      <FaUserDoctor size={150} style={{ position: "absolute", opacity: "5%" }} color="blue" />
                       {Boolean(permissions?.create_patient) && (
                         <div className="d-flex justify-content-end mb-2">
                           <AiOutlineEdit onClick={() => setModifyVis(doctor)} size={25} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Update doctor" />

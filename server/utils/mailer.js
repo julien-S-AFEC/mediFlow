@@ -12,7 +12,7 @@ let transporter = nodemailer.createTransport({
 
 export default async function sendEmail({ to, subject, html }) {
     try {
-        const info = await transporter.sendMail({
+        await transporter.sendMail({
             from: `"Medi Flow" ${process.env.MAILER_USER}`,
             to,
             subject,

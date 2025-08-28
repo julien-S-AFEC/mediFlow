@@ -82,7 +82,7 @@ const Institutes: React.FC = () => {
                 .map((institute, index) => {
                   return (
                     <div key={index} className="border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow">
-                      <FaHouseMedicalFlag size={170} style={{ position: "absolute", opacity: "10%" }} color="rgba(161, 159, 0, 1)" />
+                      <FaHouseMedicalFlag size={100} style={{ position: "absolute", opacity: "10%" }} color="rgba(161, 159, 0, 1)" />
                       {Boolean(permissions?.create_patient) && (
                         <div className="d-flex justify-content-end mb-2">
                           <AiOutlineEdit className="icon" onClick={() => setModifyVis(institute)} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Update the institute" />

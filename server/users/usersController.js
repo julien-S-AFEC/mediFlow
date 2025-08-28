@@ -16,7 +16,6 @@ export const login = async (req, res) => {
     try {
         const { email, password } = req.body
         const result = await UserModel.login(email, password)
-        console.log('result ->', result)
 
         if (result.status === 'failed') {
             return res.status(result.statusCode).json(result.message)
@@ -25,13 +24,14 @@ export const login = async (req, res) => {
         if (!match) {
             return res.status(401).json("The password is incorrect.")
         }
-        const token = jwt.sign({ userName: result.user.username, userRole: result.user.role_id, userId: result.user.user_id }, process.env.JWT_SECRET, { expiresIn: '4h' });
+        const token = jwt.sign({ userName: result.user.username, userRole: result.user.role_id, userId: result.user.user_id, userEmail: result.user.user_email }, process.env.JWT_SECRET, { expiresIn: '4h' });
 
         req.session.user = {
             username: result.user.username,
             role_id: result.user.role_id,
             user_id: result.user.user_id,
             user_email: result.user.user_email,
+            is_verified: result.user.is_verified,
             create_patient: result.user.create_patient,
             create_prescription: result.user.create_prescription,
             create_prescription_commentary: result.user.create_prescription_commentary,
@@ -46,18 +46,19 @@ export const login = async (req, res) => {
 }
 
 export const verifyEmail = async (req, res) => {
-    const { token } = req.params;
+    const { token } = req.body;
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const email = decoded.user_email;
+        const email = decoded.userEmail;
 
-        await UserModel.verifyEmail(email);
-
-        res.sendFile(path.join(__dirname, 'localhost:3000/emailConfirmed'));
+        if (decoded) {
+            await UserModel.verifyEmail(email);
+        }
+        res.status(200).json({ status: "success" })
 
     } catch (error) {
-        res.status(400).json({ message: "Lien invalide ou expiré." });
+        res.status(400).json({ status: "failed", error: error.message });
     }
 }
 
@@ -71,19 +72,20 @@ export const registerUser = async (req, res) => {
             return res.status(result.statusCode).json(result.message)
         }
 
-        const token = jwt.sign({ userName: result.user.username, userRole: result.user.role_id, userId: result.user.user_id }, process.env.JWT_SECRET, { expiresIn: '4h' });
+        const token = jwt.sign({ userName: result.user.username, userRole: result.user.role_id, userId: result.user.user_id, userEmail: result.user.user_email }, process.env.JWT_SECRET, { expiresIn: '4h' });
         req.session.user = {
             username: result.user.username,
             role_id: result.user.role_id,
             user_id: result.user.user_id,
             user_email: result.user.user_email,
+            is_verified: result.user.is_verified,
             create_patient: result.create_patient,
             create_prescription: result.create_prescription,
             create_prescription_commentary: result.create_prescription_commentary,
             jwt: `Bearer ${token}`
         };
-        //Standby until i get the smtp validation from Brevo.
-        const link = `http://localhost:3000/api/user/verifyEmail/${token}`;
+
+        const link = `http://localhost:5173/emailVerified/${token}`;
 
         await sendEmail({
             to: result.user.user_email,
@@ -100,18 +102,36 @@ export const registerUser = async (req, res) => {
     }
 }
 
-export const sendResetPasswordEmail = async (req, res) => {
+export const sendAnotherVerificationEmail = async (req, res) => {
+    const { username, role_id, user_id, user_email } = req.body
+
     try {
-        const link = `http://localhost:3000/api/user/resetPassword/${token}`;
+        const token = jwt.sign({ userName: username, userRole: role_id, userId: user_id, userEmail: user_email }, process.env.JWT_SECRET, { expiresIn: '4h' });
+
+        const link = `http://localhost:5173/emailVerified/${token}`;
 
         await sendEmail({
-            to: result.user.user_email,
-            subject: 'Reset your password..',
-            html: `<p>Hello ${result.user.username},</p>
-         <p> Here is the link to reset your password:</p>
+            to: user_email,
+            subject: 'Medi Flow account verification.',
+            html: `<p>Hello ${username},</p>
+         <p> Thank you for signing up. Click on the link below to check your account:</p>
          <a href="${link}">${link}</a>`
         });
+
+        return res.status(200).json({ status: "success" })
     }
+    catch (error) {
+        return res.status(500).json({ status: "failed", message: error.message })
+    }
+}
+
+export const getUserByMail = async (req, res) => {
+    const { email } = req.body
+    try {
+        const result = await UserModel.getUserByEmail(email)
+        return res.status(200).json({ status: 'success', user: result.user})
+    }
+
     catch (error) {
         return res.status(500).json(error.message)
     }
@@ -144,9 +164,9 @@ export const getCurrentUserPermissions = (req, res) => {
 export const updatePermissionFromName = (req, res) => {
     const { permissionId, field, value } = req.body
     UserModel.updatePermissionFromName(permissionId, field, value)
-        .then(data => { 
+        .then(data => {
             req.session.user[field] = value
-            res.status(200).json("Modification successfully done.") 
+            res.status(200).json("Modification successfully done.")
         })
 
         .catch(error => {
