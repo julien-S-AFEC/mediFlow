@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RegisterWidget from "../components/registerWidget";
+import RegisterWidget from "../../components/registerWidget";
 
 const Connexion: React.FC = () => {
   const [scaled, setIsScalled] = useState<string>("translateY(-50%) scale(100%)");

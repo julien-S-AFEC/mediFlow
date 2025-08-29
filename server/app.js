@@ -4,7 +4,7 @@ import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import usersRouter from './users/useRoutes.js'
+import usersRouter from './users/userRoutes.js'
 import patientsRouter from './patients/patientsRoutes.js'
 import instituteRouter from './institutes/institutesRoute.js'
 import doctorRouter from './doctors/doctorRoutes.js'
@@ -13,7 +13,6 @@ import prescriptionCommentaryRouter from './prescriptionCommentary/prescriptionR
 import sessionRouter from './session/session.js'
 import prescriptionDosageRouter from './prescriptionDosage/prescriptionDosageRoutes.js'
 import session from 'express-session';
-import test from './utils/mailerTesting.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -21,7 +20,7 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://mediflow-vgtc.onrender.com'],
+  origin: ['http://localhost:5173'],
   credentials: true,
 }));
 
@@ -49,9 +48,9 @@ app.use('/api/auth', sessionRouter)
 app.use('/uploads', express.static('uploads'));
 
 // Get all the front routes.
-app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-});
+// app.get(/^(?!\/api).*/, (req, res) => {
+//   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+// });
 
 app.listen(process.env.PORT, () => {
     console.log(`App running on port: ${process.env.PORT}`)

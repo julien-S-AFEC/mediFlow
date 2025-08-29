@@ -3,6 +3,7 @@ import { Patient } from "../../types.ts";
 import { useNavigate } from "react-router-dom";
 import Loading from "../loading.tsx";
 import { filterPatient, sortByFirstname, sortBySecondname, sortByGender, sortByBirthDate, sortByAddress, sortByEmail, sortByInsuranceNumber, sortByInstituteName, sortById } from "../../utils.tsx";
+import './patientTable.css'
 
 type Iprops = {
   patients: Patient[];
@@ -29,8 +30,8 @@ const PatientTable: React.FC<Iprops> = ({ patients, search }) => {
   }, [patients]);
 
   return (
-    <div className="table-responsive">
-      <table className="table mt-5">
+    <div className="table-responsive border rounded-5 mt-5 custom-table-container">
+      <table className="table" >
         <thead>
           <tr>
             {!mobile && (

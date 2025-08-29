@@ -1,3 +1,8 @@
+#dashRoot {
+  background-image: url('img/dashboard_back.jpg');
+  background-size: cover;
+}
+
 .icon-hovered {
   transform: scale(100%);
   transition: 0.5s;

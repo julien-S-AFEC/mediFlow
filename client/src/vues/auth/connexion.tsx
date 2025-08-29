@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import ConnexionWidget from "../components/connexionWidget";
+import ConnexionWidget from "../../components/connexionWidget";
 
 const Connexion: React.FC = () => {
   const [scaled, setIsScalled] = useState<string>("translateY(-50%) scale(100%)");

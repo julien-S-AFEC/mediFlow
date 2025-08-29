@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { FaHome } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-const PassLost: React.FC = () => {
+const ResetPassword: React.FC = () => {
     const [scaled, setIsScalled] = useState<string>("translateY(-50%) scale(100%)");
-    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [errorOpacity, setErrorOpacity] = useState<string>('0')
     const [errorText, setErrorText] = useState<string>()
-    const [success, setSuccess] = useState<boolean>(false)
+    const [loginVis, setLoginVis] = useState<boolean>(false)
+    const params = useParams()
+    const token = params.token
 
     const adaptBG = useCallback((): void => {
         setIsScalled(window.innerWidth >= 900 ? "translateY(-40%) scale(100%)" : "");
@@ -24,28 +26,38 @@ const PassLost: React.FC = () => {
 
     const sendResetPass = (e) => {
         e.preventDefault()
-        if (!e.target.checkValidity()) {
-            e.target.reportValidity();
-            return;
+        if (password != confirmPassword) {
+            setErrorOpacity('100')
+            setErrorText("The passwords doesn't match.")
+            return
         }
-        fetch('http://localhost:3000/api/users/sendResetPasswordEmail', {
+
+        fetch('http://localhost:3000/api/users/changePasswordFromJWT', {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ "email": email })
+            body: JSON.stringify({ token: token, password: password })
         })
             .then(res => {
                 if (res.ok) {
-                    setSuccess(true)
+                    return res.json()
                 }
-
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    setErrorOpacity('100')
+                    setErrorText("Password successfully changed.")
+                    setLoginVis(true)
+                }
+                else {
+                    setErrorOpacity('100')
+                    setErrorText(data.message)
+                }
             })
             .catch(err => {
                 setErrorOpacity('100')
                 setErrorText(err)
             })
-
-        setSuccess(true)
     }
 
     return (
@@ -65,30 +77,28 @@ const PassLost: React.FC = () => {
                     <div>{errorText}</div>
                     <button type="button" className="btn-close" aria-label="Close" onClick={() => setErrorOpacity('0')}></button>
                 </div>}
-            {!success ?
+            {!loginVis ?
                 <>
                     <h3 className="fw-light mt-5">Reset my password</h3>
-                    <form action="#" onSubmit={sendResetPass} name="connexion-form" className="d-flex flex-column justify-content-center align-items-center gap-2 p-3 shadow rounded mt-3 w-50">
+                    <form action="#" name="resetPasswordForm" className="d-flex flex-column justify-content-center align-items-center gap-2 p-3 shadow rounded w-50">
                         <div className="d-flex flex-column">
-                            <label htmlFor="exmailInput" className="main-font fw-light">Email</label>
+                            <label htmlFor="passwordInput" className="main-font fw-light">New password</label>
                         </div>
-                        <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control w-75" id="exmailInput" required placeholder="name@example.com" />
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control w-75" id="passwordInput" />
+                        <div className="d-flex flex-column">
+                            <label htmlFor="confirmPasswordInput" className="main-font fw-light">Confirm password</label>
+                        </div>
+                        <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="form-control w-75" id="confirmPasswordInput" />
                         <div className="d-flex flex-column w-75">
                         </div>
-                        <button type="submit" className="btn btn-primary mt-2">Reset my password</button>
-                        <div className="d-flex w-100 pt-3 justify-content-end">
-                            <Link to='/connexion' className="mx-2 text text-decoration-underline main-font fw-light">Connexion</Link>
-                        </div>
+                        <button className="btn btn-primary mt-2" onClick={sendResetPass}>Accept</button>
+
                     </form>
                 </>
                 :
-                <div className="d-flex flex-column gap-4 mt-3">
-                    <h3 className="fw-light mt-5">Email successuffly sent. Please, go to you email to change your password.</h3>
-                    <Link to={"/"} className="btn btn-primary"><FaHome /></Link>
-                </div>
-            }
+                <Link to={'/connexion'} className="btn btn-primary">Login</Link>}
         </div>
     );
 };
 
-export default PassLost
+export default ResetPassword

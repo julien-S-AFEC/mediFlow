@@ -5,6 +5,7 @@ export interface User extends Permissions {
   user_password: string;
   user_status: string;
   role_id: number;
+  is_verified: boolean;
   permissions: string;
 }
 

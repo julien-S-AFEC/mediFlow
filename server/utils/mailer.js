@@ -1,18 +1,18 @@
 import nodemailer from 'nodemailer';
 
 let transporter = nodemailer.createTransport({
-    host: 'smtp-relay.brevo.com',
-    port: 587,
+    host: process.env.MAILER_HOST,
+    port: process.env.MAILER_PORT,
     secure: false,
     auth: {
         user: process.env.MAILER_USER,
-        pass: process.env.MAILER_APP_PASSWORD
+        pass: process.env.MAILER_PASSWORD
     }
 });
 
 export default async function sendEmail({ to, subject, html }) {
     try {
-        const info = await transporter.sendMail({
+        await transporter.sendMail({
             from: `"Medi Flow" ${process.env.MAILER_USER}`,
             to,
             subject,

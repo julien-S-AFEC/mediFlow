@@ -11,13 +11,13 @@ const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis = false }) 
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const logOut = useCallback(() => {
-    fetch("https://mediflow-vgtc.onrender.com/api/auth/logOut", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" }).catch((error) => {
+    fetch("http://localhost:3000/api/auth/logOut", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" }).catch((error) => {
       console.log(error);
     });
   }, []);
 
   useEffect(() => {
-    fetch("https://mediflow-vgtc.onrender.com/api/auth/isAdmin", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
+    fetch("http://localhost:3000/api/auth/isAdmin", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -93,14 +93,6 @@ const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis = false }) 
               </Link>
             </li>
           </ul>
-          {searchVis && searchHandler && (
-            <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={search} onChange={(e) => searchHandler(e.target.value)} />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          )}
         </div>
       </div>
     </nav>

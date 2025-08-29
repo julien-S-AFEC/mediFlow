@@ -8,18 +8,20 @@ import {
     registerUser,
     verifyEmail,
     updatePermissionFromName,
-    sendResetPasswordEmail,
     changeNameFromId,
     changeEmailFromId,
-    changePasswordFromId
+    changePasswordFromId,
+    sendAnotherVerificationEmail,
+    getUserByMail,
+    changePasswordFromJWT,
+    sendResetPasswordMail
 } from "./usersController.js";
 
 const usersRouter = Router()
 
 usersRouter.get('/getAllWithPermissions', jwtValidation, getAllWithPermissions)
 usersRouter.post('/login', login)
-usersRouter.post('/sendResetPasswordEmail', sendResetPasswordEmail)
-usersRouter.post('/verifyEmail/:token', verifyEmail)
+usersRouter.post('/verifyEmail', verifyEmail)
 usersRouter.post('/registerUser', registerUser)
 usersRouter.post('/getUserById', jwtValidation, getUserById)
 usersRouter.get('/getCurrentUserPermissions', jwtValidation, getCurrentUserPermissions)
@@ -27,5 +29,9 @@ usersRouter.post('/updatePermissionFromName', jwtValidation, updatePermissionFro
 usersRouter.put('/changeNameFromId', jwtValidation, changeNameFromId)
 usersRouter.put('/changeEmailFromId', jwtValidation, changeEmailFromId)
 usersRouter.put('/changePasswordFromId', jwtValidation, changePasswordFromId)
+usersRouter.post('/sendAnotherVerificationEmail', jwtValidation, sendAnotherVerificationEmail)
+usersRouter.post('/sendResetPasswordMail', sendResetPasswordMail)
+usersRouter.post('/getUserByMail', getUserByMail)
+usersRouter.post('/changePasswordFromJWT', changePasswordFromJWT)
 
 export default usersRouter

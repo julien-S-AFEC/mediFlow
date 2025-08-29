@@ -1,0 +1,5 @@
+#patientDetailRoot {
+    min-height: 100vh !important;
+    background-image: url('/img/patients_back.jpg') !important;
+    background-size: cover !important;
+}

@@ -6,6 +6,7 @@ import { IoMdSend } from "react-icons/io";
 import DosageWidget from "../dosage/dosageWidget.tsx";
 import { RxCross1 } from "react-icons/rx";
 import { decode } from "he";
+import './currentPrescriptionWidget.css'
 
 type Iprops = {
   currentPrescription: Prescription;
@@ -20,7 +21,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   const isAdmin = currentUser?.role_id === 2;
 
   const storeCommentary = useCallback(() => {
-    fetch("https://mediflow-vgtc.onrender.com/api/prescriptionCommentary/create", {
+    fetch("http://localhost:3000/api/prescriptionCommentary/create", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -66,7 +67,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   const deleteCommentary = (id?: number) => {
-    fetch("https://mediflow-vgtc.onrender.com/api/prescriptionCommentary/deleteById", {
+    fetch("http://localhost:3000/api/prescriptionCommentary/deleteById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -84,7 +85,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   useEffect(() => {
-    fetch("https://mediflow-vgtc.onrender.com/api/prescriptionCommentary/getAllbyPrescId", {
+    fetch("http://localhost:3000/api/prescriptionCommentary/getAllbyPrescId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -101,17 +102,21 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   }, [currentPrescription]);
 
   return (
-    <div className="container p-0 m-0">
-      <div className="d-flex flex-column flex-md-row gap-3">
-        <div className="d-flex flex-column gap-3">
+    <div className="container-fluid">
+      <div className="row d-flex flex-column flex-md-row justify-content-between gap-0">
+        <div className="col-md-6 col-12 d-flex flex-column gap-3">
           <div>{`Created at: ${new Date(currentPrescription.created_at).toLocaleString()}`}</div>
           <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at}>
-            <img className="img img-fluid" key={currentPrescription.id} src={`https://mediflow-vgtc.onrender.com/${currentPrescription.file_path}`} alt="prescription-img" />
+            <img
+              className="img-fluid"
+              key={currentPrescription.id}
+              src={`http://localhost:3000/${currentPrescription.file_path}`}
+              alt="prescription-img" />
           </Link>
         </div>
-        <div className="d-flex flex-column ">
+        <div className="col-md-6 col-12 d-flex flex-column ">
           <h4 className="main-font fw-light text-center">Annotations</h4>
-          <ul className="list-group list-group-flush overflow-y-auto gap-1 shadow" style={{ height: "270px" }}>
+          <ul className="list-group list-group-flush overflow-y-auto gap-1 shadow border rounded-3" style={{ height: "270px", backgroundColor: "white" }}>
             {allCommentaries &&
               allCommentaries.map((commentary) => (
                 <li key={commentary.id} className="list-group-item bg-success-subtle rounded">
@@ -133,8 +138,8 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
               ))}
           </ul>
           {Boolean(permissions?.create_prescription_commentary) && (
-            <>
-              <Editor ref={editorRef} style={{ maxHeight: "40px" }} id="editorContent" value={commentaryContent} onChange={onChange}>
+            <div className="d-flex flex-column gap-0 m-0">
+              <Editor ref={editorRef} placeholder="White a comment here" style={{ maxHeight: "70px" }} id="editorContent" value={commentaryContent} onChange={onChange}>
                 <Toolbar>
                   <BtnUndo />
                   <BtnRedo />
@@ -146,10 +151,10 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
                   <BtnClearFormatting />
                 </Toolbar>
               </Editor>
-              <button id="commentaryAcceptBtn" className="btn bg-light-blue rounded-5 shadow" onClick={storeCommentary}>
+              <button id="commentaryAcceptBtn" className="btn bg-light-blue shadow rounded-0 rounded-bottom" onClick={storeCommentary}>
                 <IoMdSend color="white" />
               </button>
-            </>
+            </div>
           )}
           <DosageWidget prescriptionId={currentPrescription.id} permissions={permissions} />
         </div>
