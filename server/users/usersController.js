@@ -86,7 +86,7 @@ export const registerUser = async (req, res) => {
             jwt: `Bearer ${token}`
         };
 
-        const link = `http://localhost:5173/emailVerified/${token}`;
+        const link = `https://soutadejulien.alwaysdata.net/emailVerified/${token}`;
 
         await sendEmail({
             to: result.user.user_email,
@@ -109,7 +109,7 @@ export const sendAnotherVerificationEmail = async (req, res) => {
     try {
         const token = jwt.sign({ userName: username, userRole: role_id, userId: user_id, userEmail: user_email }, process.env.JWT_SECRET, { expiresIn: '4h' });
 
-        const link = `http://localhost:5173/emailVerified/${token}`;
+        const link = `https://soutadejulien.alwaysdata.net/emailVerified/${token}`;
 
         await sendEmail({
             to: user_email,
@@ -136,7 +136,7 @@ export const sendResetPasswordMail = async (req, res) => {
 
         const token = jwt.sign({ userEmail: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        const link = `http://localhost:5173/resetPassword/${token}`;
+        const link = `https://soutadejulien.alwaysdata.net/resetPassword/${token}`;
 
         await sendEmail({
             to: email,

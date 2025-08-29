@@ -20,7 +20,7 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-  origin: ['http://localhost:5173'],
+  origin: ['https://soutadejulien.alwaysdata.net'],
   credentials: true,
 }));
 
@@ -48,9 +48,9 @@ app.use('/api/auth', sessionRouter)
 app.use('/uploads', express.static('uploads'));
 
 // Get all the front routes.
-// app.get(/^(?!\/api).*/, (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-// });
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 
 app.listen(process.env.PORT, () => {
     console.log(`App running on port: ${process.env.PORT}`)

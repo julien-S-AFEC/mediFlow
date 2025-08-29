@@ -43,7 +43,7 @@ const RegisterWidget = () => {
             return
         }
 
-        fetch('http://localhost:3000/api/users/registerUser', {
+        fetch('https://soutadejulien.alwaysdata.net/api/users/registerUser', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-type': 'application/json' },
