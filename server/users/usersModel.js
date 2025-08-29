@@ -12,7 +12,7 @@ const UserModel = {
                             create_patient, 
                             create_prescription, 
                             create_prescription_commentary, 
-                            permission_id
+                            permission_id,
                             is_verified
                             FROM 
                             users
@@ -84,7 +84,7 @@ const UserModel = {
                 permissions.permission_id=users.permissions
                 WHERE user_email = ?`, [email])
             if (rows.length) {
-                return { status: "success", user: { rows } }
+                return { status: "success", user: rows[0] }
             }
             return { status: "failed" }
         }
@@ -138,8 +138,23 @@ const UserModel = {
     },
 
     verifyEmail: async (email) => {
-        const [result] = await pool.execute('UPDATE users SET is_verified = true WHERE user_email = ?', [email]);
-        return result;
+        try {
+            const [result] = await pool.execute('UPDATE users SET is_verified = true WHERE user_email = ?', [email]);
+            return result;
+        }
+        catch (error) {
+            throw error
+        }
+    },
+
+    changePasswordFromJWT: async (email, password) => {
+        try {
+            const [result] = await pool.execute('UPDATE users SET user_password=? WHERE user_email=?', [password, email]);
+            return result;
+        }
+        catch (error) {
+            throw error
+        }
     },
 
     getUserById: async (id) => {

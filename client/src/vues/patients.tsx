@@ -4,6 +4,7 @@ import PatientsTable from "../components/patients/patientsTable.tsx";
 import Header from "../components/header.tsx";
 import CreatePatient from "../components/patients/createPatient.tsx";
 import { GoPersonAdd } from "react-icons/go";
+import './patients.css'
 
 const Patient: React.FC = () => {
   const [permissions, setPermissions] = useState<Permissions>();
@@ -55,7 +56,7 @@ const Patient: React.FC = () => {
   };
 
   return (
-    <>
+    <div id="patientRoot">
       <Header search={search} searchHandler={setSearch} searchVis={true} />
       <div className="container-fluid text-center">
         <h2 className="text-center main-font mb-3">Patients</h2>
@@ -72,7 +73,7 @@ const Patient: React.FC = () => {
         {createPatientVisible && <CreatePatient visibilityToggler={setCreatePatientVisible} refreshDashboardHandler={setRefreshDashboard} />}
         <PatientsTable patients={filteredPatients} search={search} />
       </div>
-    </>
+    </div>
   );
 };
 

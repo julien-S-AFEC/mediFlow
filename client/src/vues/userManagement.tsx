@@ -17,6 +17,7 @@ const UserManagement = () => {
         }
       })
       .then((data) => {
+        console.log('user = ', data)
         setUsers(data);
       })
       .catch((error) => console.log(error));
@@ -32,7 +33,8 @@ const UserManagement = () => {
         field: field,
         value: value,
       }),
-    });
+    })
+    .catch(error => console.log('error -> ', error))
   };
 
   return (

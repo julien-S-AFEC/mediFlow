@@ -2,6 +2,7 @@ import UserModel from "./usersModel.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import sendEmail from "../utils/mailer.js";
+import jsonWebToken from 'jsonwebtoken'
 
 export const getAllWithPermissions = (req, res) => {
     UserModel.getAllWithPermissions()
@@ -125,11 +126,68 @@ export const sendAnotherVerificationEmail = async (req, res) => {
     }
 }
 
+export const sendResetPasswordMail = async (req, res) => {
+    const { email } = req.body
+    try {
+        const checkuser = await UserModel.getUserByEmail(email)
+        if (checkuser.status === 'failed') {
+            return res.status(200).json({ status: "failed", message: "The user is not found." })
+        }
+
+        const token = jwt.sign({ userEmail: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        const link = `http://localhost:5173/resetPassword/${token}`;
+
+        await sendEmail({
+            to: email,
+            subject: 'Medi Flow password reset.',
+            html: `<p>Hello,</p>
+            <p> We received a request to reset your password. If you made this request, please click the link below to create a new password:</p>
+            <a href="${link}">${link}</a>
+            <p>This link will expire in 1 hour for your security.</p>
+            <p>If you did not request a password reset, you can safely ignore this email. Your account will remain secure.</p>
+            <p>Best regards,</p>
+            <p>The Medi Flow Team</p>
+            `
+        });
+
+        return res.status(200).json({ status: "success" })
+    }
+    catch (error) {
+        return res.status(500).json({ status: "failed", message: error.message })
+    }
+}
+
+export const changePasswordFromJWT = async (req, res) => {
+    const { token, password } = req.body
+    try {
+        const email = jsonWebToken.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json("The json web token is not valid or expired.")
+            }
+            const result = await UserModel.changePasswordFromJWT(decoded.userEmail, bcrypt.hashSync(password, parseInt(process.env.SALT_ROUNDS)))
+            return res.status(200).json({ status: 'success' })
+        })
+    }
+
+    catch (error) {
+        return res.status(500).json(error.message)
+    }
+}
+
 export const getUserByMail = async (req, res) => {
     const { email } = req.body
     try {
         const result = await UserModel.getUserByEmail(email)
-        return res.status(200).json({ status: 'success', user: result.user})
+
+        if (result.status === 'success') {
+            const token = jwt.sign({ userEmail: result.user.user_email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+            return res.status(200).json({ status: 'success', jwt: token })
+        }
+        else {
+            return res.status(200).json({ status: 'failed', message: "The user is not found." })
+        }
     }
 
     catch (error) {
@@ -163,6 +221,7 @@ export const getCurrentUserPermissions = (req, res) => {
 
 export const updatePermissionFromName = (req, res) => {
     const { permissionId, field, value } = req.body
+    console.log(permissionId, field, value)
     UserModel.updatePermissionFromName(permissionId, field, value)
         .then(data => {
             req.session.user[field] = value

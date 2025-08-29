@@ -199,21 +199,9 @@ const PatientDetails: React.FC = () => {
                   <div className="main-font fs-light">{patient.gender} {patient.birth_date}</div>
                   {Boolean(permissions?.create_prescription) && (
                     <div className="d-flex gap-3 py-3 align-items-center">
-                      <form className="d-flex flex-column justify-content-center align-items-center gap-2 p-4 rounded-4 shadow">
-                        <label
-                          htmlFor="fileInput"
-                          style={{
-                            display: "inline-block",
-                            padding: "1rem 3rem",
-                            backgroundColor: "transparent",
-                            color: "black",
-                            borderRadius: "5px",
-                            border: ".17em #5a80d1ff dotted",
-                            cursor: "pointer",
-                          }}
-                        >
+                      <form className="d-flex flex-column justify-content-center align-items-center gap-2 p-4 rounded-4 shadow" id="fileForm">
+                        <label htmlFor="fileInput" id="fileLabel" >
                           <div className="d-flex gap-2 align-items-center">
-                            {" "}
                             <HiOutlineUpload size={30} /> Upload Prescription
                           </div>
                         </label>

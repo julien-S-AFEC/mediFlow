@@ -12,7 +12,9 @@ import {
     changeEmailFromId,
     changePasswordFromId,
     sendAnotherVerificationEmail,
-    getUserByMail
+    getUserByMail,
+    changePasswordFromJWT,
+    sendResetPasswordMail
 } from "./usersController.js";
 
 const usersRouter = Router()
@@ -28,6 +30,8 @@ usersRouter.put('/changeNameFromId', jwtValidation, changeNameFromId)
 usersRouter.put('/changeEmailFromId', jwtValidation, changeEmailFromId)
 usersRouter.put('/changePasswordFromId', jwtValidation, changePasswordFromId)
 usersRouter.post('/sendAnotherVerificationEmail', jwtValidation, sendAnotherVerificationEmail)
-usersRouter.post('/getUserByMail', jwtValidation, getUserByMail)
+usersRouter.post('/sendResetPasswordMail', sendResetPasswordMail)
+usersRouter.post('/getUserByMail', getUserByMail)
+usersRouter.post('/changePasswordFromJWT', changePasswordFromJWT)
 
 export default usersRouter

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NeedLogginRoute from "./vues/needLoggedRoute";
-import Connexion from "./vues/connexion";
-import Register from "./vues/register";
+import Connexion from "./vues/auth/connexion";
+import Register from "./vues/auth/register";
 import Dashboard from "./vues/dashboard";
 import Patients from "./vues/patients";
 import PatientDetails from "./vues/patientDetails";
@@ -14,10 +14,10 @@ import UserManagement from "./vues/userManagement";
 import Error404 from "./vues/error404";
 import DoctorDetails from "./vues/doctorDetails";
 import { Tooltip } from "react-tooltip";
-import PassLost from "./vues/passLost";
-import ResetPassword from "./vues/resetPassword";
+import PassLost from "./vues/password/passLost";
+import ResetPassword from "./vues/password/resetPassword";
 import Settings from "./vues/settings";
-import EmailVerified from "./vues/emailVerified";
+import EmailVerified from "./vues/auth/emailVerified";
 
 const App = () => {
   return (
@@ -29,7 +29,7 @@ const App = () => {
           <Route path="/connexion" element={<Connexion />}></Route>
           <Route path="/emailVerified/:token" element={<EmailVerified />}></Route>
           <Route path="/passLost" element={<PassLost />}></Route>
-          <Route path="/resetPassword" element={<ResetPassword />}></Route>
+          <Route path="/resetPassword/:token" element={<ResetPassword />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
 

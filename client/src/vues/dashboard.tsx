@@ -7,8 +7,8 @@ import { FaUserDoctor } from "react-icons/fa6";
 import { RiArchiveStackLine } from "react-icons/ri";
 import { CiSettings } from "react-icons/ci";
 import { Link } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
 import { User } from "../types";
+import { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const [user, setUser] = useState<User>();
@@ -36,7 +36,7 @@ const Dashboard = () => {
     }
   }, []);
 
-  const sendAnotherEmail =() => {
+  const sendAnotherEmail = () => {
     fetch("http://localhost:3000/api/users/sendAnotherVerificationEmail", {
       method: "POST",
       headers: { "Content-type": "application/json" },

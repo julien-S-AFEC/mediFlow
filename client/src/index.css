@@ -26,11 +26,14 @@ body {
   background-color: #61da85;
 }
 
-#fileInput::file-selector-button {
-  font-family: quicksand;
-  padding: 0.4rem 0.8rem 0.4rem 0.8rem;
-  border: 0.1em rgb(80, 80, 80) solid;
-  border-radius: 9px;
+#fileLabel {
+  display: inline-block;
+  padding: 1rem 3rem;
+  background-color: transparent;
+  color: black;
+  border-radius: 5px;
+  border: .17em #0051ffff dotted;
+  cursor: pointer;
 }
 
 .btn-green {
@@ -183,4 +186,21 @@ body {
   background-color: #222 !important;
   color: #ff0 !important;
   border-bottom: 2px solid #fff !important;
+}
+
+[data-bs-theme="dark"] .main-font {
+  color: rgb(223, 223, 223) !important;
+}
+
+[data-bs-theme="dark"] #dashRoot {
+  background-image: url('public/img/dashboard_back_dark.jpg');
+}
+
+[data-bs-theme="dark"] #fileLabel {
+  border: .17em rgb(209, 209, 209) dotted;
+  color: rgb(207, 207, 207);
+}
+
+[data-bs-theme="dark"] #fileLabel {
+  box-shadow: 0 .5rem 1rem rgb(121, 121, 121) !important;
 }
