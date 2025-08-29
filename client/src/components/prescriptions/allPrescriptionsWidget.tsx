@@ -25,7 +25,7 @@ const AllPrescriptionsWidget: React.FC<Iprops> = ({ prescriptions, currentPrescr
               <img
                 className={`img img-fluid rounded-2 ${isSelected ? "selected-prescription" : "non-selected-prescription"}`}
                 style={{ maxWidth: "100px" }}
-                src={`http://localhost:3000/${prescription.file_path}`}
+                src={`https://soutadejulien.alwaysdata.net/${prescription.file_path}`}
                 alt=""
               />
             </div>

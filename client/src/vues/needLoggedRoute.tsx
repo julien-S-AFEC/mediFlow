@@ -9,7 +9,7 @@ const NeedLogginRoute: React.FC<Iprops> = ({ children }) => {
 
     const navigate = useNavigate()
     useEffect(() => {
-        fetch('http://localhost:3000/api/auth/isConnected', { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
+        fetch('https://soutadejulien.alwaysdata.net/api/auth/isConnected', { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
             .then(res => {
                 if (res.ok) {
                     return res.json()

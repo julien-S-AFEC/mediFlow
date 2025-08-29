@@ -30,7 +30,7 @@ const UpdatePatientWidget: React.FC<Iprops> = ({ patientId, patient, visibilityT
             return
         }
 
-        fetch("http://localhost:3000/api/patients/updatePatient", {
+        fetch("https://soutadejulien.alwaysdata.net/api/patients/updatePatient", {
             method: "PUT",
             headers: { "Content-type": "application/json" },
             credentials: 'include',

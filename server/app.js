@@ -20,7 +20,7 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-  origin: ['http://localhost:5173'],
+  origin: ['https://soutadejulien.alwaysdata.net'],
   credentials: true,
 }));
 
