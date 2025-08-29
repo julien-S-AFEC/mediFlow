@@ -18,7 +18,6 @@ const allowedName = [
  * @returns 
  */
 export const encrypt = (fields, key, rounds) => {
-    console.log('encrypt', typeof key)
     let encryptedObject = {}
 
     for (const [name, field] of Object.entries(fields)) {

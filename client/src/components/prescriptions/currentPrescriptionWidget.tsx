@@ -101,8 +101,8 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   }, [currentPrescription]);
 
   return (
-    <div className="container p-0 m-0">
-      <div className="row d-flex flex-column flex-md-row gap-3">
+    <div className="container-fluid">
+      <div className="row d-flex flex-column flex-md-row justify-content-between gap-0">
         <div className="col-md-6 col-12 d-flex flex-column gap-3">
           <div>{`Created at: ${new Date(currentPrescription.created_at).toLocaleString()}`}</div>
           <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at}>
@@ -113,9 +113,9 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
               alt="prescription-img" />
           </Link>
         </div>
-        <div className="col-md-5 col-12 d-flex flex-column ">
+        <div className="col-md-6 col-12 d-flex flex-column ">
           <h4 className="main-font fw-light text-center">Annotations</h4>
-          <ul className="list-group list-group-flush overflow-y-auto gap-1 shadow" style={{ height: "270px" }}>
+          <ul className="list-group list-group-flush overflow-y-auto gap-1 shadow border rounded-3" style={{ height: "270px" }}>
             {allCommentaries &&
               allCommentaries.map((commentary) => (
                 <li key={commentary.id} className="list-group-item bg-success-subtle rounded">
@@ -150,7 +150,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
                   <BtnClearFormatting />
                 </Toolbar>
               </Editor>
-              <button id="commentaryAcceptBtn" className="btn bg-light-blue rounded-5 shadow" onClick={storeCommentary}>
+              <button id="commentaryAcceptBtn" className="btn bg-light-blue shadow rounded-0 rounded-bottom" onClick={storeCommentary}>
                 <IoMdSend color="white" />
               </button>
             </>

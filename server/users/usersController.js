@@ -221,7 +221,6 @@ export const getCurrentUserPermissions = (req, res) => {
 
 export const updatePermissionFromName = (req, res) => {
     const { permissionId, field, value } = req.body
-    console.log(permissionId, field, value)
     UserModel.updatePermissionFromName(permissionId, field, value)
         .then(data => {
             req.session.user[field] = value

@@ -12,7 +12,7 @@ import ConfirmArchiveModal from "../components/confirmArchiveModal.tsx";
 import CurrentPrescriptionWidget from "../components/prescriptions/currentPrescriptionWidget.tsx";
 import AllPrescriptionsWidget from "../components/prescriptions/allPrescriptionsWidget.tsx";
 import Loading from "../components/loading.tsx";
-import Footer from "../components/footer.tsx";
+import './patientDetails.css'
 
 const PatientDetails: React.FC = () => {
   const params = useParams();
@@ -163,73 +163,64 @@ const PatientDetails: React.FC = () => {
   };
 
   return (
-    <>
+    <div id="patientDetailRoot" className="container-fluid">
+      <Header />
       {pageReady ? (
-        <>
-          <Header />
-          <div className="container-fluid align-items-center ">
-            <div className="row">
-              <div className="row  m-0">
-                <div className="col-lg-1">
-                  <div className="d-flex flex-column align-items-center gap-2">
-                    <div className="d-flex flex-row flex-md-column align-items-center">
-                      <Link to="/patients" className="btn w-100">
-                        <IoIosArrowRoundBack size={40} />
-                      </Link>
-                      <button className="btn w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                        <BsFileEarmarkPerson color="#1f7bd1ff" size={30} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient details" />
-                      </button>
-                      <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex={-1} id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-                        <div className="offcanvas-header">
-                          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        </div>
-                        <div className="offcanvas-body d-flex flex-column gap-4">
-                          {patient && <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />}
-                          {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
-                          {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}{" "}
-                        </div>
-                      </div>
-                      {patient?.active ? <ConfirmArchiveModal patient={patient} /> : null}
-                    </div>
-                    {allPrescriptions && <AllPrescriptionsWidget prescriptions={allPrescriptions} currentPrescriptionHandler={setCurrentPrescription} />}
-                  </div>
+        <div className="row">
+          <div className="col-12 col-lg-1 d-flex flex-column align-items-center">
+            <div className="d-flex flex-row flex-lg-column">
+              <Link to="/patients" className="btn w-100">
+                <IoIosArrowRoundBack size={40} />
+              </Link>
+              <button className="btn w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+                <BsFileEarmarkPerson color="#1f7bd1ff" size={30} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient details" />
+              </button>
+              <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex={-1} id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                <div className="offcanvas-header">
+                  <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div className="col-lg-11 d-flex flex-column justify-content-center align-items-center main-font">
-                  <h5 className="main-font fs-light">{patient.patient_firstname} {patient.patient_secondname}</h5>
-                  <div className="main-font fs-light">{patient.gender} {patient.birth_date}</div>
-                  {Boolean(permissions?.create_prescription) && (
-                    <div className="d-flex gap-3 py-3 align-items-center">
-                      <form className="d-flex flex-column justify-content-center align-items-center gap-2 p-4 rounded-4 shadow" id="fileForm">
-                        <label htmlFor="fileInput" id="fileLabel" >
-                          <div className="d-flex gap-2 align-items-center">
-                            <HiOutlineUpload size={30} /> Upload Prescription
-                          </div>
-                        </label>
-                        <input id="fileInput" type="file" accept="image/*" onChange={handleSubmit} style={{ display: "none" }} />{" "}
-                        {!addFileDisable && (
-                          <>
-                            <div>{file.name}</div>
-                            <button className="btn bg-light-blue text-light" type="submit" onClick={handleUpload}>
-                              Add prescription
-                            </button>
-                          </>
-                        )}
-                      </form>
-                    </div>
-                  )}
-                  {currentPrescription ? <CurrentPrescriptionWidget currentPrescription={currentPrescription} permissions={permissions} currentUser={currentUser} /> : null}
+                <div className="offcanvas-body d-flex flex-column gap-4">
+                  {patient && <PatientDetailsWidget patientId={params.patientId} patient={patient} permissions={permissions} refreshHandler={setRefresh} />}
+                  {doctor && <DoctorDetailsWidget patientId={params.patientId} doctor={doctor} permissions={permissions} refreshHandler={setRefresh} />}
+                  {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}{" "}
                 </div>
               </div>
+              {patient?.active ? <ConfirmArchiveModal patient={patient} /> : null}
+            </div>
+            <div>
+              {allPrescriptions && <AllPrescriptionsWidget prescriptions={allPrescriptions} currentPrescriptionHandler={setCurrentPrescription} />}
             </div>
           </div>
-          <div className="mt-3">
-            {/* <Footer /> */}
+          <div className="col-lg-11 d-flex flex-column justify-content-cet align-items-center main-font">
+            <h5 className="main-font fs-light">{patient.patient_firstname} {patient.patient_secondname}</h5>
+            <div className="main-font fs-light">{patient.gender} {patient.birth_date}</div>
+            {Boolean(permissions?.create_prescription) && (
+              <div className="d-flex gap-3 py-3 align-items-center">
+                <form className="d-flex flex-column justify-content-center align-items-center gap-2 p-4 rounded-4 shadow" id="fileForm">
+                  <label htmlFor="fileInput" id="fileLabel" >
+                    <div className="d-flex gap-2 align-items-center">
+                      <HiOutlineUpload size={30} /> Upload Prescription
+                    </div>
+                  </label>
+                  <input id="fileInput" type="file" accept="image/*" onChange={handleSubmit} style={{ display: "none" }} />{" "}
+                  {!addFileDisable && (
+                    <>
+                      <div>{file.name}</div>
+                      <button className="btn bg-light-blue text-light" type="submit" onClick={handleUpload}>
+                        Add prescription
+                      </button>
+                    </>
+                  )}
+                </form>
+              </div>
+            )}
+            {currentPrescription ? <CurrentPrescriptionWidget currentPrescription={currentPrescription} permissions={permissions} currentUser={currentUser} /> : null}
           </div>
-        </>
+        </div>
       ) : (
         <Loading />
       )}
-    </>
+    </div>
   );
 };
 

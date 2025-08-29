@@ -49,7 +49,6 @@ const Dashboard = () => {
         }
       })
       .then((data) => {
-        console.log("user", user);
         if (data.status === "success") {
           setWarningVis(true);
           setErrorText("Email successfully sent.");
