@@ -4,7 +4,6 @@ import { decrypt, encrypt } from "../crypto.js"
 export const getAll = async (req, res) => {
     PatientsModel.getAll()
         .then(data => {
-            console.log('data', data)
             const decryptedData = data.map(user => {
                 return decrypt(user, user.created_at, 5);
             });
