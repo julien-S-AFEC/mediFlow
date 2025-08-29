@@ -6,6 +6,7 @@ import { IoMdSend } from "react-icons/io";
 import DosageWidget from "../dosage/dosageWidget.tsx";
 import { RxCross1 } from "react-icons/rx";
 import { decode } from "he";
+import './currentPrescriptionWidget.css'
 
 type Iprops = {
   currentPrescription: Prescription;
@@ -115,7 +116,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
         </div>
         <div className="col-md-6 col-12 d-flex flex-column ">
           <h4 className="main-font fw-light text-center">Annotations</h4>
-          <ul className="list-group list-group-flush overflow-y-auto gap-1 shadow border rounded-3" style={{ height: "270px" }}>
+          <ul className="list-group list-group-flush overflow-y-auto gap-1 shadow border rounded-3" style={{ height: "270px", backgroundColor: "white" }}>
             {allCommentaries &&
               allCommentaries.map((commentary) => (
                 <li key={commentary.id} className="list-group-item bg-success-subtle rounded">
@@ -137,8 +138,8 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
               ))}
           </ul>
           {Boolean(permissions?.create_prescription_commentary) && (
-            <>
-              <Editor ref={editorRef} style={{ maxHeight: "40px" }} id="editorContent" value={commentaryContent} onChange={onChange}>
+            <div className="d-flex flex-column gap-0 m-0">
+              <Editor ref={editorRef} placeholder="White a comment here" style={{ maxHeight: "70px" }} id="editorContent" value={commentaryContent} onChange={onChange}>
                 <Toolbar>
                   <BtnUndo />
                   <BtnRedo />
@@ -153,7 +154,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
               <button id="commentaryAcceptBtn" className="btn bg-light-blue shadow rounded-0 rounded-bottom" onClick={storeCommentary}>
                 <IoMdSend color="white" />
               </button>
-            </>
+            </div>
           )}
           <DosageWidget prescriptionId={currentPrescription.id} permissions={permissions} />
         </div>

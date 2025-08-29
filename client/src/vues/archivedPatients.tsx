@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Permissions } from "../types.ts";
 import ArchivedPatientTable from "../components/patients/archivedPatientTable.tsx";
 import Header from "../components/header";
+import './archivedPatients.css'
 
 const Dashboard: React.FC = () => {
   const [permissions, setPermissions] = useState<Permissions>();
@@ -19,13 +20,11 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div className="container-fluid" id="archivedPatientRoot">
       <Header />
-      <div className="container-fluid">
-          <h2 className="main-font fw-light text-center">Archived patients</h2>
-          <ArchivedPatientTable refreshState={refreshDashboard} refreshHandler={setRefreshDashboard} permissions={permissions} />
-        </div>
-    </>
+      <h2 className="main-font fw-light text-center">Archived patients</h2>
+      <ArchivedPatientTable refreshState={refreshDashboard} refreshHandler={setRefreshDashboard} permissions={permissions} />
+    </div>
   );
 };
 

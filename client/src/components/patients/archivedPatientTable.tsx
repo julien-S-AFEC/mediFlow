@@ -81,6 +81,9 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
               <th className="main-font fw-light" scope="col">
                 Institute
               </th>
+              <th className="main-font fw-light" scope="col">
+                Restore
+              </th>
             </>
           )}
         </tr>

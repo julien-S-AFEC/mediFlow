@@ -52,8 +52,9 @@ const Institutes: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <div className="container-fluid">
+      <div className="container-fluid" id="instituteRoot">
+        <Header />
+
         <div className="d-flex flex-column gap-2">
           <h2 className="text-center main-font">Institutes</h2>
           <div className="row justify-content-center">
@@ -81,7 +82,7 @@ const Institutes: React.FC = () => {
                 })
                 .map((institute, index) => {
                   return (
-                    <div key={index} className="border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow">
+                    <div key={index} className="border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow bg-light">
                       <FaHouseMedicalFlag size={100} style={{ position: "absolute", opacity: "10%" }} color="rgba(161, 159, 0, 1)" />
                       {Boolean(permissions?.create_patient) && (
                         <div className="d-flex justify-content-end mb-2">
