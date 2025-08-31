@@ -6,7 +6,7 @@ const UserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    fetch("https://soutadejulien.alwaysdata.net/api/users/getAllWithPermissions", {
+    fetch("soutadejulien.alwaysdata.net/api/users/getAllWithPermissions", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include'
@@ -23,7 +23,7 @@ const UserManagement = () => {
   }, []);
 
   const handleChange = (permissionId: number, field: string, value: boolean): void => {
-    fetch("https://soutadejulien.alwaysdata.net/api/users/updatePermissionFromName", {
+    fetch("soutadejulien.alwaysdata.net/api/users/updatePermissionFromName", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

@@ -11,13 +11,13 @@ const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis = false }) 
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const logOut = useCallback(() => {
-    fetch("https://soutadejulien.alwaysdata.net/api/auth/logOut", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" }).catch((error) => {
+    fetch("soutadejulien.alwaysdata.net/api/auth/logOut", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" }).catch((error) => {
       console.log(error);
     });
   }, []);
 
   useEffect(() => {
-    fetch("https://soutadejulien.alwaysdata.net/api/auth/isAdmin", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
+    fetch("soutadejulien.alwaysdata.net/api/auth/isAdmin", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
       .then((res) => {
         if (res.ok) {
           return res.json();

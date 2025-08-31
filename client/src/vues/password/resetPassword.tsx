@@ -32,7 +32,7 @@ const ResetPassword: React.FC = () => {
             return
         }
 
-        fetch('https://soutadejulien.alwaysdata.net/api/users/changePasswordFromJWT', {
+        fetch('soutadejulien.alwaysdata.net/api/users/changePasswordFromJWT', {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             credentials: 'include',

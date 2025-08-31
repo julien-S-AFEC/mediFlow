@@ -21,7 +21,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   const isAdmin = currentUser?.role_id === 2;
 
   const storeCommentary = useCallback(() => {
-    fetch("https://soutadejulien.alwaysdata.net/api/prescriptionCommentary/create", {
+    fetch("soutadejulien.alwaysdata.net/api/prescriptionCommentary/create", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -67,7 +67,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   const deleteCommentary = (id?: number) => {
-    fetch("https://soutadejulien.alwaysdata.net/api/prescriptionCommentary/deleteById", {
+    fetch("soutadejulien.alwaysdata.net/api/prescriptionCommentary/deleteById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -85,7 +85,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   useEffect(() => {
-    fetch("https://soutadejulien.alwaysdata.net/api/prescriptionCommentary/getAllbyPrescId", {
+    fetch("soutadejulien.alwaysdata.net/api/prescriptionCommentary/getAllbyPrescId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -110,7 +110,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
             <img
               className="img-fluid"
               key={currentPrescription.id}
-              src={`https://soutadejulien.alwaysdata.net/${currentPrescription.file_path}`}
+              src={`soutadejulien.alwaysdata.net/${currentPrescription.file_path}`}
               alt="prescription-img" />
           </Link>
         </div>

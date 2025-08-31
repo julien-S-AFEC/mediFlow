@@ -22,7 +22,7 @@ const ConnexionWidget = () => {
   const tryToLog = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    fetch('https://soutadejulien.alwaysdata.net/api/users/login', {
+    fetch('soutadejulien.alwaysdata.net/api/users/login', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       credentials: 'include',

@@ -6,7 +6,7 @@ const EmailVerified: React.FC = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    fetch("https://soutadejulien.alwaysdata.net/api/users/verifyEmail", {
+    fetch("soutadejulien.alwaysdata.net/api/users/verifyEmail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",

@@ -1,5 +1,5 @@
 import { Prescription } from "../../types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./allPrescriptionsWidget.css";
 
 type Iprops = {
@@ -15,6 +15,12 @@ const AllPrescriptionsWidget: React.FC<Iprops> = ({ prescriptions, currentPrescr
     currentPrescriptionHandler(prescription);
   };
 
+  useEffect(() => {
+    if (prescriptions.length) {
+      selectPrescription(prescriptions[0])
+    }
+  }, [])
+
   return (
     <>
       <div className="d-flex flex-row flex-md-column gap-3 overflow-y-auto overflow-x-auto lightScrollbar" style={{ maxHeight: "500px", maxWidth: "300px" }}>
@@ -25,7 +31,7 @@ const AllPrescriptionsWidget: React.FC<Iprops> = ({ prescriptions, currentPrescr
               <img
                 className={`img img-fluid rounded-2 ${isSelected ? "selected-prescription" : "non-selected-prescription"}`}
                 style={{ maxWidth: "100px" }}
-                src={`https://soutadejulien.alwaysdata.net/${prescription.file_path}`}
+                src={`soutadejulien.alwaysdata.net/${prescription.file_path}`}
                 alt=""
               />
             </div>

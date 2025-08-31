@@ -29,7 +29,7 @@ const PatientDetails: React.FC = () => {
   const [addFileDisable, setAddFileDisable] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch("https://soutadejulien.alwaysdata.net/api/patients/getPatientFromId", {
+    fetch("soutadejulien.alwaysdata.net/api/patients/getPatientFromId", {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -45,7 +45,7 @@ const PatientDetails: React.FC = () => {
         throw error;
       });
 
-    fetch("https://soutadejulien.alwaysdata.net/api/doctors/getDoctorFromPatientId", {
+    fetch("soutadejulien.alwaysdata.net/api/doctors/getDoctorFromPatientId", {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -63,7 +63,7 @@ const PatientDetails: React.FC = () => {
         throw error;
       });
 
-    fetch("https://soutadejulien.alwaysdata.net/api/institutes/getInstituteFromPatientId", {
+    fetch("soutadejulien.alwaysdata.net/api/institutes/getInstituteFromPatientId", {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -79,7 +79,7 @@ const PatientDetails: React.FC = () => {
         throw error;
       });
 
-    fetch("https://soutadejulien.alwaysdata.net/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch("soutadejulien.alwaysdata.net/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -90,7 +90,7 @@ const PatientDetails: React.FC = () => {
         throw error;
       });
 
-    fetch("https://soutadejulien.alwaysdata.net/api/auth/getCurrentUser", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch("soutadejulien.alwaysdata.net/api/auth/getCurrentUser", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -98,7 +98,7 @@ const PatientDetails: React.FC = () => {
       })
       .then((data) => setCurrentUser(data.user));
 
-    fetch("https://soutadejulien.alwaysdata.net/api/prescriptions/getAllByPatientId", {
+    fetch("soutadejulien.alwaysdata.net/api/prescriptions/getAllByPatientId", {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -138,7 +138,7 @@ const PatientDetails: React.FC = () => {
     formData.append("prescription", file);
     formData.append("patientId", String(params.patientId));
 
-    const uploadRes = await fetch("https://soutadejulien.alwaysdata.net/api/prescriptions/upload", {
+    const uploadRes = await fetch("soutadejulien.alwaysdata.net/api/prescriptions/upload", {
       method: "POST",
       credentials: "include",
       body: formData,
@@ -151,7 +151,7 @@ const PatientDetails: React.FC = () => {
     const data = await uploadRes.json();
     const id = data.insertId;
 
-    fetch("https://soutadejulien.alwaysdata.net/api/prescriptionDosage/create", {
+    fetch("soutadejulien.alwaysdata.net/api/prescriptionDosage/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
