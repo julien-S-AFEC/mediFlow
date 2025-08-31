@@ -12,7 +12,7 @@ const UpdateDoctorWidget: React.FC<Iprops> = ({ patientId, visibilityToggler, re
   const [doctorId, setDoctorText] = useState<string>("");
 
   useEffect(() => {
-    fetch("https://soutadejulien.alwaysdata.net/api/doctors/getAll", {
+    fetch("http://localhost:3000/api/doctors/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -28,7 +28,7 @@ const UpdateDoctorWidget: React.FC<Iprops> = ({ patientId, visibilityToggler, re
   }, []);
 
   const updatePatientDoctor = () => {
-    fetch("https://soutadejulien.alwaysdata.net/api/patients/updateDoctorFromId", {
+    fetch("http://localhost:3000/api/patients/updateDoctorFromId", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

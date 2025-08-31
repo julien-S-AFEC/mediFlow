@@ -17,7 +17,7 @@ const Dashboard = () => {
   const [errorText, setErrorText] = useState<string>();
 
   useEffect(() => {
-    fetch("https://soutadejulien.alwaysdata.net/api/auth/getCurrentUser", {
+    fetch("http://localhost:3000/api/auth/getCurrentUser", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -37,7 +37,7 @@ const Dashboard = () => {
   }, []);
 
   const sendAnotherEmail = () => {
-    fetch("https://soutadejulien.alwaysdata.net/api/users/sendAnotherVerificationEmail", {
+    fetch("http://localhost:3000/api/users/sendAnotherVerificationEmail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",

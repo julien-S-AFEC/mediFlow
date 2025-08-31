@@ -21,7 +21,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
   const [doctorText, setDoctorText] = useState("");
 
   useEffect(() => {
-    fetch("https://soutadejulien.alwaysdata.net/api/institutes/getAll", {
+    fetch("http://localhost:3000/api/institutes/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -33,7 +33,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
       })
       .then((data) => setInstitute(data));
 
-    fetch("https://soutadejulien.alwaysdata.net/api/doctors/getAll", {
+    fetch("http://localhost:3000/api/doctors/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -48,7 +48,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
 
   const createPatient = (): void => {
 
-    fetch("https://soutadejulien.alwaysdata.net/api/patients/createPatient", {
+    fetch("http://localhost:3000/api/patients/createPatient", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
