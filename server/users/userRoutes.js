@@ -16,13 +16,14 @@ import {
     changePasswordFromJWT,
     sendResetPasswordMail
 } from "./usersController.js";
+import authLimiter from "../middlewares/rateLimit.js";
 
 const usersRouter = Router()
 
 usersRouter.get('/getAllWithPermissions', jwtValidation, getAllWithPermissions)
-usersRouter.post('/login', login)
+usersRouter.post('/login', authLimiter, login)
 usersRouter.post('/verifyEmail', verifyEmail)
-usersRouter.post('/registerUser', registerUser)
+usersRouter.post('/registerUser', authLimiter, registerUser)
 usersRouter.post('/getUserById', jwtValidation, getUserById)
 usersRouter.get('/getCurrentUserPermissions', jwtValidation, getCurrentUserPermissions)
 usersRouter.post('/updatePermissionFromName', jwtValidation, updatePermissionFromName)

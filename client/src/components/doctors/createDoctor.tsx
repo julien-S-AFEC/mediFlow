@@ -14,7 +14,7 @@ const CreateDoctor: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHan
   const [institute, setInstitute] = useState("");
 
   const createDoctor = (): void => {
-    fetch("http://localhost:3000/api/doctors/createDoctor", {
+    fetch("soutadejulien.alwaysdata.net/api/doctors/createDoctor", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

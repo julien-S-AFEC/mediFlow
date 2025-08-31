@@ -9,7 +9,7 @@ const Dashboard: React.FC = () => {
   const [refreshDashboard, setRefreshDashboard] = useState<boolean>(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch("soutadejulien.alwaysdata.net/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();

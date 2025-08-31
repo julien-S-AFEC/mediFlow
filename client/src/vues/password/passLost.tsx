@@ -27,7 +27,7 @@ const PassLost: React.FC = () => {
       return;
     }
 
-    fetch("http://localhost:3000/api/users/sendResetPasswordMail", {
+    fetch("soutadejulien.alwaysdata.net/api/users/sendResetPasswordMail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
