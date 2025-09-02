@@ -43,7 +43,7 @@ const RegisterWidget = () => {
             return
         }
 
-        fetch('soutadejulien.alwaysdata.net/api/users/registerUser', {
+        fetch('https://mediflow.soutadejulien.com/api/users/registerUser', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-type': 'application/json' },

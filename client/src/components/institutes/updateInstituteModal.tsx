@@ -13,7 +13,7 @@ const UpdateInstituteCredentials: React.FC<Iprops> = ({ institute, visHandler, r
   const [phoneNumber, setPhoneNumber] = useState<string>(institute?.institute_phone_number || "");
 
   const updateInstituteCredentials = (): void => {
-    fetch("soutadejulien.alwaysdata.net/api/institutes/updateInstituteCredentialsFromId", {
+    fetch("https://mediflow.soutadejulien.com/api/institutes/updateInstituteCredentialsFromId", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

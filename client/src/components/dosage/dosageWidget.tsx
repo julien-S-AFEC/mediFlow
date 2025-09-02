@@ -25,7 +25,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
   const reactToPrintFn = useReactToPrint({ contentRef });
 
   useEffect(() => {
-    fetch("soutadejulien.alwaysdata.net/api/prescriptionDosage/getById", {
+    fetch("https://mediflow.soutadejulien.com/api/prescriptionDosage/getById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -56,7 +56,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
 
   const storeDosage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    fetch("soutadejulien.alwaysdata.net/api/prescriptionDosage/store", {
+    fetch("https://mediflow.soutadejulien.com/api/prescriptionDosage/store", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

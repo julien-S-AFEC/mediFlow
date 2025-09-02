@@ -12,7 +12,7 @@ const DoctorDetails = () => {
   const doctorId = useParams().doctorId;
 
   useEffect(() => {
-    fetch("soutadejulien.alwaysdata.net/api/doctors/getDoctorFromId", {
+    fetch("https://mediflow.soutadejulien.com/api/doctors/getDoctorFromId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -25,7 +25,7 @@ const DoctorDetails = () => {
       })
       .then((data) => setDoctor(data[0]));
 
-    fetch("soutadejulien.alwaysdata.net/api/patients/getPatientFromDoctorId", {
+    fetch("https://mediflow.soutadejulien.com/api/patients/getPatientFromDoctorId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

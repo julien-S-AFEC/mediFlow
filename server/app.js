@@ -20,13 +20,13 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-  origin: ['soutadejulien.alwaysdata.net'],
+  origin: ['https://mediflow.soutadejulien.com'],
   credentials: true,
 }));
 
 app.use(express.json())
 app.use(session({
-    secret: 'ma-cle-secrete',
+    secret: '456789',
     resave: false,
     saveUninitialized: false,
     cookie: {
