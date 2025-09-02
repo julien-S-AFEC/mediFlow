@@ -27,7 +27,7 @@ const PassLost: React.FC = () => {
       return;
     }
 
-    fetch("soutadejulien.alwaysdata.net/api/users/sendResetPasswordMail", {
+    fetch("https://mediflow.soutadejulien.com/api/users/sendResetPasswordMail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -39,13 +39,16 @@ const PassLost: React.FC = () => {
         }
       })
       .then((data) => {
-        if (data.status === 'success') {
+        if (data && data.status === 'success') {
           setSuccessVis(true)
         } else {
           setErrorOpacity("100");
           setErrorText(data.message);
         }
-      });
+      })
+      .catch(error => {
+        console.log(error)
+      })
   };
 
   return (

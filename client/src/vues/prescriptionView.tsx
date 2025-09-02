@@ -9,7 +9,7 @@ const PrescriptionView: React.FC = () => {
   const [path, setPath] = useState<string>();
 
   useEffect(() => {
-    fetch("soutadejulien.alwaysdata.net/api/prescriptions/getById", {
+    fetch("https://mediflow.soutadejulien.com/api/prescriptions/getById", {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -31,7 +31,7 @@ const PrescriptionView: React.FC = () => {
       <Link className="btn btn-primary" to={`/patientDetails/${patientId}`}>
         <IoMdArrowRoundBack />
       </Link>
-      <img className="img img-fluid" src={`soutadejulien.alwaysdata.net/${path}`} alt="" />
+      <img className="img img-fluid" src={`https://mediflow.soutadejulien.com/${path}`} alt="" />
     </div>
   );
 };

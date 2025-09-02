@@ -12,7 +12,7 @@ const UpdateInstituteWidget: React.FC<Iprops> = ({ visHandler, patientId, refres
   const [instituteText, setInstituteText] = useState<string>("");
 
   useEffect(() => {
-    fetch("soutadejulien.alwaysdata.net/api/institutes/getAll", {
+    fetch("https://mediflow.soutadejulien.com/api/institutes/getAll", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -28,7 +28,7 @@ const UpdateInstituteWidget: React.FC<Iprops> = ({ visHandler, patientId, refres
   }, []);
 
   const updatePatientInstitute = () => {
-    fetch("soutadejulien.alwaysdata.net/api/patients/updateInstituteFromId", {
+    fetch("https://mediflow.soutadejulien.com/api/patients/updateInstituteFromId", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

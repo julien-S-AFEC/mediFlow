@@ -17,7 +17,7 @@ const Dashboard = () => {
   const [errorText, setErrorText] = useState<string>();
 
   useEffect(() => {
-    fetch("soutadejulien.alwaysdata.net/api/auth/getCurrentUser", {
+    fetch("https://mediflow.soutadejulien.com/api/auth/getCurrentUser", {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -37,7 +37,7 @@ const Dashboard = () => {
   }, []);
 
   const sendAnotherEmail = () => {
-    fetch("soutadejulien.alwaysdata.net/api/users/sendAnotherVerificationEmail", {
+    fetch("https://mediflow.soutadejulien.com/api/users/sendAnotherVerificationEmail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -49,7 +49,7 @@ const Dashboard = () => {
         }
       })
       .then((data) => {
-        if (data.status === "success") {
+        if ( data && data.status === "success") {
           setWarningVis(true);
           setErrorText("Email successfully sent.");
         }

@@ -73,7 +73,7 @@ export const registerUser = async (req, res) => {
             return res.status(result.statusCode).json(result.message)
         }
 
-        const token = jwt.sign({ userName: result.user.username, userRole: result.user.role_id, userId: result.user.user_id, userEmail: result.user.user_email }, process.env.JWT_SECRET, { expiresIn: '4h' });
+        const token = jwt.sign({ userName: result.user.username, userRole: result.user.role_id, userId: result.user.user_id, userEmail: result.user.user_email }, process.env.JWT_SECRET, { expiresIn: '8h' });
         req.session.user = {
             username: result.user.username,
             role_id: result.user.role_id,
@@ -86,7 +86,7 @@ export const registerUser = async (req, res) => {
             jwt: `Bearer ${token}`
         };
 
-        const link = `soutadejulien.alwaysdata.net/emailVerified/${token}`;
+        const link = `https://mediflow.soutadejulien.com/emailVerified/${token}`;
 
         await sendEmail({
             to: result.user.user_email,
@@ -107,9 +107,9 @@ export const sendAnotherVerificationEmail = async (req, res) => {
     const { username, role_id, user_id, user_email } = req.body
 
     try {
-        const token = jwt.sign({ userName: username, userRole: role_id, userId: user_id, userEmail: user_email }, process.env.JWT_SECRET, { expiresIn: '4h' });
+        const token = jwt.sign({ userName: username, userRole: role_id, userId: user_id, userEmail: user_email }, process.env.JWT_SECRET, { expiresIn: '8h' });
 
-        const link = `soutadejulien.alwaysdata.net/emailVerified/${token}`;
+        const link = `https://mediflow.soutadejulien.com/emailVerified/${token}`;
 
         await sendEmail({
             to: user_email,
@@ -134,9 +134,9 @@ export const sendResetPasswordMail = async (req, res) => {
             return res.status(200).json({ status: "failed", message: "The user is not found." })
         }
 
-        const token = jwt.sign({ userEmail: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userEmail: email }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-        const link = `soutadejulien.alwaysdata.net/resetPassword/${token}`;
+        const link = `https://mediflow.soutadejulien.com/resetPassword/${token}`;
 
         await sendEmail({
             to: email,
@@ -181,7 +181,7 @@ export const getUserByMail = async (req, res) => {
         const result = await UserModel.getUserByEmail(email)
 
         if (result.status === 'success') {
-            const token = jwt.sign({ userEmail: result.user.user_email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            const token = jwt.sign({ userEmail: result.user.user_email }, process.env.JWT_SECRET, { expiresIn: '8h' });
 
             return res.status(200).json({ status: 'success', jwt: token })
         }

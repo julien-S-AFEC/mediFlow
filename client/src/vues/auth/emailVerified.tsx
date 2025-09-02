@@ -6,7 +6,7 @@ const EmailVerified: React.FC = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    fetch("soutadejulien.alwaysdata.net/api/users/verifyEmail", {
+    fetch("https://mediflow.soutadejulien.com/api/users/verifyEmail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -21,7 +21,10 @@ const EmailVerified: React.FC = () => {
         if (data.status === "success") {
           setSuccess(true);
         }
-      });
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }, []);
 
   return (
