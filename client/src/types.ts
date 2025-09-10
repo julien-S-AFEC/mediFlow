@@ -28,14 +28,8 @@ export type Patient = {
 
 export interface Permissions {
   create_patient: boolean;
-  update_patient: boolean;
-  delete_patient: boolean;
   create_prescription: boolean;
-  update_description: boolean;
-  delete_prescription: boolean;
   create_prescription_commentary: boolean;
-  update_prescription_commentary: boolean;
-  delete_prescription_commentar: boolean;
   permission_id: number;
 }
 

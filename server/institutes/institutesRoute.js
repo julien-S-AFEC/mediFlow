@@ -6,13 +6,14 @@ import {
     updateInstituteCredentialsFromId,
     createInstitute
 } from './institutesController.js'
+import { sanitizeData } from "../middlewares/sanityzer.js"
 
 const instituteRouter = Router()
 instituteRouter.get('/getAll', getAll)
 instituteRouter.post('/getInstituteFromPatientId', getInstituteFromPatientId)
 instituteRouter.post('/getFromId', getFromId)
-instituteRouter.put('/updateInstituteCredentialsFromId', updateInstituteCredentialsFromId)
-instituteRouter.post('/createInstitute', createInstitute)
+instituteRouter.put('/updateInstituteCredentialsFromId', sanitizeData, updateInstituteCredentialsFromId)
+instituteRouter.post('/createInstitute', sanitizeData, createInstitute)
 
 
 export default instituteRouter

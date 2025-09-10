@@ -22,7 +22,7 @@ const UpdatePatientWidget: React.FC<Iprops> = ({ patientId, patient, visibilityT
     const [showError, setShowError] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>("")
 
-    const updatePatient = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const updatePatient = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
         if (!firstNameText || !secondNameText || !genderText) {
             setShowError(true)
@@ -70,7 +70,7 @@ const UpdatePatientWidget: React.FC<Iprops> = ({ patientId, patient, visibilityT
                             <button type="button" className="btn-close" onClick={() => visibilityToggler((v) => !v)} aria-label="Close" />
                         </div>
                         <div className="modal-body">
-                            <form>
+                            <form onSubmit={updatePatient}>
                                 <div className="row align-items-center">
                                     <div className="col-6 pt-3">
                                         <label className="form-label">Firstname</label>
@@ -106,7 +106,7 @@ const UpdatePatientWidget: React.FC<Iprops> = ({ patientId, patient, visibilityT
                                     </div>
                                 </div>
                                 <div className="d-flex gap-2 justify-content-center mt-5">
-                                    <button type="submit" className="btn btn-primary" onClick={updatePatient}>
+                                    <button type="submit" className="btn btn-primary">
                                         Update
                                     </button>
                                     <button type="button" className="btn btn-danger" onClick={() => visibilityToggler((v) => !v)}>

@@ -1,5 +1,6 @@
 import PatientsModel from "./patientsModel.js"
 import { decrypt, encrypt } from "../crypto.js"
+import { patientSchema } from "../config/joi.js";
 
 export const getAll = async (req, res) => {
     PatientsModel.getAll()
@@ -44,17 +45,19 @@ export const getPatientFromDoctorId = async (req, res) => {
 }
 
 export const createPatient = async (req, res) => {
+    const { error, value } = patientSchema.validate(req.body)
+
     PatientsModel.createPatient(
-        req.body.patient_firstname || null,
-        req.body.patient_secondname || null,
-        req.body.gender || null,
-        req.body.birth_date || null,
-        req.body.address || null,
-        req.body.email || null,
-        req.body.insurance_number || null,
-        req.body.institute || null,
-        req.body.doctor || null,
-        req.body.created_at
+        value.patient_firstname || null,
+        value.patient_secondname || null,
+        value.gender || null,
+        value.birth_date || null,
+        value.address || null,
+        value.email || null,
+        value.insurance_number || null,
+        value.institute || null,
+        value.doctor || null,
+        value.created_at
     )
         .then(data => res.status(200).json(data))
         .catch(error => { console.log(error); res.status(500).json(error) })
@@ -62,14 +65,16 @@ export const createPatient = async (req, res) => {
 
 export const updatePatient = async (req, res) => {
     const patient = await PatientsModel.getPatientFromId(req.body.patientId)
+    const { error, value } = patientSchema.validate(req.body)
+
     const encryptecData = encrypt({
-        patient_firstname: req.body.firstName,
-        patient_secondname: req.body.secondName,
-        gender: req.body.gender,
-        birth_date: req.body.birthDate,
-        address: req.body.address,
-        email: req.body.email,
-        insurance_number: req.body.insurance
+        patient_firstname: value.firstName,
+        patient_secondname: value.secondName,
+        gender: value.gender,
+        birth_date: value.birthDate,
+        address: value.address,
+        email: value.email,
+        insurance_number: value.insurance
     }, patient.created_at, 5)
 
     PatientsModel.updatePatient(
