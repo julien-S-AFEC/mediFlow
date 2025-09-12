@@ -33,7 +33,7 @@ services:
       MAILER_USER: soutadejulien@sandbox56816325903d4c668c58bd92a673c576.mailgun.org
       MAILER_PASSWORD: jUlien123
     ports:
-      - "3000:3000"
+      - "3008:3000"
     volumes:
       - ./server:/app
 
