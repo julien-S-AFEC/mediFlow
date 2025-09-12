@@ -55,7 +55,7 @@ const InstituteModel = {
                     institutes.inst_id=?`, [id])
             .then((rows, fields) => {
                 con.release()
-                return rows[0][0]
+                return rows[0][0] || []
             })
             .catch(error => {
                 con.release();

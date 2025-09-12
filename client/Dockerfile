@@ -1,13 +1,7 @@
-FROM node:18
+FROM nginx:latest
 
-WORKDIR /app/mediFlow
-
-COPY package.json .
-
-RUN npm install
+WORKDIR /app
 
 COPY . .
 
-EXPOSE 5174
-
-CMD ["npm", "run", "dev"]
+EXPOSE 5175
