@@ -19,20 +19,26 @@ const __dirname = dirname(__filename)
 
 const app = express()
 
-// app.use(cors({
-//   origin: ['http://mediflow-client', 'http://mediflow-client'],
-//   credentials: true,
-// }));
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // pour Postman ou curl
+    // autoriser toutes les IP de ton réseau local 192.168.0.x
+    const regex = /^(http:\/\/192\.168\.1\.\d{1,3}(:\d+)?|http:\/\/localhost(:\d+)?)$/;
+    if (regex.test(origin)) return callback(null, true);
+    callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true
+}));
 
 app.use(express.json())
 app.use(session({
-    secret: '456789',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false,
-        maxAge: 1000 * 60 * 60
-    }
+  secret: '456789',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    maxAge: 1000 * 60 * 60
+  }
 }));
 
 app.use(express.static(path.join(__dirname, "client", "dist")));
@@ -53,5 +59,5 @@ app.get(/^(?!\/api).*/, (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-    console.log(`App running on port: ${process.env.PORT}`)
+  console.log(`App running on port: ${process.env.PORT}`)
 })

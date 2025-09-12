@@ -12,7 +12,7 @@ const InstituteDetails = () => {
   const instituteId = useParams().instituteId;
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/institutes/getFromId", {
+    fetch("/api/institutes/getFromId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -25,7 +25,7 @@ const InstituteDetails = () => {
       })
       .then((data) => setInstitute(data));
 
-    fetch("http://localhost:3000/api/patients/getPatientFromInstId", {
+    fetch("/api/patients/getPatientFromInstId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
