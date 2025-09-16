@@ -16,7 +16,7 @@ const Patient: React.FC = () => {
   const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
-    fetch("https://mediflow.soutadejulien.com/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch("/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -26,7 +26,7 @@ const Patient: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetch("https://mediflow.soutadejulien.com/api/patients/getAll", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch("/api/patients/getAll", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();

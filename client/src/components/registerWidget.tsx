@@ -43,7 +43,7 @@ const RegisterWidget = () => {
             return
         }
 
-        fetch('https://mediflow.soutadejulien.com/api/users/registerUser', {
+        fetch('/api/users/registerUser', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-type': 'application/json' },

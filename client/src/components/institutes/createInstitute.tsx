@@ -11,7 +11,7 @@ const CreateInstitute: React.FC<Iprops> = ({ visibilityToggler, refreshDashboard
   const [institutePhone, setInstitutePhone] = useState("");
 
   const createInstitute = (): void => {
-    fetch("https://mediflow.soutadejulien.com/api/institutes/createInstitute", {
+    fetch("/api/institutes/createInstitute", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

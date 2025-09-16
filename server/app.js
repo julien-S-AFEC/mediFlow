@@ -20,7 +20,7 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-  origin: ['hhttps://mediflow.soutadejulien.com', 'http://localhost:5173'],
+  origin: ['h', 'http://localhost:5173'],
   credentials: true,
 }));
 
