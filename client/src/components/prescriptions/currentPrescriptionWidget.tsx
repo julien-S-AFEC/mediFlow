@@ -17,11 +17,13 @@ type Iprops = {
 const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPrescription, permissions }) => {
   const [allCommentaries, setAllCommentaries] = useState<PrescriptionCommentary[]>([]);
   const [commentaryContent, setCommentaryContent] = useState("");
+  const [isArchivecText, setIsArchivecText] = useState(currentPrescription.is_active)
   const editorRef = useRef<HTMLDivElement | null>(null);
   const isAdmin = currentUser?.role_id === 2;
 
+
   const storeCommentary = useCallback(() => {
-    fetch("/api/prescriptionCommentary/create", {
+    fetch("http://localhost:3000/api/prescriptionCommentary/create", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -67,7 +69,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   const deleteCommentary = (id?: number) => {
-    fetch("/api/prescriptionCommentary/deleteById", {
+    fetch("http://localhost:3000/api/prescriptionCommentary/deleteById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -85,7 +87,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   useEffect(() => {
-    fetch("/api/prescriptionCommentary/getAllbyPrescId", {
+    fetch("http://localhost:3000/api/prescriptionCommentary/getAllbyPrescId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -106,11 +108,18 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
       <div className="row d-flex flex-column flex-md-row justify-content-between gap-0">
         <div className="col-md-6 col-12 d-flex flex-column gap-3">
           <div>{`Created at: ${new Date(currentPrescription.created_at).toLocaleString()}`}</div>
+          <div className="d-flex">
+            <div></div>
+            <div className="form-check form-switch">
+              <input className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" />
+                <label className="form-check-label" htmlFor="switchCheckDefault">{isArchivecText}</label>
+            </div>
+          </div>
           <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at}>
             <img
               className="img-fluid"
               key={currentPrescription.id}
-              src={`/${currentPrescription.file_path}`}
+              src={`http://localhost:3000/${currentPrescription.file_path}`}
               alt="prescription-img" />
           </Link>
         </div>

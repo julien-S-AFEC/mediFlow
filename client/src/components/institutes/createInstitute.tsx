@@ -11,7 +11,7 @@ const CreateInstitute: React.FC<Iprops> = ({ visibilityToggler, refreshDashboard
   const [institutePhone, setInstitutePhone] = useState("");
 
   const createInstitute = (): void => {
-    fetch("/api/institutes/createInstitute", {
+    fetch("http://localhost:3000/api/institutes/createInstitute", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

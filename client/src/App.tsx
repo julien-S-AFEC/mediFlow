@@ -19,6 +19,7 @@ import ResetPassword from "./vues/password/resetPassword";
 import Settings from "./vues/settings";
 import EmailVerified from "./vues/auth/emailVerified";
 
+
 const App = () => {
   return (
     <div className="container-fluid p-0 m-0">

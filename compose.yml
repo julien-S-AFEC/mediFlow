@@ -6,8 +6,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: medi_flow
-      MYSQL_USER: 425428_julien
-      MYSQL_PASSWORD: jUlien123*
+      MYSQL_USER: medi_flow
+      MYSQL_PASSWORD: medi_flow123
     ports:
       - "3307:3306"
     volumes:
@@ -20,18 +20,16 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mediFlow-db
+    env_file:
+      - .env
     environment:
       JWT_SECRET: 58795412
       SALT_ROUNDS: 5
       PORT: 3000
       DB_HOST: mediFlow-db
-      DB_USER: 425428_julien
+      DB_USER: medi_flow
       DB_NAME: medi_flow
-      DB_PASSWORD: jUlien123*
-      MAILER_HOST: smtp.mailgun.org
-      MAILER_PORT: 587
-      MAILER_USER: soutadejulien@sandbox56816325903d4c668c58bd92a673c576.mailgun.org
-      MAILER_PASSWORD: jUlien123
+      DB_PASSWORD: medi_flow123
     ports:
       - "3008:3000"
     volumes:

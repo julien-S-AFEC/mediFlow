@@ -22,7 +22,7 @@ const ConnexionWidget = () => {
   const tryToLog = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    fetch('/api/users/login', {
+    fetch('http://localhost:3000/api/users/login', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       credentials: 'include',
