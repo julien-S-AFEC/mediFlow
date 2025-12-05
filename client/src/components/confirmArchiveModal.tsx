@@ -12,7 +12,7 @@ const ConfirmArchiveModal: React.FC<Iprops> = ({ patient }) => {
   const [show, setShow] = useState(false);
 
   const archivePatient = useCallback(() => {
-    fetch("http://localhost:3000/api/patients/archivePatientFromId", {
+    fetch("https://mediflow.soutadejulien.com/api/patients/archivePatientFromId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -28,7 +28,7 @@ const ConfirmArchiveModal: React.FC<Iprops> = ({ patient }) => {
   return (
     <>
       <button type="button" className="btn w-100" onClick={() => setShow(true)} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Archive patient">
-        <GoArchive color="red" size={30}/>
+        <GoArchive color="red" size={30} />
       </button>
 
       {show && (

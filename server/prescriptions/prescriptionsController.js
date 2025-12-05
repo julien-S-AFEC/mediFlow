@@ -21,3 +21,10 @@ export const getById = async (req, res) => {
         .then(data => res.status(200).json(data))
         .catch(error => res.status(500).json(error.message))
 }
+
+export const changeIsArchivedById = async (req, res) => {
+    const { prescriptionId, isArchived } = req.body
+    PrescriptionModel.changeIsArchivedById(prescriptionId, isArchived)
+        .then(data => res.status(200).json(data))
+        .catch(error => res.status(500).json(error.message))
+}

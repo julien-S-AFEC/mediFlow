@@ -46,7 +46,24 @@ const PrescriptionModel = {
             .catch(error => {
                 throw error
             })
-    }
-}
+    },
 
+
+    changeIsArchivedById: async (prescriptionId, isArchived) => {
+        return pool.execute(`UPDATE 
+            prescriptions
+            SET
+            is_archived=?
+            WHERE
+            prescriptions.id=?
+            `, [isArchived, prescriptionId])
+            .then((rows, fields) => {
+                return rows[0]
+            })
+            .catch(error => {
+                throw error
+            })
+    }
+
+}
 export default PrescriptionModel

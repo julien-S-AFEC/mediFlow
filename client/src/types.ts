@@ -59,6 +59,7 @@ export type Prescription = {
   deleted_at: string;
   commentary_id: number;
   patient_id: number;
+  is_archived: boolean;
 };
 
 export type PrescriptionCommentary = {

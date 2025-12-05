@@ -28,12 +28,15 @@ const AllPrescriptionsWidget: React.FC<Iprops> = ({ prescriptions, currentPrescr
           const isSelected = prescription.id === selectedPrescriptionId;
           return (
             <div key={prescription.id} className="prescription" onClick={() => selectPrescription(prescription)} style={{ cursor: "pointer" }}>
-              <img
-                className={`img img-fluid rounded-2 ${isSelected ? "selected-prescription" : "non-selected-prescription"}`}
-                style={{ maxWidth: "100px" }}
-                src={`/${prescription.file_path}`}
-                alt=""
-              />
+              <div>
+                {prescription.is_archived ? <span className="position-absolute top-50 start-50 translate-middle badge rounded-pill bg-primary">Archived</span> : null}
+                <img
+                  className={`img img-fluid rounded-2 ${isSelected ? "selected-prescription " : "non-selected-prescription"}`}
+                  style={{ maxWidth: "100px" }}
+                  src={`https://mediflow.soutadejulien.com/${prescription.file_path}`}
+                  alt="prescription-image"
+                />
+              </div>
             </div>
           );
         })}

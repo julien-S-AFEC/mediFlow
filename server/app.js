@@ -20,22 +20,22 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-  origin: ['h', 'http://localhost:5173'],
+  origin: ['https://mediflow.soutadejulien.com'],
   credentials: true,
 }));
 
 app.use(express.json())
 app.use(session({
-    secret: '456789',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false,
-        maxAge: 1000 * 60 * 60
-    }
+  secret: '456789',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    maxAge: 1000 * 60 * 60
+  }
 }));
 
-app.use(express.static(path.join(__dirname, 'client/dist')));
+app.use(express.static(path.join(__dirname, '../', 'client/dist')));
 
 app.use('/api/users', usersRouter)
 app.use('/api/patients', patientsRouter)
@@ -47,11 +47,6 @@ app.use('/api/prescriptionDosage', prescriptionDosageRouter)
 app.use('/api/auth', sessionRouter)
 app.use('/uploads', express.static('uploads'));
 
-// Get all the front routes.
-app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-});
-
 app.listen(process.env.PORT, () => {
-    console.log(`App running on port: ${process.env.PORT}`)
+  console.log(`App running on port: ${process.env.PORT}`)
 })

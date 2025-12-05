@@ -16,16 +16,17 @@ import { useRef } from "react";
 type Iprops = {
   prescriptionId: number;
   permissions?: Permissions;
+  isArchived: boolean
 };
 
-const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
+const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchived }) => {
   const [allRowsContent, setAllRowsContent] = useState<object[]>([]);
   const [modified, setModified] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/prescriptionDosage/getById", {
+    fetch("https://mediflow.soutadejulien.com/api/prescriptionDosage/getById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -56,7 +57,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
 
   const storeDosage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    fetch("http://localhost:3000/api/prescriptionDosage/store", {
+    fetch("https://mediflow.soutadejulien.com/api/prescriptionDosage/store", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -68,7 +69,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
   };
 
   return (
-    <form action="#" className="d-flex flex-column align-items-center justify-content-center">
+    <form action="#" className="d-flex flex-column align-items-center justify-content-center"    >
       <div ref={contentRef}>
         <table className="table table-striped-columns mt-5">
           <thead>
@@ -98,11 +99,22 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions }) => {
           </tbody>
         </table>
       </div>
-      {Boolean(permissions?.create_prescription_commentary) && (
+      {Boolean(permissions?.create_prescription_commentary) && Boolean(!isArchived) && (
         <>
           <div className="d-flex gap-3">
-            <HiBarsArrowDown color="#247cffff" size={30} onClick={addRow} style={{ cursor: "pointer" }} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Add a row" />
-            <HiBarsArrowUp color="red" size={30} onClick={removeRow} style={{ cursor: "pointer" }} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Remove the last row" />
+            <HiBarsArrowDown
+              color="#247cffff"
+              size={30}
+              onClick={addRow}
+              style={{ cursor: "pointer" }}
+              data-tooltip-id="mediFlowTooltip"
+              data-tooltip-content="Add a row" />
+            <HiBarsArrowUp
+              color="red" size={30}
+              onClick={removeRow}
+              style={{ cursor: "pointer" }}
+              data-tooltip-id="mediFlowTooltip"
+              data-tooltip-content="Remove the last row" />
           </div>
           <div className="d-flex gap-3">
             <button onClick={storeDosage} className="btn mt-5">

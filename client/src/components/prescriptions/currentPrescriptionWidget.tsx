@@ -12,18 +12,19 @@ type Iprops = {
   currentPrescription: Prescription;
   permissions?: Permissions;
   currentUser?: User;
+  refreshHandler: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPrescription, permissions }) => {
+const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPrescription, permissions, refreshHandler }) => {
   const [allCommentaries, setAllCommentaries] = useState<PrescriptionCommentary[]>([]);
   const [commentaryContent, setCommentaryContent] = useState("");
-  const [isArchivecText, setIsArchivecText] = useState(currentPrescription.is_active)
+  const [isArchived, setIsArchived] = useState(currentPrescription.is_archived)
   const editorRef = useRef<HTMLDivElement | null>(null);
   const isAdmin = currentUser?.role_id === 2;
 
-
   const storeCommentary = useCallback(() => {
-    fetch("http://localhost:3000/api/prescriptionCommentary/create", {
+    if (commentaryContent.trim() === "") return;
+    fetch("https://mediflow.soutadejulien.com/api/prescriptionCommentary/create", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -69,7 +70,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   const deleteCommentary = (id?: number) => {
-    fetch("http://localhost:3000/api/prescriptionCommentary/deleteById", {
+    fetch("https://mediflow.soutadejulien.com/api/prescriptionCommentary/deleteById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -87,7 +88,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/prescriptionCommentary/getAllbyPrescId", {
+    fetch("https://mediflow.soutadejulien.com/api/prescriptionCommentary/getAllbyPrescId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -103,24 +104,46 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
       });
   }, [currentPrescription]);
 
+  const onIsActiveChanged = useCallback(() => {
+    setIsArchived(prev => {
+      fetch("https://mediflow.soutadejulien.com/api/prescriptions/changeIsArchivedById", {
+        method: "PUT",
+        headers: { "Content-type": "application/json" },
+        credentials: 'include',
+        body: JSON.stringify({ prescriptionId: currentPrescription.id, isArchived: !prev }),
+      });
+      return !prev;
+    });
+  }, [currentPrescription.id]);
+
+  useEffect(() => {
+    setIsArchived(currentPrescription?.is_archived)
+  }, [currentPrescription])
+
   return (
     <div className="container-fluid">
       <div className="row d-flex flex-column flex-md-row justify-content-between gap-0">
         <div className="col-md-6 col-12 d-flex flex-column gap-3">
-          <div>{`Created at: ${new Date(currentPrescription.created_at).toLocaleString()}`}</div>
+          <div>{`Created at: ${new Date(currentPrescription.created_at).toLocaleString()} by: ${currentUser?.username}`}</div>
           <div className="d-flex">
             <div></div>
-            <div className="form-check form-switch">
-              <input className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" />
-                <label className="form-check-label" htmlFor="switchCheckDefault">{isArchivecText}</label>
-            </div>
+            {isAdmin && <div className="form-check form-switch">
+              <input className="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" checked={isArchived} onChange={onIsActiveChanged} />
+              <label className="form-check-label" htmlFor="switchCheckDefault">Archive prescription</label>
+            </div>}
           </div>
-          <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at}>
+          <Link to={`prescriptionView/${currentPrescription.id}`} key={currentPrescription.created_at} style={{ overflow: "hidden", marginBottom: "2rem" }}>
             <img
               className="img-fluid"
               key={currentPrescription.id}
-              src={`http://localhost:3000/${currentPrescription.file_path}`}
-              alt="prescription-img" />
+              src={`https://mediflow.soutadejulien.com/${currentPrescription.file_path}`}
+              alt="prescription-img"
+              style={{
+                filter: isArchived ? 'blur(20px)' : 'none',
+                transition: 'filter 200ms ease',
+                overflow: "hidden"
+              }} />
+
           </Link>
         </div>
         <div className="col-md-6 col-12 d-flex flex-column ">
@@ -148,24 +171,49 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
           </ul>
           {Boolean(permissions?.create_prescription_commentary) && (
             <div className="d-flex flex-column gap-0 m-0">
-              <Editor ref={editorRef} placeholder="White a comment here" style={{ maxHeight: "70px" }} id="editorContent" value={commentaryContent} onChange={onChange}>
-                <Toolbar>
-                  <BtnUndo />
-                  <BtnRedo />
-                  <BtnBold />
-                  <BtnItalic />
-                  <BtnUnderline />
-                  <BtnStrikeThrough />
-                  <BtnLink />
-                  <BtnClearFormatting />
-                </Toolbar>
-              </Editor>
+              <div style={{ position: "relative" }}>
+                <Editor
+                  ref={editorRef}
+                  placeholder={isArchived ? "This prescription is archived" : "Write a comment here"}
+                  style={{ maxHeight: "70px" }}
+                  id="editorContent"
+                  value={commentaryContent}
+                  onChange={onChange}
+                  disabled={isArchived}
+                >
+                  {Boolean(isArchived) && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "2.2rem",
+                        left: 12,
+                        right: 12,
+                        color: "#888",
+                        pointerEvents: "none"
+                      }}
+                    >
+                      This prescription is archived
+                    </div>
+
+                  )}
+                  <Toolbar>
+                    <BtnUndo />
+                    <BtnRedo />
+                    <BtnBold />
+                    <BtnItalic />
+                    <BtnUnderline />
+                    <BtnStrikeThrough />
+                    <BtnLink />
+                    <BtnClearFormatting />
+                  </Toolbar>
+                </Editor>
+              </div>
               <button id="commentaryAcceptBtn" className="btn bg-light-blue shadow rounded-0 rounded-bottom" onClick={storeCommentary}>
                 <IoMdSend color="white" />
               </button>
             </div>
           )}
-          <DosageWidget prescriptionId={currentPrescription.id} permissions={permissions} />
+          <DosageWidget prescriptionId={currentPrescription.id} permissions={permissions} isArchived={isArchived} />
         </div>
       </div>
     </div>

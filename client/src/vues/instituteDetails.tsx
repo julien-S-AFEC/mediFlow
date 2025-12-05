@@ -12,7 +12,7 @@ const InstituteDetails = () => {
   const instituteId = useParams().instituteId;
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/institutes/getFromId", {
+    fetch("https://mediflow.soutadejulien.com/api/institutes/getFromId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -25,7 +25,7 @@ const InstituteDetails = () => {
       })
       .then((data) => setInstitute(data));
 
-    fetch("http://localhost:3000/api/patients/getPatientFromInstId", {
+    fetch("https://mediflow.soutadejulien.com/api/patients/getPatientFromInstId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -86,7 +86,7 @@ const InstituteDetails = () => {
                 <div className="collapse mt-2" id={`patientInfos${patient.patient_id}`}>
                   <div className="d-flex flex-column gap-3 border shadow p-3 rounded">
                     <Link to={`/patientDetails/${patient.patient_id}`} className="align-self-center">
-                      <BsFileEarmarkPerson color="#1f7bd1ff" size={30}  data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient profile"/>
+                      <BsFileEarmarkPerson color="#1f7bd1ff" size={30} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient profile" />
                     </Link>
 
                     <div className="d-flex justify-content-between gap-5">
