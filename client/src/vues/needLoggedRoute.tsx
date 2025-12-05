@@ -9,7 +9,7 @@ const NeedLogginRoute: React.FC<Iprops> = ({ children }) => {
 
     const navigate = useNavigate()
     useEffect(() => {
-        fetch('https://mediflow.soutadejulien.com/api/auth/isConnected', { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
+        fetch('/api/auth/isConnected', { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
             .then(res => {
                 if (res.ok) {
                     return res.json()

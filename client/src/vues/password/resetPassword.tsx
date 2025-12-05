@@ -32,7 +32,7 @@ const ResetPassword: React.FC = () => {
             return
         }
 
-        fetch('https://mediflow.soutadejulien.com/api/users/changePasswordFromJWT', {
+        fetch('/api/users/changePasswordFromJWT', {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             credentials: 'include',

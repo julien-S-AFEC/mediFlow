@@ -27,7 +27,7 @@ const PassLost: React.FC = () => {
       return;
     }
 
-    fetch("https://mediflow.soutadejulien.com/api/users/sendResetPasswordMail", {
+    fetch("/api/users/sendResetPasswordMail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",

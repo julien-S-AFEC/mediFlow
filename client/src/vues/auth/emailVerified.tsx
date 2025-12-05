@@ -6,7 +6,7 @@ const EmailVerified: React.FC = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    fetch("https://mediflow.soutadejulien.com/api/users/verifyEmail", {
+    fetch("/api/users/verifyEmail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",

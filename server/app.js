@@ -47,6 +47,10 @@ app.use('/api/prescriptionDosage', prescriptionDosageRouter)
 app.use('/api/auth', sessionRouter)
 app.use('/uploads', express.static('uploads'));
 
+app.get(/^(?!\/api)(?!\/uploads).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, '../', 'client/dist/index.html'));
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`App running on port: ${process.env.PORT}`)
 })

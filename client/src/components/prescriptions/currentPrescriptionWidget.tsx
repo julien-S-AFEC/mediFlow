@@ -24,7 +24,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
 
   const storeCommentary = useCallback(() => {
     if (commentaryContent.trim() === "") return;
-    fetch("https://mediflow.soutadejulien.com/api/prescriptionCommentary/create", {
+    fetch("/api/prescriptionCommentary/create", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -70,7 +70,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   const deleteCommentary = (id?: number) => {
-    fetch("https://mediflow.soutadejulien.com/api/prescriptionCommentary/deleteById", {
+    fetch("/api/prescriptionCommentary/deleteById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -88,7 +88,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   useEffect(() => {
-    fetch("https://mediflow.soutadejulien.com/api/prescriptionCommentary/getAllbyPrescId", {
+    fetch("/api/prescriptionCommentary/getAllbyPrescId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -106,7 +106,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
 
   const onIsActiveChanged = useCallback(() => {
     setIsArchived(prev => {
-      fetch("https://mediflow.soutadejulien.com/api/prescriptions/changeIsArchivedById", {
+      fetch("/api/prescriptions/changeIsArchivedById", {
         method: "PUT",
         headers: { "Content-type": "application/json" },
         credentials: 'include',
@@ -136,7 +136,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
             <img
               className="img-fluid"
               key={currentPrescription.id}
-              src={`https://mediflow.soutadejulien.com/${currentPrescription.file_path}`}
+              src={`/${currentPrescription.file_path}`}
               alt="prescription-img"
               style={{
                 filter: isArchived ? 'blur(20px)' : 'none',

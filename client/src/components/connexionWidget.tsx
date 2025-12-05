@@ -22,7 +22,7 @@ const ConnexionWidget = () => {
   const tryToLog = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    fetch('https://mediflow.soutadejulien.com/api/users/login', {
+    fetch('/api/users/login', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       credentials: 'include',
