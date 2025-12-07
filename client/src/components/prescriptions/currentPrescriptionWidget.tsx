@@ -18,7 +18,7 @@ type Iprops = {
 const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPrescription, permissions, refreshHandler }) => {
   const [allCommentaries, setAllCommentaries] = useState<PrescriptionCommentary[]>([]);
   const [commentaryContent, setCommentaryContent] = useState("");
-  const [isArchived, setIsArchived] = useState(currentPrescription.is_archived)
+  const [isArchived, setIsArchived] = useState(currentPrescription.is_archived ?? false)
   const editorRef = useRef<HTMLDivElement | null>(null);
   const isAdmin = currentUser?.role_id === 2;
 
@@ -88,20 +88,23 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   useEffect(() => {
-    fetch("/api/prescriptionCommentary/getAllbyPrescId", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      credentials: 'include',
-      body: JSON.stringify({ prescriptionId: currentPrescription.id }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
+    const interval = setInterval(() => {
+      fetch("/api/prescriptionCommentary/getAllbyPrescId", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        credentials: 'include',
+        body: JSON.stringify({ prescriptionId: currentPrescription.id }),
       })
-      .then((data) => {
-        setAllCommentaries(data);
-      });
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+        })
+        .then((data) => {
+          setAllCommentaries(data);
+        });
+    }, 100);
+    return () => clearInterval(interval);
   }, [currentPrescription]);
 
   const onIsActiveChanged = useCallback(() => {
@@ -117,7 +120,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   }, [currentPrescription.id]);
 
   useEffect(() => {
-    setIsArchived(currentPrescription?.is_archived)
+    setIsArchived(currentPrescription?.is_archived ?? false)
   }, [currentPrescription])
 
   return (
@@ -146,12 +149,12 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
 
           </Link>
         </div>
-        <div className="col-md-6 col-12 d-flex flex-column ">
+        <div className="col-md-6 col-12 d-flex flex-column">
           <h4 className="main-font fw-light text-center">Annotations</h4>
-          <ul className="list-group list-group-flush overflow-y-auto gap-1 shadow border rounded-3" style={{ height: "270px", backgroundColor: "white" }}>
+          <ul className="list-group list-group-flush overflow-y-auto gap-1 shadow border rounded-3 commentary-container" style={{ height: "270px", backgroundColor: "white" }}>
             {allCommentaries &&
               allCommentaries.map((commentary) => (
-                <li key={commentary.id} className="list-group-item bg-success-subtle rounded">
+                <li key={commentary.id} className="list-group-item bg-success-subtle rounded commentary">
                   <div className="d-flex justify-content-between">
                     <div>{commentary.content}</div>
                     <div className="d-flex">
@@ -175,6 +178,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
                 <Editor
                   ref={editorRef}
                   placeholder={isArchived ? "This prescription is archived" : "Write a comment here"}
+                  className="editorContent"
                   style={{ maxHeight: "70px" }}
                   id="editorContent"
                   value={commentaryContent}
@@ -196,15 +200,15 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
                     </div>
 
                   )}
-                  <Toolbar>
-                    <BtnUndo />
-                    <BtnRedo />
-                    <BtnBold />
-                    <BtnItalic />
-                    <BtnUnderline />
-                    <BtnStrikeThrough />
-                    <BtnLink />
-                    <BtnClearFormatting />
+                  <Toolbar className="toolbar">
+                    <BtnUndo className="toolbar-icon" />
+                    <BtnRedo className="toolbar-icon" />
+                    <BtnBold className="toolbar-icon" />
+                    <BtnItalic className="toolbar-icon" />
+                    <BtnUnderline className="toolbar-icon" />
+                    <BtnStrikeThrough className="toolbar-icon" />
+                    <BtnLink className="toolbar-icon" />
+                    <BtnClearFormatting className="toolbar-icon" />
                   </Toolbar>
                 </Editor>
               </div>

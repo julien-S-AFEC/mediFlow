@@ -1,0 +1,6 @@
+[data-bs-theme="dark"] .doctor-details-widget, [data-bs-theme="dark"] .doctor-details-text {
+  color: #ffffff !important;
+}
+[data-bs-theme="contrast"] .doctor-details-widget, [data-bs-theme="contrast"] .doctor-details-text {
+  color: #ffffff !important;
+}

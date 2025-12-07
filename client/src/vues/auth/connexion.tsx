@@ -18,7 +18,7 @@ const Connexion: React.FC = () => {
   }, []);
 
   return (
-    <div className="d-flex flex-column align-items-center justify-content-center">
+    <div className="d-flex flex-column align-items-center justify-content-center text-dark">
       <div className="col-12">
         <img src="/img/connexion_back_mobile.jpg" alt="connexion_back_img" className='img img-fluid position-absolute m-0 p-0' style={{ width: "100vw", zIndex: -1, transform: scaled }} />
       </div>

@@ -43,7 +43,7 @@ const UserManagement = () => {
         <h1 className="main-font text-center mb-5">Users</h1>
         {users &&
           users.map((user) => (
-            <div key={user.username} className="d-flex flex-column flex-md-row justify-content-around align-items-center p-1 gap-2 gap-md-5 border-bottom mb-3 main-font">
+            <div key={user.username} className="d-flex flex-column flex-md-row justify-content-between align-items-center p-1 gap-2 gap-md-5 border-bottom mb-3 main-font">
               <div>
                 <div>{user.username}</div>
               </div>

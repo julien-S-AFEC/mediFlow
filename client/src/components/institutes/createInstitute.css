@@ -1,0 +1,12 @@
+[data-bs-theme="dark"] .create-institute-modal {
+  background-color: #272727 !important;
+}
+[data-bs-theme="contrast"] .create-institute-modal {
+  background-color: #fff !important;
+}
+[data-bs-theme="dark"] .create-institute-modal-content {
+  background-color: #272727 !important;
+}
+[data-bs-theme="contrast"] .create-institute-modal-content {
+  background-color: #fff !important;
+}

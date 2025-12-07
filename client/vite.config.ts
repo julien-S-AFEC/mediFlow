@@ -6,11 +6,11 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://mediflow.soutadejulien.com",
+        target: "http://localhost:3000",
         changeOrigin: true,
       },
       "/uploads": {
-        target: "https://mediflow.soutadejulien.com",
+        target: "http://localhost:3000",
         changeOrigin: true,
       },
     },

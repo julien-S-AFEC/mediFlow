@@ -2,3 +2,71 @@
     background-color: rgba(245, 245, 245, 0.658);
     margin: 0;
 }
+
+.toolbar-icon, .toolbar {
+    background-color: white;
+    border: none !important;
+}
+
+/* Dark theme */
+[data-bs-theme="dark"] #editorContent {
+    background-color: #272727 !important;
+    color: #fff !important;
+}
+
+[data-bs-theme="dark"] .commentary {
+    background-color: #131313 !important;
+    color: #fff !important;
+}
+
+[data-bs-theme="dark"] .commentary-container {
+    background-color: #1d1d1d !important;
+    color: #fff !important;
+}
+
+[data-bs-theme="dark"] .toolbar {
+    background-color: #1d1d1d !important;
+    border: 1px solid #272727 !important;
+    color: #fff !important;
+}
+
+[data-bs-theme="dark"] .toolbar-icon {
+    color: #fff !important;
+    background-color: #272727 !important;
+    border: 1px solid #272727 !important;
+}
+
+/* High contrast theme */
+[data-bs-theme="contrast"] #editorContent {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 2px solid #fff !important;
+}
+
+[data-bs-theme="contrast"] .commentary {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 1px solid #fff !important;
+}
+
+[data-bs-theme="contrast"] .commentary-container {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 1px solid #fff !important;
+}
+
+[data-bs-theme="contrast"] .toolbar {
+    background-color: #000 !important;
+    border: 2px solid #fff !important;
+    color: #fff !important;
+}
+
+[data-bs-theme="contrast"] .toolbar-icon {
+    color: #ff0 !important;
+    background-color: #000 !important;
+    border: 1px solid #fff !important;
+}
+
+[data-bs-theme="contrast"] .toolbar-icon:hover {
+    background-color: #222 !important;
+}

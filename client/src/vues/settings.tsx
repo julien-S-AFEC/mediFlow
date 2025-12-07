@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Header from "../components/header";
 import DisplayWidget from "../components/displayWidget";
+import "./settings.css";
 
 const Settings: React.FC = () => {
   const [widgetVis, setWidgetVis] = useState<number>(1);

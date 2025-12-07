@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Doctor } from "../../types";
+import "./updateDoctorCredentials.css";
 
 type Iprops = {
   doctor?: Doctor;
@@ -38,9 +39,9 @@ const UpdateDoctorCredentials: React.FC<Iprops> = ({ doctor, visHandler, refresh
   }
 
   return (
-    <div className="modal show d-block fade" tabIndex={-1} role="dialog">
+    <div className="modal show d-block fade update-doctor-modal" tabIndex={-1} role="dialog">
       <div className="modal-dialog modal-xl" role="document">
-        <div className="modal-content" style={{ backgroundColor: "#d8e7d8" }}>
+        <div className="modal-content update-doctor-modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Update Doctor</h5>
             <button type="button" className="btn-close" onClick={() => visHandler((v) => !v)} aria-label="Close" />

@@ -12,6 +12,7 @@ import { LuCakeSlice } from "react-icons/lu";
 import { Permissions } from "../../types";
 import { useReactToPrint } from "react-to-print";
 import { useRef } from "react";
+import "./dosageWidget.css";
 
 type Iprops = {
   prescriptionId: number;
@@ -45,7 +46,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchive
   }, [prescriptionId]);
 
   const addRow = () => {
-    const newContent = [...allRowsContent, { col1: "", col2: "", col3: "", col4: "" }];
+    const newContent = [...allRowsContent, { col1: "", col2: "", col3: "", col4: "", col5: "" }];
     setAllRowsContent(newContent);
   };
 
@@ -69,25 +70,25 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchive
   };
 
   return (
-    <form action="#" className="d-flex flex-column align-items-center justify-content-center"    >
+    <form action="#" className="d-flex flex-column align-items-center justify-content-center">
       <div ref={contentRef}>
         <table className="table table-striped-columns mt-5">
           <thead>
             <tr>
               <th scope="col">
-                <GiMedicines className="w-100" color="rgba(49, 49, 49, 1)" style={{ minHeight: "50px" }} />
+                <GiMedicines className="w-100 dosage-icon" color="rgba(49, 49, 49, 1)" style={{ minHeight: "50px" }} />
               </th>
               <th scope="col">
-                <PiSunHorizonLight className="w-100" color="rgba(49, 49, 49, 1)" style={{ minHeight: "50px" }} />
+                <PiSunHorizonLight className="w-100 dosage-icon" color="rgba(49, 49, 49, 1)" style={{ minHeight: "50px" }} />
               </th>
               <th scope="col">
-                <AiOutlineSun className="w-100" color="rgba(44, 44, 44, 1)" style={{ minHeight: "50px" }} />
+                <AiOutlineSun className="w-100 dosage-icon" color="rgba(44, 44, 44, 1)" style={{ minHeight: "50px" }} />
               </th>
               <th scope="col">
-                <LuCakeSlice className="w-100" color="rgba(43, 43, 43, 1)" style={{ minHeight: "50px", strokeWidth: 1 }} />
+                <LuCakeSlice className="w-100 dosage-icon" color="rgba(43, 43, 43, 1)" style={{ minHeight: "50px", strokeWidth: 1 }} />
               </th>
               <th scope="col">
-                <PiMoonThin className="w-100" color="rgba(44, 44, 44, 1)" style={{ minHeight: "50px" }} />
+                <PiMoonThin className="w-100 dosage-icon" color="rgba(44, 44, 44, 1)" style={{ minHeight: "50px" }} />
               </th>
             </tr>
           </thead>

@@ -33,7 +33,7 @@ const CreateInstitute: React.FC<Iprops> = ({ visibilityToggler, refreshDashboard
   return (
     <div className="modal show d-block fade" tabIndex={-1} role="dialog">
       <div className="modal-dialog modal-xl" role="document">
-        <div className="modal-content" style={{ backgroundColor: "#d8e7d8" }}>
+        <div className="modal-content create-institute-modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Create New Institute</h5>
             <button type="button" className="btn-close" onClick={() => visibilityToggler((v) => !v)} aria-label="Close" />

@@ -3,3 +3,12 @@
     background-image: url('/img/patients_back.jpg');
     background-size: cover;
 }
+
+[data-bs-theme="dark"] #patientRoot {
+    background-image: url('/img/patients_back_dark.jpg');
+}
+
+[data-bs-theme="contrast"] #patientRoot {
+    background-image: url('/img/patients_back_dark.jpg');
+    background-color: #000;
+}

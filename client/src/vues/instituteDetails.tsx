@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { Institute, Patient } from "../types";
 import { BsFileEarmarkPerson } from "react-icons/bs";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import "./instituteDetails.css";
 
 const InstituteDetails = () => {
   const [institute, setInstitute] = useState<Institute>();
@@ -40,39 +41,39 @@ const InstituteDetails = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container institute">
       <Header />
       <Link to="/institutes" className="btn align-self-start">
         <IoIosArrowRoundBack size={40} />
       </Link>
       <h4 className="main-font my-5 text-center">Patients related to this institute</h4>
       <div className="d-flex flex-column flex-md-row justify-content-around gap-5">
-        <div className="d-flex flex-column main-font gap-3 w-100">
+        <div className="d-flex flex-column main-font institute-text gap-3 w-100">
           <h4>Institute</h4>
           {institute && (
             <>
               <div>
                 <div className="fs-5">Name</div>
-                <div className="fw-light">{institute.institute_name}</div>
+                <div className="fw-light institute-text">{institute.institute_name}</div>
               </div>
               <div>
                 <div className="fs-5">Addres</div>
-                <div className="fw-light">{institute.institute_address}</div>
+                <div className="fw-light institute-text">{institute.institute_address}</div>
               </div>
               <div>
                 <div className="fs-5">Phone number</div>
-                <div className="fw-light">{institute.institute_phone_number}</div>
+                <div className="fw-light institute-text">{institute.institute_phone_number}</div>
               </div>
             </>
           )}
         </div>
-        <div className="d-flex flex-column main-font gap-3 align-items-center w-100">
+        <div className="d-flex flex-column main-font gap-3 align-items-center w-100 institute-text">
           <h4>Patients registered in this institute</h4>
           {patients &&
             patients.map((patient) => (
               <div key={patient.patient_id}>
                 <a
-                  className="d-flex gap-2 justify-content-center text-decoration-none main-font text-dark test"
+                  className="d-flex gap-2 justify-content-center text-decoration-none main-font text-dark institute-text"
                   data-bs-toggle="collapse"
                   href={`#patientInfos${patient.patient_id}`}
                   role="button"

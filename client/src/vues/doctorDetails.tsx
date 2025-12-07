@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { Doctor, Patient } from "../types";
 import { BsFileEarmarkPerson } from "react-icons/bs";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import "./doctorDetails.css";
 
 const DoctorDetails = () => {
   const [doctor, setDoctor] = useState<Doctor>();
@@ -40,14 +41,14 @@ const DoctorDetails = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container doctor">
       <Header />
       <Link to="/institutes" className="btn align-self-start">
         <IoIosArrowRoundBack size={40} />
       </Link>
       <h4 className="main-font my-5 text-center">Patients related to this doctor</h4>
       <div className="d-flex flex-column flex-md-row justify-content-around gap-5">
-        <div className="d-flex flex-column main-font gap-3 w-100">
+        <div className="d-flex flex-column main-font gap-3 w-100 doctor-details-widget">
           <h4>Doctor</h4>
           {doctor && (
             <>
@@ -74,13 +75,13 @@ const DoctorDetails = () => {
             </>
           )}
         </div>
-        <div className="d-flex flex-column main-font gap-3 align-items-center w-100">
+        <div className="d-flex flex-column main-font gap-3 align-items-center w-100 doctor-details-widget">
           <h4>Patients</h4>
           {patients &&
             patients.map((patient) => (
               <div key={patient.patient_id}>
                 <a
-                  className="d-flex gap-2 justify-content-center text-decoration-none main-font text-dark test"
+                  className="d-flex gap-2 justify-content-center text-decoration-none main-font text-dark doctor-details-text"
                   data-bs-toggle="collapse"
                   href={`#patientInfos${patient.patient_id}`}
                   role="button"
@@ -91,25 +92,25 @@ const DoctorDetails = () => {
                   <div>{patient.patient_secondname}</div>
                 </a>
 
-                <div className="collapse mt-2" id={`patientInfos${patient.patient_id}`}>
+                <div className="collapse mt-2 doctor-details-text" id={`patientInfos${patient.patient_id}`}>
                   <div className="d-flex flex-column gap-3 border shadow p-3 rounded">
                     <Link to={`/patientDetails/${patient.patient_id}`} className="align-self-center">
                       <BsFileEarmarkPerson color="#1f7bd1ff" size={30} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient details" />
                     </Link>
 
-                    <div className="d-flex justify-content-between gap-5">
+                    <div className="d-flex justify-content-between gap-5 doctor-details-text">
                       <div>Gender: </div>
                       <div>{patient.gender}</div>
                     </div>
-                    <div className="d-flex justify-content-between gap-5">
+                    <div className="d-flex justify-content-between gap-5 doctor-details-text">
                       <div>Birth date:</div>
                       <div>{new Date(patient.birth_date).toLocaleDateString()}</div>
                     </div>
-                    <div className="d-flex justify-content-between gap-5">
+                    <div className="d-flex justify-content-between gap-5 doctor-details-text">
                       <div>Address:</div>
                       <div>{patient.address}</div>
                     </div>
-                    <div className="d-flex justify-content-between gap-5">
+                    <div className="d-flex justify-content-between gap-5 doctor-details-text">
                       <div>Inssurance number:</div>
                       <div>{patient.insurance_number}</div>
                     </div>

@@ -41,7 +41,7 @@ const CreateDoctor: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHan
   return (
     <div className="modal show d-block fade" tabIndex={-1} role="dialog">
       <div className="modal-dialog modal-xl" role="document">
-        <div className="modal-content" style={{ backgroundColor: "#d8e7d8" }}>
+        <div className="modal-content create-doctor-modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Create New Doctor</h5>
             <button type="button" className="btn-close" onClick={() => visibilityToggler((v) => !v)} aria-label="Close" />

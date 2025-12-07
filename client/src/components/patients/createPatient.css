@@ -1,0 +1,12 @@
+[data-bs-theme="dark"] .create-patient-modal {
+  background-color: #272727 !important;
+}
+[data-bs-theme="contrast"] .create-patient-modal {
+  background-color: #fff !important;
+}
+[data-bs-theme="dark"] .create-patient-modal-content {
+  background-color: #272727 !important;
+}
+[data-bs-theme="contrast"] .create-patient-modal-content {
+  background-color: #fff !important;
+}

@@ -49,7 +49,7 @@ const ConnexionWidget = () => {
       <div className="col-3"></div>
       <div className="col-md-6 col-10">
         <div
-          className="d-flex flex-column border align-items-center p-2 rounded-3 shadow"
+          className="d-flex flex-column border align-items-center p-2 rounded-3 shadow text-dark"
           style={{ marginTop: "5rem", backgroundColor: "rgba(200, 200, 200, .6)" }}
         >
           <h3 className="mt-3 main-font">Connexion</h3>
@@ -63,11 +63,11 @@ const ConnexionWidget = () => {
             <div className="d-flex flex-column w-75">
               <label htmlFor="exmailInput" className="main-font fw-light">Email</label>
             </div>
-            <input type="text" value={email} onChange={changeEmailTxt} className="form-control w-75" id="exmailInput" placeholder="name@example.com" />
+            <input type="text" value={email} onChange={changeEmailTxt} className="form-control w-75 text-dark bg-white" id="exmailInput" placeholder="name@example.com" />
             <div className="d-flex flex-column w-75">
               <label htmlFor="passwordInput" className="main-font fw-light">Password</label>
             </div>
-            <input type="password" value={password} onChange={changePasswordTxt} className="form-control w-75" id="passwordInput" />
+            <input type="password" value={password} onChange={changePasswordTxt} className="form-control w-75 text-dark bg-white" id="passwordInput" />
             <button className="btn btn-primary mt-2" onClick={tryToLog}>Connect</button>
           </form>
           <div className="d-flex w-100 pt-3 justify-content-end">

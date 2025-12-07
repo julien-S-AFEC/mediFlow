@@ -1,0 +1,62 @@
+/* Dark theme */
+[data-bs-theme="dark"] .container-fluid {
+    background-color: #1f1f1f !important;
+}
+
+[data-bs-theme="dark"] .border-end {
+    border-color: #3a3a5c !important;
+}
+
+[data-bs-theme="dark"] .btn-primary {
+    background-color: #2d2d4a !important;
+    border: 1px solid #4a4a6a !important;
+    color: #e0e0e0 !important;
+}
+
+[data-bs-theme="dark"] .btn-primary:hover {
+    background-color: #3d3d5a !important;
+    border-color: #00f7ff !important;
+}
+
+[data-bs-theme="dark"] .main-font {
+    color: #e0e0e0 !important;
+}
+
+[data-bs-theme="dark"] h4 {
+    color: #00f7ff !important;
+}
+
+[data-bs-theme="dark"] a {
+    color: #00f7ff !important;
+}
+
+/* High contrast theme */
+[data-bs-theme="contrast"] .container-fluid {
+    background-color: #000 !important;
+}
+
+[data-bs-theme="contrast"] .border-end {
+    border-color: #fff !important;
+}
+
+[data-bs-theme="contrast"] .btn-primary {
+    background-color: #000 !important;
+    border: 2px solid #0ff !important;
+    color: #0ff !important;
+}
+
+[data-bs-theme="contrast"] .btn-primary:hover {
+    background-color: #222 !important;
+}
+
+[data-bs-theme="contrast"] .main-font {
+    color: #fff !important;
+}
+
+[data-bs-theme="contrast"] h4 {
+    color: #ff0 !important;
+}
+
+[data-bs-theme="contrast"] a {
+    color: #0ff !important;
+}

@@ -1,0 +1,12 @@
+[data-bs-theme="dark"] .create-doctor-modal {
+  background-color: #272727 !important;
+}
+[data-bs-theme="contrast"] .create-doctor-modal {
+  background-color: #fff !important;
+}
+[data-bs-theme="dark"] .create-doctor-modal-content {
+  background-color: #272727 !important;
+}
+[data-bs-theme="contrast"] .create-doctor-modal-content {
+  background-color: #fff !important;
+}

@@ -81,35 +81,35 @@ const Doctors: React.FC = () => {
               })
               .map((doctor, index) => {
                 return (
-                  <div key={doctor.doctor_id} className="border rounded-3 col-md-5 p-3 shadow mb-2 bg-light">
-                    <FaUserDoctor size={80} style={{ position: "absolute", opacity: "7%" }} color="blue" />
+                  <div key={doctor.doctor_id} className="border rounded-3 col-md-5 p-3 shadow mb-2 doctor">
+                    <FaUserDoctor size={80} style={{ position: "absolute", opacity: "7%" }} className="doctor-icon" />
                     {Boolean(permissions?.create_patient) && (
                       <div className="d-flex justify-content-end mb-2">
-                        <AiOutlineEdit onClick={() => setModifyVis(doctor)} size={25} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Update doctor" />
+                        <AiOutlineEdit onClick={() => setModifyVis(doctor)} size={25} className="doctor-icon" data-tooltip-id="mediFlowTooltip" data-tooltip-content="Update doctor" />
                       </div>
                     )}
                     <Link to={`/doctorDetails/${doctor.doctor_id}`} key={index} className="d-flex justify-content-end mb-2 text-decoration-none">
-                      <CiBoxList className="icon" data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient related to this doctor" />
+                      <CiBoxList className="icon doctor-icon" data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patient related to this doctor" />
                     </Link>
 
                     <div className="d-flex justify-content-center mb-2 gap-3">
-                      <div className="main-font">{doctor.doctor_firstname + " " + doctor.doctor_secondname || "Not provided"}</div>
+                      <div className="main-font doctor-text">{doctor.doctor_firstname + " " + doctor.doctor_secondname || "Not provided"}</div>
                     </div>
                     <div className="d-flex justify-content-between gap-3">
                       <div>Institute</div>
-                      <div className="main-font fw-light">{doctor.doctor_institute || "Not provided"}</div>
+                      <div className="main-font fw-light doctor-text">{doctor.doctor_institute || "Not provided"}</div>
                     </div>
                     <div className="d-flex justify-content-between gap-3">
                       <div>Address</div>
-                      <div className="main-font fw-light text-wrap">{doctor.doctor_address || "Not provided"}</div>
+                      <div className="main-font fw-light text-wrap doctor-text">{doctor.doctor_address || "Not provided"}</div>
                     </div>
                     <div className="d-flex justify-content-between gap-3">
                       <div>Phone</div>
-                      <div className="main-font fw-light">{doctor.doctor_phone_number || "Not provided"}</div>
+                      <div className="main-font fw-light doctor-text">{doctor.doctor_phone_number || "Not provided"}</div>
                     </div>
                     <div className="d-flex justify-content-between gap-3">
                       <div>Email</div>
-                      <div className="main-font fw-light">{doctor.doctor_email || "Not provided"}</div>
+                      <div className="main-font fw-light doctor-text">{doctor.doctor_email || "Not provided"}</div>
                     </div>
                   </div>
                 );

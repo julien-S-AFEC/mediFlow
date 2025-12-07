@@ -1,0 +1,23 @@
+
+
+[data-bs-theme="dark"] .update-institute-modal-content {
+  background-color: #272727 !important;
+}
+[data-bs-theme="contrast"] .update-institute-modal-content {
+  background-color: #3d3d3d !important;
+  color: #fff !important;
+}
+[data-bs-theme="dark"] .update-institute-modal-content label {
+  color: #fff !important;
+}
+[data-bs-theme="contrast"] .update-institute-modal-content label {
+  color: #f9fd19 !important;
+}
+[data-bs-theme="dark"] .update-institute-modal-content input {
+  background-color: #272727 !important;
+  color: #fff !important;
+}
+[data-bs-theme="contrast"] .update-institute-modal-content input {
+  background-color: #3d3d3d !important;
+  color: #f9fd19 !important;
+}

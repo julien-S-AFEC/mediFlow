@@ -82,15 +82,15 @@ const Institutes: React.FC = () => {
                 })
                 .map((institute, index) => {
                   return (
-                    <div key={index} className="border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow bg-light">
-                      <FaHouseMedicalFlag size={100} style={{ position: "absolute", opacity: "10%" }} color="rgba(161, 159, 0, 1)" />
+                    <div key={index} className="border rounded-3 col-xl-4 col-lg-4 col-md-5 p-3 shadow institute">
+                      <FaHouseMedicalFlag size={100} style={{ position: "absolute", opacity: "10%" }} className="institute-icon" />
                       {Boolean(permissions?.create_patient) && (
                         <div className="d-flex justify-content-end mb-2">
-                          <AiOutlineEdit className="icon" onClick={() => setModifyVis(institute)} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Update the institute" />
+                          <AiOutlineEdit className="icon institute-icon" onClick={() => setModifyVis(institute)} data-tooltip-id="mediFlowTooltip" data-tooltip-content="Update the institute" />
                         </div>
                       )}
                       <Link to={`/instituteDetails/${institute.inst_id}`} key={institute.inst_id} className="d-flex justify-content-end mb-2 text-decoration-none">
-                        <CiBoxList className="icon" data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patients related to this institute" />
+                        <CiBoxList className="icon institute-icon" data-tooltip-id="mediFlowTooltip" data-tooltip-content="Patients related to this institute" />
                       </Link>
                       <div className="d-flex justify-content-center mb-2">
                         <div>{institute.institute_name || "Not provided"}</div>

@@ -3,3 +3,64 @@
     background-image: url('/img/patients_back.jpg') !important;
     background-size: cover !important;
 }
+
+/* Dark theme */
+[data-bs-theme="dark"] #patientDetailRoot {
+    background-image: url('/img/patients_back_dark.jpg') !important;
+}
+
+/* High contrast theme */
+[data-bs-theme="contrast"] #patientDetailRoot {
+    background-image: none !important;
+    background-color: #000 !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot .main-font {
+    color: #fff !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot h5 {
+    color: #ff0 !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot a {
+    color: #0ff !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot .btn {
+    color: #0ff !important;
+    border-color: #fff !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot #fileForm {
+    background-color: #111 !important;
+    border: 2px solid #fff !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot #fileLabel {
+    color: #fff !important;
+    border-color: #fff !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot .shadow {
+    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot .bg-light-blue {
+    background-color: #000 !important;
+    border: 2px solid #0ff !important;
+    color: #0ff !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot .offcanvas {
+    background-color: #000 !important;
+    border-color: #fff !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot .offcanvas-body {
+    color: #fff !important;
+}
+
+[data-bs-theme="contrast"] #patientDetailRoot .btn-close {
+    filter: invert(1) !important;
+}

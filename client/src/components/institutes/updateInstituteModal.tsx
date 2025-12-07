@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Institute } from "../../types";
+import "./updateInstitutModal.css";
 
 type Iprops = {
   institute?: Institute;
@@ -32,9 +33,9 @@ const UpdateInstituteCredentials: React.FC<Iprops> = ({ institute, visHandler, r
   }
 
   return (
-    <div className="modal show d-block fade" tabIndex={-1} role="dialog">
+    <div className="modal show d-block fade update-institute-modal" tabIndex={-1} role="dialog">
       <div className="modal-dialog modal-lg" role="document">
-        <div className="modal-content" style={{ backgroundColor: "#d8e7d8" }}>
+        <div className="modal-content update-institute-modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Update Institute</h5>
             <button type="button" className="btn-close" onClick={() => visHandler((v) => !v)} aria-label="Close" />

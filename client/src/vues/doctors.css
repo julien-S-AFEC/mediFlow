@@ -2,3 +2,19 @@
   background-image: url('/img/doctors_back.jpg');
   background-size: cover;
 }
+
+[data-bs-theme="dark"] #doctorsRoot, [data-bs-theme="dark"] .doctor, [data-bs-theme="contrast"] #doctorsRoot, [data-bs-theme="contrast"] .doctor {
+  background-image: url('/img/doctors_back_dark.jpg');
+}
+
+.doctor-icon {
+  color: blue;
+}
+
+[data-bs-theme="dark"] .doctor-icon {
+  color: #00f7ff;
+}
+
+[data-bs-theme="contrast"] .doctor-icon, [data-bs-theme="contrast"] .doctor-text {
+  color: #ffffff;
+}

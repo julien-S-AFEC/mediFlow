@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Institute, Doctor } from "../../types";
+import "./createPatient.css";
 
 type Iprops = {
   visibilityToggler: React.Dispatch<React.SetStateAction<boolean>>;
@@ -85,7 +86,7 @@ const CreatePatient: React.FC<Iprops> = ({ visibilityToggler, refreshDashboardHa
   return (
     <div className="modal show d-block fade" tabIndex={-1} role="dialog">
       <div className="modal-dialog " role="document">
-        <div className="modal-content" style={{ backgroundColor: "#d8e7d8" }}>
+        <div className="modal-content create-patient-modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Create New Patient</h5>
             <button type="button" className="btn-close" onClick={() => visibilityToggler((v) => !v)} aria-label="Close" />

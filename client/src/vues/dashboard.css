@@ -12,3 +12,20 @@
   transform: scale(110%);
   transition: 0.5s;
 }
+
+[data-bs-theme="dark"] .icon-hovered {
+  border: 1px solid #808080;
+}
+[data-bs-theme="contrast"] .icon-hovered {
+  border: 1px solid #808080;
+}
+[data-bs-theme="dark"] .icon-hovered:hover {
+  border: 1px solid #808080;
+}
+[data-bs-theme="contrast"] .icon-hovered:hover {
+  border: 1px solid #808080;
+}
+
+[data-bs-theme="dark"] #dashRoot, [data-bs-theme="contrast"] #dashRoot {
+  background-image: url('public/img/dashboard_back_dark.jpg');
+}

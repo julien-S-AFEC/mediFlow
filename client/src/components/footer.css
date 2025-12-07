@@ -1,0 +1,6 @@
+[data-bs-theme="dark"] .footer-root {
+  background-color: #272727 !important;
+}
+[data-bs-theme="contrast"] .footer-root {
+  background-color: #fff !important;
+}

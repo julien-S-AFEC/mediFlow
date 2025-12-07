@@ -14,5 +14,10 @@ input:active {
   .no-print {
     background-color: red;
   }
-
+}
+[data-bs-theme="dark"] .no-print {
+  background-color: red !important;
+}
+[data-bs-theme="contrast"] .no-print {
+  background-color: red !important;
 }

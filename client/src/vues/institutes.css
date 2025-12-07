@@ -1,6 +1,5 @@
 #instituteRoot {
     min-height: 100vh !important;
-    background-image: url('/img/institutes_back.jpg') !important;
     background-size: cover !important;
 }
 
@@ -16,4 +15,18 @@
   color: rgb(0, 119, 255);
   transition: 0.3s;
   transform: scale(110%);
+}
+
+[data-bs-theme="dark"] #instituteRoot, [data-bs-theme="dark"] .institute {
+  background-image: url('/img/institutes_back_dark.jpg') !important;
+}
+
+[data-bs-theme="contrast"] #instituteRoot, [data-bs-theme="contrast"] .institute {  
+  background-image: "none" !important;
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+[data-bs-theme="dark"] .institute-icon, [data-bs-theme="contrast"] .institute-icon {
+  color: #00ff00;
 }

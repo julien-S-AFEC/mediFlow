@@ -1,0 +1,60 @@
+/* Light theme */
+[data-bs-theme="light"] .institute-text {
+    color: #000 !important;
+}
+
+/* Dark theme */
+[data-bs-theme="dark"] .institute,
+[data-bs-theme="dark"] .institute-text {
+    color: #fff !important;
+}
+
+[data-bs-theme="dark"] .institute .text-dark,
+[data-bs-theme="dark"] .institute a.text-dark.institute-text {
+    color: #fff !important;
+}
+
+[data-bs-theme="dark"] .institute .collapse div {
+    color: #fff !important;
+}
+
+/* High contrast theme */
+[data-bs-theme="contrast"] .institute {
+    background-color: #000 !important;
+}
+
+[data-bs-theme="contrast"] .institute-text,
+[data-bs-theme="contrast"] .institute div {
+    color: #fff !important;
+}
+
+[data-bs-theme="contrast"] .institute a,
+[data-bs-theme="contrast"] .institute a.text-dark,
+[data-bs-theme="contrast"] .institute a.text-dark.institute-text,
+[data-bs-theme="contrast"] .institute .text-dark {
+    color: #0ff !important;
+}
+
+[data-bs-theme="contrast"] .institute .collapse div {
+    color: #fff !important;
+}
+
+[data-bs-theme="contrast"] .institute .collapse .rounded {
+    background-color: #111 !important;
+}
+
+[data-bs-theme="contrast"] .institute .border {
+    border-color: #fff !important;
+}
+
+[data-bs-theme="contrast"] .institute .shadow {
+    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-bs-theme="contrast"] .institute h4 {
+    color: #ff0 !important;
+}
+
+[data-bs-theme="contrast"] .institute .fs-5 {
+    color: #ff0 !important;
+}

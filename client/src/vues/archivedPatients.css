@@ -3,3 +3,7 @@
     background-image: url('/img/patients_back.jpg');
     background-size: cover;
 }
+[data-bs-theme="dark"] #archivedPatientRoot, [data-bs-theme="contrast"] #archivedPatientRoot {
+  background-image: url('/img/patients_back_dark.jpg');
+}
+
