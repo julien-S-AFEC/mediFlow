@@ -9,6 +9,7 @@ const Connexion: React.FC = () => {
   };
 
   useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", 'light');
     adaptBG()
     addEventListener("resize", adaptBG);
 

@@ -18,18 +18,15 @@ import PassLost from "./vues/password/passLost";
 import ResetPassword from "./vues/password/resetPassword";
 import Settings from "./vues/settings";
 import EmailVerified from "./vues/auth/emailVerified";
+import ThemeProvider from "./vues/themeProvider";
 import { useEffect } from "react";
 
 
 const App = () => {
-  useEffect(() => {
-    const theme = localStorage.getItem("theme")
-    document.documentElement.setAttribute("data-bs-theme", theme)
-  }, [])
-  
+
   return (
     <div className="container-fluid p-0 m-0">
-      <Tooltip id="mediFlowTooltip" variant="info" delayShow={500} border={"19px"} opacity={90}/>
+      <Tooltip id="mediFlowTooltip" variant="info" delayShow={500} border={"19px"} opacity={90} />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Connexion />}></Route>
@@ -39,101 +36,120 @@ const App = () => {
           <Route path="/resetPassword/:token" element={<ResetPassword />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
-
           <Route
             path="/dashboard"
             element={
-              <NeedLogginRoute>
-                <Dashboard />
-              </NeedLogginRoute>
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <Dashboard />
+                </NeedLogginRoute>
+              </ThemeProvider>
             }
           ></Route>
 
           <Route
             path="/patients"
             element={
-              <NeedLogginRoute>
-                <Patients />
-              </NeedLogginRoute>
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <Patients />
+                </NeedLogginRoute>
+              </ThemeProvider>
             }
           ></Route>
 
           <Route
             path="/patientDetails/:patientId"
             element={
-              <NeedLogginRoute>
-                <PatientDetails />
-              </NeedLogginRoute>
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <PatientDetails />
+                </NeedLogginRoute>
+              </ThemeProvider>
             }
           ></Route>
 
           <Route
             path="/patientDetails/:patientId/prescriptionView/:fileId"
             element={
-              <NeedLogginRoute>
-                <PrescriptionView />
-              </NeedLogginRoute>
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <PrescriptionView />
+                </NeedLogginRoute>
+              </ThemeProvider>
             }
           ></Route>
 
           <Route
             path="/institutes"
             element={
-              <NeedLogginRoute>
-                <Institutes />
-              </NeedLogginRoute>
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <Institutes />
+                </NeedLogginRoute>
+              </ThemeProvider>
             }
           ></Route>
 
           <Route
             path="/instituteDetails/:instituteId"
             element={
-              <NeedLogginRoute>
-                <InstituteDetails />
-              </NeedLogginRoute>
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <InstituteDetails />
+                </NeedLogginRoute>
+              </ThemeProvider>
             }
           ></Route>
 
           <Route
             path="/doctors"
             element={
-              <NeedLogginRoute>
-                <Doctors />
-              </NeedLogginRoute>
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <Doctors />
+                </NeedLogginRoute>
+              </ThemeProvider>
             }
           ></Route>
 
           <Route
             path="/doctorDetails/:doctorId"
             element={
-              <NeedLogginRoute>
-                <DoctorDetails />
-              </NeedLogginRoute>
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <DoctorDetails />
+                </NeedLogginRoute>
+              </ThemeProvider>
             }
           ></Route>
 
           <Route
             path="/archivedPatients"
             element={
-              <NeedLogginRoute>
-                <ArchivedPatients />
-              </NeedLogginRoute>
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <ArchivedPatients />
+                </NeedLogginRoute>
+              </ThemeProvider>
             }
           ></Route>
 
           <Route
             path="/userManagement"
             element={
-              <NeedLogginRoute>
-                <UserManagement />
-              </NeedLogginRoute>
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <UserManagement />
+                </NeedLogginRoute>
+              </ThemeProvider>
             }
           ></Route>
 
           <Route path="/*" element={<Error404 />}></Route>
         </Routes>
       </BrowserRouter>
-    </div>
+    </div >
   );
 };
 

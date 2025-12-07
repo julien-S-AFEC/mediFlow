@@ -11,14 +11,14 @@ const Connexion: React.FC = () => {
   useEffect(() => {
     adaptBG();
     addEventListener("resize", adaptBG);
-
+    document.documentElement.setAttribute("data-bs-theme", 'light');
     return () => {
       removeEventListener("resize", adaptBG);
     };
   }, []);
 
   return (
-    <div className="d-flex flex-column align-items-center justify-content-center text-dark">
+    <div className="d-flex flex-column align-items-center justify-content-center connexion-root">
       <div className="col-12">
         <img src="/img/connexion_back_mobile.jpg" alt="connexion_back_img" className='img img-fluid position-absolute m-0 p-0' style={{ width: "100vw", zIndex: -1, transform: scaled }} />
       </div>

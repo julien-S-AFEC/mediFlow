@@ -1,6 +1,34 @@
-[data-bs-theme="dark"] .doctor-details-widget, [data-bs-theme="dark"] .doctor-details-text {
-  color: #ffffff !important;
+/* Dark theme */
+[data-bs-theme="dark"] .doctor-details-widget,
+[data-bs-theme="dark"] .doctor-details-text {
+    color: #e0e0e0 !important;
 }
-[data-bs-theme="contrast"] .doctor-details-widget, [data-bs-theme="contrast"] .doctor-details-text {
-  color: #ffffff !important;
+
+[data-bs-theme="dark"] .doctor-details-text.text-dark {
+    color: #00f7ff !important;
+}
+
+[data-bs-theme="dark"] .doctor-details-widget .border {
+    background-color: #2a2a3a !important;
+    border-color: #4a4a6a !important;
+}
+
+/* High contrast theme */
+[data-bs-theme="contrast"] .doctor-details-widget,
+[data-bs-theme="contrast"] .doctor-details-text {
+    color: #fff !important;
+}
+
+[data-bs-theme="contrast"] .doctor-details-text.text-dark {
+    color: #0ff !important;
+}
+
+[data-bs-theme="contrast"] .doctor-details-widget .border {
+    background-color: #000 !important;
+    border-color: #0ff !important;
+    border-width: 2px !important;
+}
+
+[data-bs-theme="contrast"] .doctor-details-widget h4 {
+    color: #ff0 !important;
 }

@@ -1,0 +1,69 @@
+/* Base styles - Light theme */
+.bg-blue-color {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .nav-link {
+    color: #333 !important;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.navbar .nav-link:hover {
+    color: #6187da !important;
+}
+
+/* Dark theme */
+[data-bs-theme="dark"] .navbar,
+[data-bs-theme="dark"] .navbar.bg-blue-color {
+    background-color: #1a1a2e !important;
+}
+
+[data-bs-theme="dark"] .navbar .container-fluid {
+    background-color: transparent !important;
+}
+
+[data-bs-theme="dark"] .navbar .nav-link {
+    color: #b0b0c0 !important;
+}
+
+[data-bs-theme="dark"] .navbar .nav-link:hover {
+    color: #00f7ff !important;
+}
+
+[data-bs-theme="dark"] .navbar-toggler {
+    border-color: #4a4a6a !important;
+}
+
+[data-bs-theme="dark"] .navbar-toggler-icon {
+    filter: invert(0.8);
+}
+
+/* High contrast theme */
+[data-bs-theme="contrast"] .navbar,
+[data-bs-theme="contrast"] .navbar.bg-blue-color {
+    background-color: #000 !important;
+    border-bottom: 2px solid #0ff !important;
+}
+
+[data-bs-theme="contrast"] .navbar .container-fluid {
+    background-color: transparent !important;
+}
+
+[data-bs-theme="contrast"] .navbar .nav-link {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="contrast"] .navbar .nav-link:hover {
+    color: #0ff !important;
+    text-decoration: underline;
+}
+
+[data-bs-theme="contrast"] .navbar-toggler {
+    border: 2px solid #0ff !important;
+}
+
+[data-bs-theme="contrast"] .navbar-toggler-icon {
+    filter: invert(1);
+}
