@@ -6,7 +6,7 @@ const UserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    fetch("/api/users/getAllWithPermissions", {
+    fetch(`/api/users/getAllWithPermissions`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include'
@@ -23,7 +23,7 @@ const UserManagement = () => {
   }, []);
 
   const handleChange = (permissionId: number, field: string, value: boolean): void => {
-    fetch("/api/users/updatePermissionFromName", {
+    fetch(`/api/users/updatePermissionFromName`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

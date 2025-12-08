@@ -12,7 +12,7 @@ const UpdateInstituteWidget: React.FC<Iprops> = ({ visHandler, patientId, refres
   const [instituteText, setInstituteText] = useState<string>("");
 
   useEffect(() => {
-    fetch("/api/institutes/getAll", {
+    fetch(`/api/institutes/getAll`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -28,7 +28,7 @@ const UpdateInstituteWidget: React.FC<Iprops> = ({ visHandler, patientId, refres
   }, []);
 
   const updatePatientInstitute = () => {
-    fetch("/api/patients/updateInstituteFromId", {
+    fetch(`/api/patients/updateInstituteFromId`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

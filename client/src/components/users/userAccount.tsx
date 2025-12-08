@@ -14,7 +14,7 @@ const UserAccount: React.FC = () => {
   const [isWarningVisible, setIsWarningVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    fetch("/api/auth/getCurrentUser", {
+    fetch(`/api/auth/getCurrentUser`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -34,7 +34,7 @@ const UserAccount: React.FC = () => {
 
   const changeName = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    fetch("/api/users/changeNameFromId", {
+    fetch(`/api/users/changeNameFromId`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -52,7 +52,7 @@ const UserAccount: React.FC = () => {
 
   const changeEmail = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    fetch("/api/users/changeEmailFromId", {
+    fetch(`/api/users/changeEmailFromId`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -70,7 +70,7 @@ const UserAccount: React.FC = () => {
 
   const changePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    fetch("/api/users/changePasswordFromId", {
+    fetch(`/api/users/changePasswordFromId`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: "include",

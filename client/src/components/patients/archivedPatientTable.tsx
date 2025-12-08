@@ -20,7 +20,7 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
   }, []);
 
   useEffect(() => {
-    fetch("/api/patients/getAll", {
+    fetch(`/api/patients/getAll`, {
       method: "GET",
       credentials: "include",
       headers: { "Content-type": "application/json" }
@@ -36,7 +36,7 @@ const ArchivedPatientTable: React.FC<Iprops> = ({ refreshState, refreshHandler, 
   }, [refreshState]);
 
   const unArchivePatient = useCallback((patientId: number): void => {
-    fetch("/api/patients/unArchivePatientFromId", {
+    fetch(`/api/patients/unArchivePatientFromId`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

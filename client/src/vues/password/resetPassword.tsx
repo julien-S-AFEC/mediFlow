@@ -33,7 +33,7 @@ const ResetPassword: React.FC = () => {
             return
         }
 
-        fetch('/api/users/changePasswordFromJWT', {
+        fetch(`/api/users/changePasswordFromJWT`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             credentials: 'include',

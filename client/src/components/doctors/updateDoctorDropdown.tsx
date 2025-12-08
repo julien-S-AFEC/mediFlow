@@ -12,7 +12,7 @@ const UpdateDoctorWidget: React.FC<Iprops> = ({ patientId, visibilityToggler, re
   const [doctorId, setDoctorText] = useState<string>("");
 
   useEffect(() => {
-    fetch("/api/doctors/getAll", {
+    fetch(`/api/doctors/getAll`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -28,7 +28,7 @@ const UpdateDoctorWidget: React.FC<Iprops> = ({ patientId, visibilityToggler, re
   }, []);
 
   const updatePatientDoctor = () => {
-    fetch("/api/patients/updateDoctorFromId", {
+    fetch(`/api/patients/updateDoctorFromId`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

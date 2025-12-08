@@ -12,7 +12,7 @@ const ConfirmArchiveModal: React.FC<Iprops> = ({ patient }) => {
   const [show, setShow] = useState(false);
 
   const archivePatient = useCallback(() => {
-    fetch("/api/patients/archivePatientFromId", {
+    fetch(`/api/patients/archivePatientFromId`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

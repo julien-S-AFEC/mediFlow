@@ -17,7 +17,7 @@ const UpdateDoctorCredentials: React.FC<Iprops> = ({ doctor, visHandler, refresh
   const [email, setEmail] = useState<string>(doctor?.doctor_email || "");
 
   const updateInstituteCredentials = (): void => {
-    fetch("/api/doctors/updateDoctorCredentialsFromId", {
+    fetch(`/api/doctors/updateDoctorCredentialsFromId`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

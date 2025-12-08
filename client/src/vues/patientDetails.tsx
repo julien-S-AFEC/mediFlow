@@ -29,7 +29,7 @@ const PatientDetails: React.FC = () => {
   const [addFileDisable, setAddFileDisable] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch("/api/patients/getPatientFromId", {
+    fetch(`/api/patients/getPatientFromId`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -45,7 +45,7 @@ const PatientDetails: React.FC = () => {
         throw error;
       });
 
-    fetch("/api/doctors/getDoctorFromPatientId", {
+    fetch(`/api/doctors/getDoctorFromPatientId`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -63,7 +63,7 @@ const PatientDetails: React.FC = () => {
         throw error;
       });
 
-    fetch("/api/institutes/getInstituteFromPatientId", {
+    fetch(`/api/institutes/getInstituteFromPatientId`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -79,7 +79,7 @@ const PatientDetails: React.FC = () => {
         throw error;
       });
 
-    fetch("/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch(`/api/users/getCurrentUserPermissions`, { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -90,7 +90,7 @@ const PatientDetails: React.FC = () => {
         throw error;
       });
 
-    fetch("/api/auth/getCurrentUser", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch(`/api/auth/getCurrentUser`, { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -98,7 +98,7 @@ const PatientDetails: React.FC = () => {
       })
       .then((data) => setCurrentUser(data.user));
 
-    fetch("/api/prescriptions/getAllByPatientId", {
+    fetch(`/api/prescriptions/getAllByPatientId`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -138,7 +138,7 @@ const PatientDetails: React.FC = () => {
     formData.append("prescription", file);
     formData.append("patientId", String(params.patientId));
 
-    const uploadRes = await fetch("/api/prescriptions/upload", {
+    const uploadRes = await fetch(`/api/prescriptions/upload`, {
       method: "POST",
       credentials: "include",
       body: formData,
@@ -151,7 +151,7 @@ const PatientDetails: React.FC = () => {
     const data = await uploadRes.json();
     const id = data.insertId;
 
-    fetch("/api/prescriptionDosage/create", {
+    fetch(`/api/prescriptionDosage/create`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

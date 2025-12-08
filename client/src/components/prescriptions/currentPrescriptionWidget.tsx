@@ -24,7 +24,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
 
   const storeCommentary = useCallback(() => {
     if (commentaryContent.trim() === "") return;
-    fetch("/api/prescriptionCommentary/create", {
+    fetch(`/api/prescriptionCommentary/create`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -70,7 +70,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
   };
 
   const deleteCommentary = (id?: number) => {
-    fetch("/api/prescriptionCommentary/deleteById", {
+    fetch(`/api/prescriptionCommentary/deleteById`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -89,7 +89,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch("/api/prescriptionCommentary/getAllbyPrescId", {
+      fetch(`/api/prescriptionCommentary/getAllbyPrescId`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         credentials: 'include',
@@ -109,7 +109,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
 
   const onIsActiveChanged = useCallback(() => {
     setIsArchived(prev => {
-      fetch("/api/prescriptions/changeIsArchivedById", {
+      fetch(`/api/prescriptions/changeIsArchivedById`, {
         method: "PUT",
         headers: { "Content-type": "application/json" },
         credentials: 'include',

@@ -9,7 +9,7 @@ const PrescriptionView: React.FC = () => {
   const [path, setPath] = useState<string>();
 
   useEffect(() => {
-    fetch("/api/prescriptions/getById", {
+    fetch(`/api/prescriptions/getById`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },

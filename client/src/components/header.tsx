@@ -12,13 +12,13 @@ const Header: React.FC<Iprops> = ({ search, searchHandler, searchVis = false }) 
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const logOut = useCallback(() => {
-    fetch("/api/auth/logOut", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" }).catch((error) => {
+    fetch(`/api/auth/logOut`, { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" }).catch((error) => {
       console.log(error);
     });
   }, []);
 
   useEffect(() => {
-    fetch("/api/auth/isAdmin", { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
+    fetch(`/api/auth/isAdmin`, { method: "GET", headers: { "Content-type": "application/json" }, credentials: "include" })
       .then((res) => {
         if (res.ok) {
           return res.json();

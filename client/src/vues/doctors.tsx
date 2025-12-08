@@ -21,7 +21,7 @@ const Doctors: React.FC = () => {
   const [permissions, setPermissions] = useState<Permissions>();
 
   useEffect(() => {
-    fetch("/api/users/getCurrentUserPermissions", { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
+    fetch(`/api/users/getCurrentUserPermissions`, { method: "GET", credentials: "include", headers: { "Content-type": "application/json" } })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -33,7 +33,7 @@ const Doctors: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetch("/api/doctors/getAll", {
+    fetch(`/api/doctors/getAll`, {
       method: "GET",
       headers: { "Content-type": "application/json" },
       credentials: "include",

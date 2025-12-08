@@ -13,14 +13,17 @@ import prescriptionCommentaryRouter from './prescriptionCommentary/prescriptionR
 import sessionRouter from './session/session.js'
 import prescriptionDosageRouter from './prescriptionDosage/prescriptionDosageRoutes.js'
 import session from 'express-session';
+import { runStartupSQL } from './config/db.js';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+runStartupSQL();
+
 const app = express()
 
 app.use(cors({
-  origin: ['https://mediflow.soutadejulien.com'],
+  origin: ['http://localhost:3000', 'http://localhost:5173', 'https://mediflow.soutadejulien.com'],
   credentials: true,
 }));
 
@@ -35,7 +38,7 @@ app.use(session({
   }
 }));
 
-app.use(express.static(path.join(__dirname, '../', 'client/dist')));
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
 app.use('/api/users', usersRouter)
 app.use('/api/patients', patientsRouter)
@@ -45,12 +48,12 @@ app.use('/api/prescriptions', prescriptionRouter)
 app.use('/api/prescriptionCommentary', prescriptionCommentaryRouter)
 app.use('/api/prescriptionDosage', prescriptionDosageRouter)
 app.use('/api/auth', sessionRouter)
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get(/^(?!\/api)(?!\/uploads).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../', 'client/dist/index.html'));
+  res.sendFile(path.join(__dirname, 'client/dist/index.html'));
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`App running on port: ${process.env.PORT}`)
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`App running on port: ${process.env.PORT || 3000}`)
 })

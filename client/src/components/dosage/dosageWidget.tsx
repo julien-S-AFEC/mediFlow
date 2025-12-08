@@ -27,7 +27,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchive
   const reactToPrintFn = useReactToPrint({ contentRef });
 
   useEffect(() => {
-    fetch("/api/prescriptionDosage/getById", {
+    fetch(`/api/prescriptionDosage/getById`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -58,7 +58,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchive
 
   const storeDosage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    fetch("/api/prescriptionDosage/store", {
+    fetch(`/api/prescriptionDosage/store`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
