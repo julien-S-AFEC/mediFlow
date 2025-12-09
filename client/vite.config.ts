@@ -4,15 +4,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
-    proxy: {
-      "/api": {
-        target: "https://mediflow.soutadejulien.com",
-        changeOrigin: true,
-      },
-      "/uploads": {
-        target: "https://mediflow.soutadejulien.com",
-        changeOrigin: true,
-      },
-    },
+    port: 3000,
+    host: true,
   },
 });
