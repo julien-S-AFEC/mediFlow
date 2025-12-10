@@ -185,7 +185,7 @@ const PatientDetails: React.FC = () => {
                   {institute && <InstituteDetailsWidget patientId={params.patientId} institute={institute} permissions={permissions} refreshHandler={setRefresh} />}{" "}
                 </div>
               </div>
-              {patient?.active ? <ConfirmArchiveModal patient={patient} /> : null}
+              {patient?.active && !!permissions?.create_patient ? <ConfirmArchiveModal patient={patient} /> : null}
             </div>
             <div>
               {allPrescriptions && <AllPrescriptionsWidget prescriptions={allPrescriptions} currentPrescriptionHandler={setCurrentPrescription} />}
