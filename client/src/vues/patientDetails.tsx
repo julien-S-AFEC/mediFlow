@@ -198,7 +198,7 @@ const PatientDetails: React.FC = () => {
               <div className="d-flex gap-3 py-3 align-items-center">
                 <form className="d-flex flex-column justify-content-center align-items-center gap-2 p-4 rounded-4 shadow" id="fileForm">
                   <label htmlFor="fileInput" id="fileLabel" >
-                    <div className="d-flex gap-2 align-items-center">
+                    <div className="d-flex gap-2 align-items-center main-font">
                       <HiOutlineUpload size={30} /> Upload Prescription
                     </div>
                   </label>
