@@ -103,7 +103,7 @@ const CurrentPrescriptionWidget: React.FC<Iprops> = ({ currentUser, currentPresc
         .then((data) => {
           setAllCommentaries(data);
         });
-    }, 100);
+    }, 500);
     return () => clearInterval(interval);
   }, [currentPrescription]);
 

@@ -165,7 +165,7 @@ const PatientDetails: React.FC = () => {
   return (
     <div id="patientDetailRoot" className="container-fluid">
       <Header />
-      {pageReady ? (
+      {pageReady && patient && doctor && institute && permissions ? (
         <div className="row">
           <div className="col-12 col-lg-1 d-flex flex-column align-items-center">
             <div className="d-flex flex-row flex-lg-column">
