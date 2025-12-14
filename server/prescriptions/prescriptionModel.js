@@ -1,4 +1,11 @@
 import { pool } from '../config/db.js'
+import Tesseract from 'tesseract.js';
+
+const config = {
+    lang: "eng",
+    oem: 1,
+    psm: 3,
+}
 
 const PrescriptionModel = {
     upload: async (filePath, patientId) => {
@@ -63,7 +70,17 @@ const PrescriptionModel = {
             .catch(error => {
                 throw error
             })
-    }
+    },
 
+    getPrescriptionText: async (prescriptionPath) => {
+        return await tesseract.recognize(prescriptionPath, config)
+            .then(data => {
+                console.log(data);
+                return data
+            })
+            .catch(error => {
+                throw error
+            })
+    }
 }
 export default PrescriptionModel

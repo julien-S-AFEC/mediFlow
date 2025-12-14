@@ -28,3 +28,10 @@ export const changeIsArchivedById = async (req, res) => {
         .then(data => res.status(200).json(data))
         .catch(error => res.status(500).json(error.message))
 }
+
+export const getPrescriptionText = async (req, res) => {
+    const { prescriptionPath } = req.body
+    PrescriptionModel.getPrescriptionText(prescriptionPath)
+        .then(data => res.status(200).json(data))
+        .catch(error => res.status(500).json(error.message))
+}

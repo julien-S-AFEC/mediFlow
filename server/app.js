@@ -13,6 +13,7 @@ import prescriptionCommentaryRouter from './prescriptionCommentary/prescriptionR
 import sessionRouter from './session/session.js'
 import prescriptionDosageRouter from './prescriptionDosage/prescriptionDosageRoutes.js'
 import session from 'express-session';
+import documentationRouter from './documentation/documentationRoute.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -20,7 +21,7 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-  origin: ['https://mediflow.soutadejulien.com'],
+  origin: ['http://localhost:5173', 'http://localhost:3000'],
   credentials: true,
 }));
 
@@ -45,6 +46,7 @@ app.use('/api/prescriptions', prescriptionRouter)
 app.use('/api/prescriptionCommentary', prescriptionCommentaryRouter)
 app.use('/api/prescriptionDosage', prescriptionDosageRouter)
 app.use('/api/auth', sessionRouter)
+app.use('/api/documentation', documentationRouter)
 app.use('/uploads', express.static('uploads'));
 
 app.get(/^(?!\/api)(?!\/uploads).*/, (req, res) => {

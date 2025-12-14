@@ -1,25 +1,25 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NeedLogginRoute from "./vues/needLoggedRoute";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
+import ArchivedPatients from "./vues/archivedPatients";
 import Connexion from "./vues/auth/connexion";
+import EmailVerified from "./vues/auth/emailVerified";
 import Register from "./vues/auth/register";
 import Dashboard from "./vues/dashboard";
-import Patients from "./vues/patients";
-import PatientDetails from "./vues/patientDetails";
-import Institutes from "./vues/institutes";
-import InstituteDetails from "./vues/instituteDetails";
-import Doctors from "./vues/doctors";
-import ArchivedPatients from "./vues/archivedPatients";
-import PrescriptionView from "./vues/prescriptionView";
-import UserManagement from "./vues/userManagement";
-import Error404 from "./vues/error404";
 import DoctorDetails from "./vues/doctorDetails";
-import { Tooltip } from "react-tooltip";
+import Doctors from "./vues/doctors";
+import Documentation from "./vues/Documentation";
+import Error404 from "./vues/error404";
+import InstituteDetails from "./vues/instituteDetails";
+import Institutes from "./vues/institutes";
+import NeedLogginRoute from "./vues/needLoggedRoute";
 import PassLost from "./vues/password/passLost";
 import ResetPassword from "./vues/password/resetPassword";
+import PatientDetails from "./vues/patientDetails";
+import Patients from "./vues/patients";
+import PrescriptionView from "./vues/prescriptionView";
 import Settings from "./vues/settings";
-import EmailVerified from "./vues/auth/emailVerified";
 import ThemeProvider from "./vues/themeProvider";
-import { useEffect } from "react";
+import UserManagement from "./vues/userManagement";
 
 
 const App = () => {
@@ -130,6 +130,16 @@ const App = () => {
               <ThemeProvider>
                 <NeedLogginRoute>
                   <ArchivedPatients />
+                </NeedLogginRoute>
+              </ThemeProvider>
+            }
+          ></Route>
+          <Route
+            path="/documentation"
+            element={
+              <ThemeProvider>
+                <NeedLogginRoute>
+                  <Documentation />
                 </NeedLogginRoute>
               </ThemeProvider>
             }
