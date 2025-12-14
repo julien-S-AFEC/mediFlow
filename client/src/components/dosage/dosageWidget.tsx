@@ -1,30 +1,31 @@
-import React, { useEffect, useState } from "react";
-import DosageRow from "./dosageRow";
-import { HiBarsArrowDown } from "react-icons/hi2";
-import { HiBarsArrowUp } from "react-icons/hi2";
-import { PiPrinterThin } from "react-icons/pi";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineSun } from "react-icons/ai";
-import { PiSunHorizonLight } from "react-icons/pi";
-import { TfiSave } from "react-icons/tfi";
 import { GiMedicines } from "react-icons/gi";
-import { PiMoonThin } from "react-icons/pi";
+import { HiBarsArrowDown, HiBarsArrowUp } from "react-icons/hi2";
 import { LuCakeSlice } from "react-icons/lu";
-import { Permissions } from "../../types";
+import { MdOutlineAutoAwesome } from "react-icons/md";
+import { PiMoonThin, PiPrinterThin, PiSunHorizonLight } from "react-icons/pi";
+import { TfiSave } from "react-icons/tfi";
 import { useReactToPrint } from "react-to-print";
-import { useRef } from "react";
+import SmallLoading from "../smallLoading";
+import useGetPrescriptionName from "../../hooks/getPrescriptionText";
+import { Permissions } from "../../types";
+import DosageRow from "./dosageRow";
 import "./dosageWidget.css";
 
 type Iprops = {
   prescriptionId: number;
   permissions?: Permissions;
   isArchived: boolean
+  currentPrescription: string;
 };
 
-const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchived }) => {
+const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchived, currentPrescription }) => {
   const [allRowsContent, setAllRowsContent] = useState<object[]>([]);
   const [modified, setModified] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
+
 
   useEffect(() => {
     fetch("/api/prescriptionDosage/getById", {
@@ -55,6 +56,8 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchive
     rowsContent.pop();
     setAllRowsContent(rowsContent);
   };
+
+  const { getPrescriptionMedicineName, loading } = useGetPrescriptionName(currentPrescription, setAllRowsContent);
 
   const storeDosage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -117,24 +120,33 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchive
               data-tooltip-id="mediFlowTooltip"
               data-tooltip-content="Remove the last row" />
           </div>
+
           <div className="d-flex gap-3">
-            <button onClick={storeDosage} className="btn mt-5">
-              <div className="position-relative">
-                <TfiSave color="blue" size={30}></TfiSave>
-                {modified && (
-                  <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                    <span className="visually-hidden">New alerts</span>
-                  </span>
-                )}
-              </div>
-            </button>
-            <div onClick={reactToPrintFn} className="btn mt-5" style={{ cursor: "pointer" }}>
-              <PiPrinterThin size={40} color="#c0cc17ff" />
-            </div>
+            {loading ? <SmallLoading /> : (
+              <>
+                <button onClick={(e) => { e.preventDefault(); getPrescriptionMedicineName() }} className="btn mt-5" data-tooltip-id="mediFlowTooltip" data-tooltip-content="Get prescription medicine name">
+                  <MdOutlineAutoAwesome color="green" size={30} />
+                </button>
+                <button onClick={storeDosage} className="btn mt-5">
+                  <div className="position-relative">
+                    <TfiSave color="blue" size={30}></TfiSave>
+                    {modified && (
+                      <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                        <span className="visually-hidden">New alerts</span>
+                      </span>
+                    )}
+                  </div>
+                </button>
+                <div onClick={reactToPrintFn} className="btn mt-5" style={{ cursor: "pointer" }}>
+                  <PiPrinterThin size={40} color="#c0cc17ff" />
+                </div>
+              </>
+            )}
           </div>
         </>
-      )}
-    </form>
+      )
+      }
+    </form >
   );
 };
 

@@ -43,7 +43,7 @@ const RegisterWidget = () => {
             return
         }
 
-        fetch('/api/users/registerUser', {
+        fetch('http://localhost:3000/api/users/registerUser', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-type': 'application/json' },
