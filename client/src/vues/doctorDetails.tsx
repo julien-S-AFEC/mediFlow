@@ -13,7 +13,7 @@ const DoctorDetails = () => {
   const doctorId = useParams().doctorId;
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/doctors/getDoctorFromId", {
+    fetch("/api/doctors/getDoctorFromId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -26,7 +26,7 @@ const DoctorDetails = () => {
       })
       .then((data) => setDoctor(data[0]));
 
-    fetch("http://localhost:3000/api/patients/getPatientFromDoctorId", {
+    fetch("/api/patients/getPatientFromDoctorId", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',

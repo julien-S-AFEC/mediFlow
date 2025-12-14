@@ -33,7 +33,7 @@ const useGetDocumentation = (): [boolean, Documentation[]] => {
 
     useEffect(() => {
         setLoading(true);
-        fetch("http://localhost:3000/api/documentation/book/getAll", {
+        fetch("/api/documentation/book/getAll", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"

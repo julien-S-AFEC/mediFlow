@@ -9,7 +9,7 @@ const PrescriptionView: React.FC = () => {
   const [path, setPath] = useState<string>();
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/prescriptions/getById", {
+    fetch("/api/prescriptions/getById", {
       method: "POST",
       credentials: "include",
       headers: { "Content-type": "application/json" },
@@ -31,7 +31,7 @@ const PrescriptionView: React.FC = () => {
       <Link className="btn btn-primary" to={`/patientDetails/${patientId}`}>
         <IoMdArrowRoundBack />
       </Link>
-      <img className="img img-fluid" src={`http://localhost:3000/${path}`} alt="" />
+      <img className="img img-fluid" src={`/${path}`} alt="" />
     </div>
   );
 };

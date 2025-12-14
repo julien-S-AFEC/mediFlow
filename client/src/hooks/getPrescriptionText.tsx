@@ -9,7 +9,7 @@ const useGetPrescriptionName = (prescriptionPath: string, setAllRowsContent: Dis
         try {
             setLoading(true);
             const worker = await createWorker('fra');
-            const ret = await worker.recognize(`http://localhost:3000/${prescriptionPath}`);
+            const ret = await worker.recognize(`/${prescriptionPath}`);
             await worker.terminate();
             await getMedicineName(ret.data.text);
             setLoading(false);

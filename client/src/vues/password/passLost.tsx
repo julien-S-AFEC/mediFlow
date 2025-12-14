@@ -28,7 +28,7 @@ const PassLost: React.FC = () => {
       return;
     }
 
-    fetch("http://localhost:3000/api/users/sendResetPasswordMail", {
+    fetch("/api/users/sendResetPasswordMail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",

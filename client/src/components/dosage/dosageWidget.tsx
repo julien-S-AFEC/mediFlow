@@ -28,7 +28,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchive
 
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/prescriptionDosage/getById", {
+    fetch("/api/prescriptionDosage/getById", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -61,7 +61,7 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchive
 
   const storeDosage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    fetch("http://localhost:3000/api/prescriptionDosage/store", {
+    fetch("/api/prescriptionDosage/store", {
       method: "PUT",
       headers: { "Content-type": "application/json" },
       credentials: 'include',
@@ -124,23 +124,23 @@ const DosageWidget: React.FC<Iprops> = ({ prescriptionId, permissions, isArchive
           <div className="d-flex gap-3">
             {loading ? <SmallLoading /> : (
               <>
-            <button onClick={(e) => { e.preventDefault(); getPrescriptionMedicineName() }} className="btn mt-5" data-tooltip-id="mediFlowTooltip" data-tooltip-content="Get prescription medicine name">
-              <MdOutlineAutoAwesome color="green" size={30} />
-            </button>
-            <button onClick={storeDosage} className="btn mt-5">
-              <div className="position-relative">
-                <TfiSave color="blue" size={30}></TfiSave>
-                {modified && (
-                  <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                    <span className="visually-hidden">New alerts</span>
-                  </span>
-                )}
-              </div>
-            </button>
-            <div onClick={reactToPrintFn} className="btn mt-5" style={{ cursor: "pointer" }}>
-              <PiPrinterThin size={40} color="#c0cc17ff" />
-            </div>
-            </>
+                <button onClick={(e) => { e.preventDefault(); getPrescriptionMedicineName() }} className="btn mt-5" data-tooltip-id="mediFlowTooltip" data-tooltip-content="Get prescription medicine name">
+                  <MdOutlineAutoAwesome color="green" size={30} />
+                </button>
+                <button onClick={storeDosage} className="btn mt-5">
+                  <div className="position-relative">
+                    <TfiSave color="blue" size={30}></TfiSave>
+                    {modified && (
+                      <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                        <span className="visually-hidden">New alerts</span>
+                      </span>
+                    )}
+                  </div>
+                </button>
+                <div onClick={reactToPrintFn} className="btn mt-5" style={{ cursor: "pointer" }}>
+                  <PiPrinterThin size={40} color="#c0cc17ff" />
+                </div>
+              </>
             )}
           </div>
         </>
