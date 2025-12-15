@@ -7,7 +7,7 @@ const EmailVerified: React.FC = () => {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-bs-theme", 'light');
-    fetch("http://localhost:3000/api/users/verifyEmail", {
+    fetch("/api/users/verifyEmail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
