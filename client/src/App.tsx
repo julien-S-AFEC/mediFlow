@@ -20,7 +20,7 @@ import PrescriptionView from "./vues/prescriptionView";
 import Settings from "./vues/settings";
 import ThemeProvider from "./vues/themeProvider";
 import UserManagement from "./vues/userManagement";
-
+import dotenv from "dotenv/config";
 
 const App = () => {
 

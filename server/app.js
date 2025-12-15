@@ -1,19 +1,18 @@
+import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
-import cors from 'cors'
-import path from 'path'
+import session from 'express-session'
+import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { dirname } from 'path'
-import usersRouter from './users/userRoutes.js'
-import patientsRouter from './patients/patientsRoutes.js'
-import instituteRouter from './institutes/institutesRoute.js'
 import doctorRouter from './doctors/doctorRoutes.js'
-import prescriptionRouter from './prescriptions/prescriptionRoutes.js'
-import prescriptionCommentaryRouter from './prescriptionCommentary/prescriptionRoutes.js'
-import sessionRouter from './session/session.js'
-import prescriptionDosageRouter from './prescriptionDosage/prescriptionDosageRoutes.js'
-import session from 'express-session';
 import documentationRouter from './documentation/documentationRoute.js'
+import instituteRouter from './institutes/institutesRoute.js'
+import patientsRouter from './patients/patientsRoutes.js'
+import prescriptionCommentaryRouter from './prescriptionCommentary/prescriptionRoutes.js'
+import prescriptionDosageRouter from './prescriptionDosage/prescriptionDosageRoutes.js'
+import prescriptionRouter from './prescriptions/prescriptionRoutes.js'
+import sessionRouter from './session/session.js'
+import usersRouter from './users/userRoutes.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -21,7 +20,7 @@ const __dirname = dirname(__filename)
 const app = express()
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: ['http://localhost:5173', 'https://mediflow.soutadejulien.com'],
   credentials: true,
 }));
 
@@ -45,8 +44,8 @@ app.use('/api/doctors', doctorRouter)
 app.use('/api/prescriptions', prescriptionRouter)
 app.use('/api/prescriptionCommentary', prescriptionCommentaryRouter)
 app.use('/api/prescriptionDosage', prescriptionDosageRouter)
-app.use('/api/auth', sessionRouter)
 app.use('/api/documentation', documentationRouter)
+app.use('/api/auth', sessionRouter)
 app.use('/uploads', express.static('uploads'));
 
 app.get(/^(?!\/api)(?!\/uploads).*/, (req, res) => {
